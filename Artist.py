@@ -9,7 +9,6 @@ class Artist(object):
         self.name = name  # optional
         self.surname = surname  # optional
         self.is_musician = is_musician
-        # init_social_media()
         wallet = Wallet(object)
 
     insta = 0
