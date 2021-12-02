@@ -15,6 +15,8 @@ class Artist(object):
 
     crypto_value = 0.0
 
+
+#
     insta = 0
     face = 0
     twitter = 0
@@ -46,3 +48,5 @@ def evaluation(insta, face, twitter, yt, tiktok, twitch, applemusic, spotify, so
     else:
         crypto_value = (insta * 0.3 + face * 0.2 + twitter * 0.2 + yt * 0.1 + tiktok * 0.1 +
                         twitch * 0.1) * 0.8 + sales * 0.2
+
+

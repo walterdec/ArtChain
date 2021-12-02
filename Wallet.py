@@ -1,7 +1,10 @@
 class Wallet(object):
     def __init__(self, id):
         self.id = id
-        self.crypto_dict = {ac_crypto: 0, id: 1500}
+        if id[0] == 'a':
+            self.crypto_dict = {ac_crypto: 0, id: 100}
+        else:
+            self.crypto_dict = {ac_crypto: 0}
 
     #        self.ac_crypto_amount = 0
 
@@ -29,4 +32,3 @@ class Wallet(object):
             self.crypto_dict[id_crypto]-= crypto_ammount
         else:
             return None
-
