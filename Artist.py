@@ -1,5 +1,32 @@
 from Wallet import Wallet
 from flask import flask
+from NFT import NFT
+from Auction import Auction
+
+global username
+global password
+global email
+global name
+global surname
+global id
+global is_musician
+global my_auctions_list
+global this_artist
+
+crypto_value = 0.0
+
+insta = 0
+face = 0
+twitter = 0
+yt = 0
+tiktok = 0
+twitch = 0
+
+applemusic = 0
+spotify = 0
+soundcloud = 0
+
+sales = 0.0
 
 
 class Artist(object):
@@ -11,29 +38,11 @@ class Artist(object):
         self.surname = surname  # optional
         self.id = id
         self.is_musician = is_musician
+        self.my_auctions_list = []
         wallet = Wallet(id)
 
 
-
-    crypto_value = 0.0
-
-
-#
-    insta = 0
-    face = 0
-    twitter = 0
-    yt = 0
-    tiktok = 0
-    twitch = 0
-
-    applemusic = 0
-    spotify = 0
-    soundcloud = 0
-
-    sales = 0.0
-
-
-def evaluation(insta, face, twitter, yt, tiktok, twitch, applemusic, spotify, soundcloud, sales):
+def evaluation(insta, face, twitter, yt, tiktok, twitch, applemusic, spotify, soundcloud, sales, is_musician):
     insta = insta
     face = face
     twitter = twitter
@@ -52,3 +61,9 @@ def evaluation(insta, face, twitter, yt, tiktok, twitch, applemusic, spotify, so
                         twitch * 0.1) * 0.8 + sales * 0.2
 
 
+def create_nft_and_auction(nft_id, type, description, auction_id, price, duration):
+    nft = NFT(nft_id, id, type, description)
+                                                # aggiungere colelgamento a immagine tramite URI
+    auction = Auction(auction_id, nft, price, duration)
+    my_auctions_list.append(auction)
+    auction.countdown

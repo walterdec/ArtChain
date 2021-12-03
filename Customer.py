@@ -1,6 +1,12 @@
 from Wallet import Wallet
 
 
+username = ""
+password = ""
+email = ""
+id = ""
+my_nft_list = []
+
 class Customer(object):
     def __init__(self, username, password, email,id):
         self.username = username
@@ -8,4 +14,5 @@ class Customer(object):
         self.email = email
         self.id = id
         wallet = Wallet(id)
+
 
