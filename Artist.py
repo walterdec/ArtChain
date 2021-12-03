@@ -1,4 +1,5 @@
 from Wallet import Wallet
+from flask import flask
 
 
 class Artist(object):
@@ -8,6 +9,7 @@ class Artist(object):
         self.email = email
         self.name = name  # optional
         self.surname = surname  # optional
+        self.id = id
         self.is_musician = is_musician
         wallet = Wallet(id)
 
