@@ -6,6 +6,5 @@ class NFT(object):
         self.type = type
         self.description = description
         self.owner = artist_id
-                                                    #aggiungere colelgamento a immagine tramite URI
-
+                                                   #aggiungere colelgamento a immagine tramite URI
 
