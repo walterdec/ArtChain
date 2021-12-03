@@ -1,8 +1,3 @@
-global id
-global artist_id
-global type
-global description
-
 class NFT(object):
 
     def __init__(self, id, artist_id, type, description):
