@@ -2,18 +2,13 @@ from flask import Flask, request, render_template
 
 app = Flask(__name__)
 
-href = "{{ url_for('static', filename='modern-business.css')}}"
 
-
-@app.route('/user/<name>')
-def index1(name):
-    return render_template('Hello {{ name }}', name=name)
+# href = "{{ url_for('static', filename='modern-business.css')}}"
 
 
 @app.route('/')
-def index2():
-    user_agent = request.headers.get('User-Agent')
-    return '<p>Your browser is %s </p>' % user_agent
+def home():
+    return render_template('index.html')
 
 
 @app.route('/index')
@@ -26,24 +21,43 @@ def faq():
     return render_template('faq.html')
 
 
-@app.route('/portfolio_1')
-def portfolio1():
-    return render_template('stats.html')
-
-
 @app.route('/item')
 def item():
     return render_template('item.html')
 
 
-@app.route('/pricing')
-def pricing():
-    return render_template('pricing.html')
-
-
 @app.route('/about')
-def user():
+def about():
     return render_template('about.html')
+
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
+@app.route('/explore-nfts')
+def explore_nfts():
+    return render_template('explore-nfts.html')
+
+
+@app.route('/explore-crypto')
+def explore_crypto():
+    return render_template('explore-crypto.html')
+
+
+@app.route('/stats')
+def stats():
+    return render_template('stats.html')
+
+
+@app.route('/myaccount-mywallet')
+def my_wallet():
+    return render_template('myaccount-mywallet.html')
+
+
+@app.route('/myaccount-settings')
+def my_settings():
+    return render_template('myaccount-settings.html')
 
 
 @app.route('/signuplogin')
