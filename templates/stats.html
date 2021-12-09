@@ -11,7 +11,7 @@
   <title>ArtChain - Stats</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
   <link href="static/css/modern-business.css" rel="stylesheet">
@@ -21,48 +21,50 @@
 <body>
 
   <!-- Navigation -->
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="/index">ArtChain</a>
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="/index"><img src="static/images/logos/Logo Artchain white.png" width="85" height="65"></a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/about">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/contact">Contact</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPages" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/contact">Contact</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPages" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Explore
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPages">
-              <a class="dropdown-item" href="/explore-nfts">NFTs</a>
-              <a class="dropdown-item" href="/explore-crypto">Cryptocurrencies</a>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/stats">Stats</a>
-          </li>
-          <li class="nav-item active dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPages">
+                <a class="dropdown-item" href="/explore-nfts">NFTs</a>
+                <a class="dropdown-item" href="/explore-crypto">Cryptocurrencies</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/stats">Stats</a>
+            </li>
+            <li class="nav-item active dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               MyAccount
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-              <a class="dropdown-item" href="/myaccount-mywallet">MyWallet</a>
-              <a class="dropdown-item" href="/myaccount-settings">Settings</a>
-            </div>
-          </li>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+                <a class="dropdown-item" href="/myaccount-mywallet">MyWallet</a>
+                <a class="dropdown-item" href="/myaccount-settings">Settings</a>
+              </div>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="/login">Login</a>
-          </li>
-        </ul>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>
+  <br>
+
 
   <!-- Page Content -->
   <div class="container">
@@ -79,105 +81,308 @@
       <li class="breadcrumb-item active">Stats</li>
     </ol>
 
-    <table>
-      <thead>
-      <tr>
-        <th>Artist</th>
-        <th>Category</th>
-        <th>Value</th>
-        <th>Growth</th>
-        <th>buy</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <th>
-            <div>
-              <div class="col mb-5">
-                <a href="#">
-                  <img class="img-fluid-avatar" src="http://placehold.it/100x100" alt=""> <p>Artist name</p>
-                </a>
+    <div class="mt-4 mb-3">
+        <h3>Top Artists</h3>
+          <hr>
+          <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Artist</th>
+            <th>Category</th>
+            <th>Value</th>
+            <th>Growth</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>
+              <div>
+                <div class="col">
+                  <a href="#">
+                    <img class="img-fluid-avatar" src="http://placehold.it/100x100" alt="">
+                    <p class="artist-name">Artist name</p>
+                  </a>
+                </div>
               </div>
-            </div>
-        </th>
-        <th>
-          <p>Artist category</p>
-        </th>
-        <th>
-          <p>Artist Value</p>
-        </th>
-        <th>
-          <p>Artist Growth</p>
-        </th>
-        <th>
-          <div class="float-left"><a class="btn btn-outline-dark mt-auto" href="#">Buy</a></div>
-            <span class="glyphicon glyphicon-chevron-right"></span>
-        </th>
-      </tr>
-      </tbody>
-    </table>
-    <!-- One crypto -->
-    <div class="rowCrypto">
-      <div>
-        <div class="col mb-5">
-          <a href="#">
-            <img class="img-fluid-avatar" src="http://placehold.it/200x200" alt="">
-          </a>
-        </div>
+            </th>
+            <th>
+              <p>Artist category</p>
+            </th>
+            <th>
+              <p>Artist Value</p>
+            </th>
+            <th>
+              <p>Artist Growth</p>
+            </th>
+          </tr>
+                  <tr>
+            <th>
+              <div>
+                <div class="col">
+                  <a href="#">
+                    <img class="img-fluid-avatar" src="http://placehold.it/100x100" alt="">
+                    <p class="artist-name">Artist name</p>
+                  </a>
+                </div>
+              </div>
+            </th>
+            <th>
+              <p>Artist category</p>
+            </th>
+            <th>
+              <p>Artist Value</p>
+            </th>
+            <th>
+              <p>Artist Growth</p>
+            </th>
+          </tr>
+                  <tr>
+            <th>
+              <div>
+                <div class="col">
+                  <a href="#">
+                    <img class="img-fluid-avatar" src="http://placehold.it/100x100" alt="">
+                    <p class="artist-name">Artist name</p>
+                  </a>
+                </div>
+              </div>
+            </th>
+            <th>
+              <p>Artist category</p>
+            </th>
+            <th>
+              <p>Artist Value</p>
+            </th>
+            <th>
+              <p>Artist Growth</p>
+            </th>
+          </tr>
+                  <tr>
+            <th>
+              <div>
+                <div class="col">
+                  <a href="#">
+                    <img class="img-fluid-avatar" src="http://placehold.it/100x100" alt="">
+                    <p class="artist-name">Artist name</p>
+                  </a>
+                </div>
+              </div>
+            </th>
+            <th>
+              <p>Artist category</p>
+            </th>
+            <th>
+              <p>Artist Value</p>
+            </th>
+            <th>
+              <p>Artist Growth</p>
+            </th>
+          </tr>
+        </tbody>
+      </table>
       </div>
-      <div class="col-md-5">
-        <h3>Artist name</h3>
-        <p>Artist category</p>
-        <p>Artist Value (Euro value)</p>
-        <div class="float-left"><a class="btn btn-outline-dark mt-auto" href="#">Buy</a></div>
-        <span class="glyphicon glyphicon-chevron-right"></span>
+    <br>
+        <div class="mt-4 mb-3">
+        <h3>Top Cryptos</h3>
+          <hr>
+          <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Artist</th>
+            <th>Category</th>
+            <th>Value</th>
+            <th>Growth</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>
+              <div>
+                <div class="col">
+                  <a href="#">
+                    <img class="img-fluid-avatar" src="http://placehold.it/100x100" alt="">
+                    <p class="artist-name">Artist name</p>
+                  </a>
+                </div>
+              </div>
+            </th>
+            <th>
+              <p>Artist category</p>
+            </th>
+            <th>
+              <p>Artist Value</p>
+            </th>
+            <th>
+              <p>Artist Growth</p>
+            </th>
+          </tr>
+                  <tr>
+            <th>
+              <div>
+                <div class="col">
+                  <a href="#">
+                    <img class="img-fluid-avatar" src="http://placehold.it/100x100" alt="">
+                    <p class="artist-name">Artist name</p>
+                  </a>
+                </div>
+              </div>
+            </th>
+            <th>
+              <p>Artist category</p>
+            </th>
+            <th>
+              <p>Artist Value</p>
+            </th>
+            <th>
+              <p>Artist Growth</p>
+            </th>
+          </tr>
+                  <tr>
+            <th>
+              <div>
+                <div class="col">
+                  <a href="#">
+                    <img class="img-fluid-avatar" src="http://placehold.it/100x100" alt="">
+                    <p class="artist-name">Artist name</p>
+                  </a>
+                </div>
+              </div>
+            </th>
+            <th>
+              <p>Artist category</p>
+            </th>
+            <th>
+              <p>Artist Value</p>
+            </th>
+            <th>
+              <p>Artist Growth</p>
+            </th>
+          </tr>
+                  <tr>
+            <th>
+              <div>
+                <div class="col">
+                  <a href="#">
+                    <img class="img-fluid-avatar" src="http://placehold.it/100x100" alt="">
+                    <p class="artist-name">Artist name</p>
+                  </a>
+                </div>
+              </div>
+            </th>
+            <th>
+              <p>Artist category</p>
+            </th>
+            <th>
+              <p>Artist Value</p>
+            </th>
+            <th>
+              <p>Artist Growth</p>
+            </th>
+          </tr>
+        </tbody>
+      </table>
       </div>
-    </div>
-    <!-- /.row -->
-    <hr>
-    <!-- Project One -->
-    <div class="rowCrypto">
-      <div>
-        <a href="#">
-          <img class="img-fluid rounded mb-3 mb-md-0" src="http://placehold.it/200x200" alt="">
-        </a>
+    <br>
+        <div class="mt-4 mb-3">
+        <h3>Top NFTs</h3>
+          <hr>
+          <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Artist</th>
+            <th>Category</th>
+            <th>Value</th>
+            <th>Growth</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>
+              <div>
+                <div class="col">
+                  <a href="#">
+                    <img class="img-fluid-avatar" src="http://placehold.it/100x100" alt="">
+                    <p class="artist-name">Artist name</p>
+                  </a>
+                </div>
+              </div>
+            </th>
+            <th>
+              <p>Artist category</p>
+            </th>
+            <th>
+              <p>Artist Value</p>
+            </th>
+            <th>
+              <p>Artist Growth</p>
+            </th>
+          </tr>
+                  <tr>
+            <th>
+              <div>
+                <div class="col">
+                  <a href="#">
+                    <img class="img-fluid-avatar" src="http://placehold.it/100x100" alt="">
+                    <p class="artist-name">Artist name</p>
+                  </a>
+                </div>
+              </div>
+            </th>
+            <th>
+              <p>Artist category</p>
+            </th>
+            <th>
+              <p>Artist Value</p>
+            </th>
+            <th>
+              <p>Artist Growth</p>
+            </th>
+          </tr>
+                  <tr>
+            <th>
+              <div>
+                <div class="col">
+                  <a href="#">
+                    <img class="img-fluid-avatar" src="http://placehold.it/100x100" alt="">
+                    <p class="artist-name">Artist name</p>
+                  </a>
+                </div>
+              </div>
+            </th>
+            <th>
+              <p>Artist category</p>
+            </th>
+            <th>
+              <p>Artist Value</p>
+            </th>
+            <th>
+              <p>Artist Growth</p>
+            </th>
+          </tr>
+                  <tr>
+            <th>
+              <div>
+                <div class="col">
+                  <a href="#">
+                    <img class="img-fluid-avatar" src="http://placehold.it/100x100" alt="">
+                    <p class="artist-name">Artist name</p>
+                  </a>
+                </div>
+              </div>
+            </th>
+            <th>
+              <p>Artist category</p>
+            </th>
+            <th>
+              <p>Artist Value</p>
+            </th>
+            <th>
+              <p>Artist Growth</p>
+            </th>
+          </tr>
+        </tbody>
+      </table>
       </div>
-      <div class="col-md-5">
-        <h3>Artist name</h3>
-        <p>Artist category</p>
-        <p>Artist Value (Euro value)</p>
-        <div class="float-left"><a class="btn btn-outline-dark mt-auto" href="#">Buy</a></div>
-        <span class="glyphicon glyphicon-chevron-right"></span>
-        </a>
-      </div>
-    </div>
-    <!-- /.row -->
-    <hr>
-    <!-- Pagination -->
-    <ul class="pagination justify-content-center">
-      <li class="page-item">
-        <a class="page-link" href="#" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-          <span class="sr-only">Previous</span>
-        </a>
-      </li>
-      <li class="page-item">
-        <a class="page-link" href="#">1</a>
-      </li>
-      <li class="page-item">
-        <a class="page-link" href="#">2</a>
-      </li>
-      <li class="page-item">
-        <a class="page-link" href="#">3</a>
-      </li>
-      <li class="page-item">
-        <a class="page-link" href="#" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
-          <span class="sr-only">Next</span>
-        </a>
-      </li>
-    </ul>
-
   </div>
   <!-- /.container -->
 

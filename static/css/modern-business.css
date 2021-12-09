@@ -3,6 +3,18 @@
  * Copyright 2013-2020 Start Bootstrap
  * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-logomodern-business-nav/blob/master/LICENSE)
  */
+
+palette {
+  color1: #037FD2;
+  color1: #131B2A;
+  color1: #292C45;
+  color1: #6D94CD;
+  color1: #EFEBED;
+}
+
+
+
+
 body {
   padding-top: 56px;
 }
@@ -59,4 +71,72 @@ thead{
   text-align: center;
   margin-left: 40%;
   padding: 5px;
+}
+
+.bg-dark{
+  background-color: #037FD2;
+}
+
+nav{
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,0.25);
+  font-size: larger;
+}
+.h1-show{
+    text-align: center;
+}
+h1{
+    font-family: building;
+}
+
+h3{
+    font-family: building;
+}
+.navbar{
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,0.25);
+  background-color: #037FD2;
+}
+
+.styled-table {
+    border-radius: 0.25rem;
+    border-collapse: collapse;
+    margin: auto;
+    font-size: large;
+    text-align: center;
+    font-family: sans-serif;
+    table-layout: auto;
+    width: 100%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    border-bottom: #037FD2;
+    vertical-align: center;
+}
+.styled-table-explore{
+    width: auto;
+}
+.artist-name{
+  padding-top: 10px;
+}
+.styled-table thead tr {
+    height: auto;
+    background-color: #037FD2;
+    color: #ffffff;
+    font-size: large;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+btn{
+    padding: 0;
+    margin-top: 0;
+    padding-bottom: 15px;
 }
