@@ -60,9 +60,19 @@ def my_settings():
     return render_template('myaccount-settings.html')
 
 
-@app.route('/signuplogin')
-def signuplogin():
-    return render_template('signuplogin.html')
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+
+@app.route('/signupartist')
+def signupartist():
+    return render_template('signupartist.html')
+
+
+@app.route('/signupcustomer')
+def signupcustomer():
+    return render_template('signupcustomer.html')
 
 
 if __name__ == '__main__':

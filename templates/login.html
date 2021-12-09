@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>ArtChain - Sign up / Login</title>
+  <title>ArtChain - Login</title>
 
   <!-- Bootstrap core CSS -->
   <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -57,7 +57,7 @@
             </div>
           </li>
             <li class="nav-item">
-            <a class="nav-link" href="/signuplogin">Sign up/Login</a>
+              <a class="nav-link" href="/login">Login</a>
           </li>
         </ul>
       </div>
@@ -68,65 +68,47 @@
   <div class="container">
 
     <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">Services
-      <small>Subheading</small>
+    <h1 class="mt-4 mb-3">ArtChain
+      <small>Login</small>
     </h1>
 
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a href="index.html">Home</a>
+        <a href="/index">Home</a>
       </li>
-      <li class="breadcrumb-item active">Services</li>
+      <li class="breadcrumb-item active">Login</li>
     </ol>
 
-    <!-- Image Header -->
-    <img class="img-fluid rounded mb-4" src="http://placehold.it/1200x300" alt="">
+ <div class="form-login">
+  <div class="heading">
+    <form action="#">
 
-    <!-- Marketing Icons Section -->
-    <div class="row">
-      <div class="col-lg-4 mb-4">
-        <div class="card h-100">
-          <h4 class="card-header">Card Title</h4>
-          <div class="card-body">
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+      <div class="input-group input-group-lg">
+        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+        <input type="text" class="form-control" placeholder="Username">
           </div>
-          <div class="card-footer">
-            <a href="#" class="btn btn-primary">Learn More</a>
-          </div>
+
+        <div class="input-group input-group-lg">
+          <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+          <input type="password" class="form-control" placeholder="Password">
         </div>
-      </div>
-      <div class="col-lg-4 mb-4">
-        <div class="card h-100">
-          <h4 class="card-header">Card Title</h4>
-          <div class="card-body">
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis ipsam eos, nam perspiciatis natus commodi similique totam consectetur praesentium molestiae atque exercitationem ut consequuntur, sed eveniet, magni nostrum sint fuga.</p>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="btn btn-primary">Learn More</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 mb-4">
-        <div class="card h-100">
-          <h4 class="card-header">Card Title</h4>
-          <div class="card-body">
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="btn btn-primary">Learn More</a>
-          </div>
-        </div>
-      </div>
+
+        <button type="submit" class="float">Login</button>
+       </form>
+ 		</div>
+ </div>
+<hr>
+    <div>
+      <h5>Are you an artist? Sign up <a href="/signupartist">here</a></h5>
     </div>
-    <!-- /.row -->
-
-  </div>
-  <!-- /.container -->
+    <div>
+      <h5>Are you a customer? Sign up <a href="/signupcustomer">here</a></h5>
+    </div>
 
   <!-- Footer -->
   <footer class="py-5 bg-dark">
     <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2020</p>
+      <p class="m-0 text-center text-white">Copyright &copy; ArtChain 2022</p>
     </div>
     <!-- /.container -->
   </footer>
