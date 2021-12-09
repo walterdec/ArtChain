@@ -21,3 +21,29 @@ body {
   margin-bottom: 30px;
 }
 
+.rowCrypto{
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.img-fluid-avatar {
+  border-radius: 50%;
+}
+
+.table {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  padding: 0.75rem 1rem;
+  color: #117CC4;
+  background-color: #117CC4;
+}
+
+th, td {
+  padding:20px;
+}
