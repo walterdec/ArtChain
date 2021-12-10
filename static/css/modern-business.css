@@ -155,3 +155,8 @@ btn{
 .form-input-padding{
     margin-top: 5px;
 }
+
+.form-center{
+    margin: auto;
+    width: 100%;
+}
