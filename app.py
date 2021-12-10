@@ -55,9 +55,9 @@ def my_wallet():
     return render_template('myaccount-mywallet.html')
 
 
-@app.route('/myaccount-settings')
+@app.route('/myaccount-profile')
 def my_settings():
-    return render_template('myaccount-settings.html')
+    return render_template('myaccount-profile.html')
 
 
 @app.route('/login')
