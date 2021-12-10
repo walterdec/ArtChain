@@ -140,3 +140,11 @@ btn{
     margin-top: 0;
     padding-bottom: 15px;
 }
+
+.btn-login{
+    margin-top: 10px;
+}
+
+.form-input-padding{
+    margin-top: 5px;
+}
