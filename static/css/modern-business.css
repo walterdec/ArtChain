@@ -152,6 +152,10 @@ btn{
     margin-top: 10px;
 }
 
+.btn-submit-artist-registration{
+    margin-bottom: 20px;
+}
+
 .form-input-padding{
     margin-top: 5px;
 }
@@ -159,4 +163,9 @@ btn{
 .form-center{
     margin: auto;
     width: 100%;
+}
+
+.form-two-sections{
+    width: 50%;
+    float: left;
 }

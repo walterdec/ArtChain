@@ -87,111 +87,68 @@
 
     <div class="container">
 
-    <form class="well form-horizontal" action=" " method="post"  id="contact_form">
-<fieldset>
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold"></span><span class="text-black-50"></span><span> </span></div>
+        </div>
+        <div class="col-md-5 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Personal Data</h4>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" placeholder="first name" value=""></div>
+                    <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control" value="" placeholder="surname"></div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">Username</label><input type="text" class="form-control" placeholder="username" value=""></div><br>
+                    <div class="col-md-12"><label class="labels">Password</label><input type="password" class="form-control" placeholder="password" value=""></div><br>
+                    <div class="col-md-12"><label class="labels">Confirm Password</label><input type="password" class="form-control" placeholder="confirm password" value=""></div><br>
+                    <div class="col-md-12"><label class="labels">Email</label><input type="email" class="form-control" placeholder="email" value=""></div><br>
+                    <div class="form-group">
+                      <label class="col-md-12 control-label">Category</label>
+                        <div class="col-md-12 selectContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                        <select name="department" class="form-control selectpicker">
+                          <option value="">Select your category</option>
+                          <option>Musician</option>
+                          <option>Sketcher</option>
+                          <option>Other</option>
+                        </select>
+                      </div>
+                    </div>
+                    </div>
 
-<!-- Form Name -->
-<legend><h2><b>Registration Form</b></h2></legend><br>
-
-<!-- Text input-->
-
-<div class="form-group">
-  <label class="col-md-4 control-label">First Name</label>
-  <div class="col-md-4 inputGroupContainer">
-  <div class="input-group">
-  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-  <input  name="first_name" placeholder="First Name" class="form-control"  type="text">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center experience"><span><h4>Social Networks numbers</h4></span></div><br>
+                <div class="col-md-12"><label class="labels">Instagram</label><input name="insta" type="text" class="form-control" placeholder="followers" value=""></div> <br>
+                <div class="col-md-12"><label class="labels">Facebook</label><input type="text" class="form-control" placeholder="followers" value=""></div> <br>
+              <div class="col-md-12"><label class="labels">Twitter</label><input type="text" class="form-control" placeholder="followers" value=""></div><br>
+              <div class="col-md-12"><label class="labels">YouTube</label><input type="text" class="form-control" placeholder="followers" value=""></div><br>
+              <div class="col-md-12"><label class="labels">TikTok</label><input type="text" class="form-control" placeholder="followers" value=""></div><br>
+              <div class="col-md-12"><label class="labels">Twitch</label><input type="text" class="form-control" placeholder="followers" value=""></div><br>
+              <div class="col-md-12"><label class="labels">Apple Music</label><input type="text" class="form-control" placeholder="listeners" value=""></div><br>
+              <div class="col-md-12"><label class="labels">Spotify</label><input type="text" class="form-control" placeholder="listeners" value=""></div><br>
+              <div class="col-md-12"><label class="labels">SoundCloud</label><input type="text" class="form-control" placeholder="listeners" value=""></div><br>
+              <div class="col-md-12"><label class="labels">Sales</label><input type="text" class="form-control" placeholder="sales" value=""></div><br>
+            </div>
+        </div>
     </div>
+</div>
+</div>
+</div>
+
+  <div class="mt-5 text-center"><button class="btn btn-primary profile-button btn-submit-artist-registration" type="button">Create account</button></div>
+
   </div>
-</div>
-
-<!-- Text input-->
-
-<div class="form-group">
-  <label class="col-md-4 control-label" >Last Name</label>
-    <div class="col-md-4 inputGroupContainer">
-    <div class="input-group">
-  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-  <input name="last_name" placeholder="Last Name" class="form-control"  type="text">
-    </div>
   </div>
-</div>
-
-  <div class="form-group">
-  <label class="col-md-4 control-label">Category</label>
-    <div class="col-md-4 selectContainer">
-    <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-    <select name="department" class="form-control selectpicker">
-      <option value="">Select your category</option>
-      <option>Musician</option>
-      <option>Drawer</option>
-      <option></option>
-    </select>
   </div>
-</div>
-</div>
-
-<!-- Text input-->
-
-<div class="form-group">
-  <label class="col-md-4 control-label">Username</label>
-  <div class="col-md-4 inputGroupContainer">
-  <div class="input-group">
-  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-  <input  name="user_name" placeholder="Username" class="form-control"  type="text">
-    </div>
-  </div>
-</div>
-
-<!-- Text input-->
-
-<div class="form-group">
-  <label class="col-md-4 control-label" >Password</label>
-    <div class="col-md-4 inputGroupContainer">
-    <div class="input-group">
-  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-  <input name="user_password" placeholder="Password" class="form-control"  type="password">
-    </div>
-  </div>
-</div>
-
-<!-- Text input-->
-
-<div class="form-group">
-  <label class="col-md-4 control-label" >Confirm Password</label>
-    <div class="col-md-4 inputGroupContainer">
-    <div class="input-group">
-  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-  <input name="confirm_password" placeholder="Confirm Password" class="form-control"  type="password">
-    </div>
-  </div>
-</div>
-
-<!-- Text input-->
-       <div class="form-group">
-  <label class="col-md-4 control-label">E-Mail</label>
-    <div class="col-md-4 inputGroupContainer">
-    <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-  <input name="email" placeholder="E-Mail Address" class="form-control"  type="text">
-    </div>
-  </div>
-</div>
-
-
-<!-- Button -->
-<div class="form-group">
-  <label class="col-md-4 control-label"></label>
-  <div class="col-md-4"><br>
-    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<button type="submit" class="btn btn-warning" >&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspSUBMIT <span class="glyphicon glyphicon-send"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>
-  </div>
-</div>
-
-</fieldset>
-</form>
-</div>
-    </div><!-- /.container -->
 
   <!-- Footer -->
   <footer class="py-5 bg-dark">
