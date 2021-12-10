@@ -109,6 +109,9 @@ h3{
     border-bottom: #037FD2;
     vertical-align: center;
 }
+thead{
+    -moz-border-radius: 5px 0 0 0;
+}
 .styled-table-explore{
     width: auto;
 }
@@ -120,6 +123,10 @@ h3{
     background-color: #037FD2;
     color: #ffffff;
     font-size: large;
+}
+.card-img-top{
+    width: auto;
+    height: auto;
 }
 
 .styled-table th,
