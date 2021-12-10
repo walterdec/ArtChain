@@ -75,5 +75,10 @@ def signupcustomer():
     return render_template('signupcustomer.html')
 
 
+@app.route('/404')
+def pagenotfound():
+    return render_template('404.html')
+
+
 if __name__ == '__main__':
     app.run()
