@@ -161,8 +161,12 @@ btn{
 }
 
 .form-center{
-    margin: auto;
-    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.center-title{
+    text-align: center;
 }
 
 .form-two-sections{
