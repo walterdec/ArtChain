@@ -78,6 +78,9 @@ def signupcustomer():
 def new_nft():
     return render_template('new-nft.html')
 
+@app.route('/profile-page')
+def artist_profile():
+    return render_template('profile-page.html')
 
 @app.route('/404')
 def pagenotfound():

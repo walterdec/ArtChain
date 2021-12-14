@@ -173,3 +173,7 @@ btn{
     width: 50%;
     float: left;
 }
+
+.form-control{
+    width: 40%;
+}
