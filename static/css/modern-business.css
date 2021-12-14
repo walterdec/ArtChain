@@ -199,3 +199,7 @@ input::-webkit-inner-spin-button {
     padding-left: 0px;
     padding-right: 0px;
 }
+
+.crypto-page {
+  margin-left: 10%;
+}
