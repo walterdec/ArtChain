@@ -74,17 +74,27 @@ def signupartist():
 def signupcustomer():
     return render_template('signupcustomer.html')
 
+
 @app.route('/new-nft')
 def new_nft():
     return render_template('new-nft.html')
+
 
 @app.route('/profile-page')
 def artist_profile():
     return render_template('profile-page.html')
 
+
+@app.route('/crypto')
+def crypto():
+    return render_template('crypto.html')
+
+
 @app.route('/404')
 def pagenotfound():
     return render_template('404.html')
+
+
 
 
 if __name__ == '__main__':
