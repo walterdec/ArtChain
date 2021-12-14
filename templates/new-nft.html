@@ -87,10 +87,27 @@
             <div class="p-3 py-5 form-center">
                 <div class="row mt-2">
                     <div class="col-md-6 mt-2"><label class="labels">NFT Name</label><input type="text" class="form-control" placeholder="NFT name" value=""></div><br>
-                    <div class="col-md-6 mt-2"><label class="labels">Type</label><input type="text" class="form-control" placeholder="Type" value=""></div><br>
+                     <div class="col-md-6 mt-2">
+                        <label class="labels">Type</label>
+                        <select name="type" class="form-control selectpicker">
+                          <option value="">Select the type</option>
+                          <option>Photo</option>
+                          <option>Draw</option>
+                        </select>
+                        </div><br>
                     <div class="col-md-6 mt-2"><label class="labels">Starting Price</label><input type="number" class="form-control" placeholder="Price in €" value=""></div><br>
+                    <div class="col-md-6 mt-2">
+                        <label class="labels">Duration</label>
+                        <select name="duration" class="form-control selectpicker">
+                          <option value="">Select the duration</option>
+                          <option>12 hours</option>
+                          <option>24 hours</option>
+                          <option>48 hours</option>
+                          <option>72 hours</option>
+                        </select>
+                        </div><br>
                     <div class="col-md-6 mt-2"><label class="labels">Description</label><input type="text" class="form-control" placeholder="Description" value=""></div><br>
-                    <div class="col-md-6 mt-2"><label class="labels">Image</label><input type="file" class="form-control" placeholder="Image" value="" accept="image/png, image/jpeg"></div><br>
+                    <div class="col-md-6 mt-2"><label class="labels">Image</label><input type="file" class="form-control image-upload-form" value="" accept="image/png, image/jpeg"></div><br>
                 </div>
             </div>
         <div class="mt-1 text-center"><button class="btn btn-primary profile-button btn-submit-artist-registration" type="submit">Create Auction</button></div>
