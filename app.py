@@ -74,6 +74,10 @@ def signupartist():
 def signupcustomer():
     return render_template('signupcustomer.html')
 
+@app.route('/create-nft')
+def create_nft():
+    return render_template('create-nft.html')
+
 
 @app.route('/404')
 def pagenotfound():
