@@ -186,9 +186,16 @@ input::-webkit-inner-spin-button {
 }
 
 .about-text{
-    text-align:justify;
+    text-align: justify;
 }
 
-.form-control{
-    width: 40%;
+.sell-crypto{
+  text-align: center;
+  vertical-align: middle;
+
+}
+
+.padding-crypto{
+    padding-left: 0px;
+    padding-right: 0px;
 }
