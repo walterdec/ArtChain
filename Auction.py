@@ -12,7 +12,6 @@ class Auction(object):
         epoch = time()
         self.start_date = localtime(epoch)
         self.end_date = localtime(epoch + duration)
-        self.bids_dict = {}
         self.best_bid = price
 
     def make_a_bid(self, id, price_bid):

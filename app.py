@@ -1,9 +1,23 @@
+import os.path
+import sqlite3
+
 from flask import Flask, request, render_template
+#from flask_sqlalchemy import SQLAlchemy
+import os
 
 app = Flask(__name__)
 
+#app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///'+os.path.join(sqlite3, 'data.sqlite')
 
-# href = "{{ url_for('static', filename='modern-business.css')}}"
+
+#app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+
+
+#db = SQLAlchemy(app)
+
+#@app.before_first_request
+#def setup_db():
+  #  db.create_all()
 
 
 @app.route('/')
