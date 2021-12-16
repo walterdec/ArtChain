@@ -2,22 +2,26 @@ import os.path
 import sqlite3
 
 from flask import Flask, request, render_template
-#from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
+#from model import User, Auction, CryptoOnSale, Wallet     #da errore!!
+
 import os
 
 app = Flask(__name__)
 
-#app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///'+os.path.join(sqlite3, 'data.sqlite')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///artchain.db'
 
 
-#app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
-#db = SQLAlchemy(app)
+db = SQLAlchemy(app)
 
-#@app.before_first_request
-#def setup_db():
-  #  db.create_all()
+
+@app.before_first_request
+def setup_db():
+    db.create_all()
 
 
 @app.route('/')
@@ -107,8 +111,6 @@ def crypto():
 @app.route('/404')
 def pagenotfound():
     return render_template('404.html')
-
-
 
 
 if __name__ == '__main__':

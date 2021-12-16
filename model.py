@@ -4,10 +4,10 @@ import os
 from app import db
 
 
-class User(db.Model):
+class User(db.model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), unique=True, index=True)
+    username = db.Coumn(db.String(64), unique=True, index=True)
     password = db.Column(db.String(64))
     email = db.Column(db.String(64), unique=True)
     name = db.Column(db.String(64))
@@ -39,7 +39,7 @@ class User(db.Model):
     growth = db.Column(db.Float)
 
 
-class NFT(db.Model):
+class NFT(db.model):
     __tablename__ = 'nfts'
     id = db.Column(db.Integer, primary_key=True)
     id_artist = db.Column(db.String(64), index=True)
@@ -49,7 +49,7 @@ class NFT(db.Model):
     description = db.Column(db.Text)
 
 
-class Auction(db.Model):
+class Auction(db.model):
     __tablename__ = 'auctions'
     auction_id = db.Column(db.Integer)
     nft_id = db.Column(db.Integer, primary_key = True)
@@ -59,7 +59,8 @@ class Auction(db.Model):
     start_date = db.Column(db.Date)
 
 
-class CryptoOnSale(db.Model):
+class CryptoOnSale(db.model):
+    __tablename__ = 'cryptos_on_sale'
     crypto_id = db.Column(db.Integer)
     artist_id = db.Column(db.Integer)
     quantity = db.Column(db.Float)
@@ -68,7 +69,7 @@ class CryptoOnSale(db.Model):
     start_date = db.Column(db.Date)
 
 
-class Wallet(db.Model):
+class Wallet(db.model):
     __tablename__ = 'wallets'
     owner_id = db.Column(db.Integer)
     ac_crypto = db.Column(db.Float, default=0.0)
