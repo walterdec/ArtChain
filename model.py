@@ -1,13 +1,12 @@
-from flask_sqlalchemy import SQLAlchemy
-import os
-
 from app import db
 
 
-class User(db.model):
+
+
+class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Coumn(db.String(64), unique=True, index=True)
+    username = db.Column(db.String(64), unique=True, index=True)
     password = db.Column(db.String(64))
     email = db.Column(db.String(64), unique=True)
     name = db.Column(db.String(64))
@@ -39,7 +38,7 @@ class User(db.model):
     growth = db.Column(db.Float)
 
 
-class NFT(db.model):
+class NFT(db.Model):
     __tablename__ = 'nfts'
     id = db.Column(db.Integer, primary_key=True)
     id_artist = db.Column(db.String(64), index=True)
@@ -49,7 +48,7 @@ class NFT(db.model):
     description = db.Column(db.Text)
 
 
-class Auction(db.model):
+class Auction(db.Model):
     __tablename__ = 'auctions'
     auction_id = db.Column(db.Integer)
     nft_id = db.Column(db.Integer, primary_key = True)
@@ -59,20 +58,20 @@ class Auction(db.model):
     start_date = db.Column(db.Date)
 
 
-class CryptoOnSale(db.model):
-    __tablename__ = 'cryptos_on_sale'
-    crypto_id = db.Column(db.Integer)
-    artist_id = db.Column(db.Integer)
-    quantity = db.Column(db.Float)
-    duration = db.Column(db.Time)
-    best_bidder_id = db.Column(db.Integer)
-    start_date = db.Column(db.Date)
+#class CryptoOnSale(db.Model):
+#    __tablename__ = 'cryptos_on_sale'
+#    crypto_id = db.Column(db.Integer)
+#    artist_id = db.Column(db.Integer)
+#    quantity = db.Column(db.Float)
+#    duration = db.Column(db.Time)
+#    best_bidder_id = db.Column(db.Integer)
+#    start_date = db.Column(db.Date)
 
 
-class Wallet(db.model):
-    __tablename__ = 'wallets'
-    owner_id = db.Column(db.Integer)
-    ac_crypto = db.Column(db.Float, default=0.0)
+#class Wallet(db.Model):
+#    __tablename__ = 'wallets'
+#    owner_id = db.Column(db.Integer)
+#    ac_crypto = db.Column(db.Float, default=0.0)
 
 
 

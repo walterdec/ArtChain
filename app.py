@@ -1,27 +1,24 @@
-import os.path
-import sqlite3
-
 from flask import Flask, request, render_template
 from flask_sqlalchemy import SQLAlchemy
-#from model import User, Auction, CryptoOnSale, Wallet     #da errore!!
-
-import os
 
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///artchain.db'
 
-
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+db=SQLAlchemy(app)
 
-db = SQLAlchemy(app)
+#from model import User, Auction, NFT, CryptoOnSale, Wallet da errore, uso import model per aggirare
+import model
 
 
 @app.before_first_request
 def setup_db():
+    db.drop_all()
     db.create_all()
+
 
 
 @app.route('/')
@@ -52,6 +49,7 @@ def about():
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
+
 
 @app.route('/explore-nfts')
 def explore_nfts():
