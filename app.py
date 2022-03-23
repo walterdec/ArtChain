@@ -20,6 +20,7 @@ import model
 
 @app.before_first_request
 def setup_db():
+    session.clear()
     db.drop_all()
     db.create_all()
 
@@ -82,6 +83,10 @@ def my_settings():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        session['username'] = username
+        return redirect(url_for('index'))
     return render_template('login.html', form=form)
 
 
@@ -118,6 +123,12 @@ def artist_profile():
 @app.route('/crypto')
 def crypto():
     return render_template('crypto.html')
+
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/index')
 
 
 @app.route('/404')
