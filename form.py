@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, BooleanField, DateField, SelectField, TextAreaField, PasswordField, SubmitField, IntegerField, SelectMultipleField
+from wtforms import StringField, BooleanField, DateField, SelectField, TextAreaField, PasswordField, SubmitField,\
+    IntegerField, SelectMultipleField
 from wtforms.validators import DataRequired, InputRequired, EqualTo, NumberRange, Email, Length
 from flask_wtf.file import FileField, FileAllowed
 
@@ -42,9 +43,9 @@ class EditArtistForm(FlaskForm):
 
 
 class CustomerRegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
+    username = StringField('Username', validators=[DataRequired(), Length(min=3, max=20, message="Username must be between 3 and 20 characters.")])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=8, max=16, message="Password must be between 8 and 16 characters.")])
     confpassword = PasswordField('Confirm Password', validators=[DataRequired()])
     submit = SubmitField('Create Account')
 
@@ -55,7 +56,7 @@ class ArtistRegistrationForm(FlaskForm):
     surname = StringField('surname', validators=[DataRequired()])
     password = PasswordField('password', validators=[DataRequired()])
     confpassword = PasswordField('confpassword', validators=[DataRequired()])
-    #email = StringField('email', validators=[DataRequired(), Email()])
+    email = StringField('email', validators=[DataRequired(), Email()])
     category = StringField('category', validators=[DataRequired()])
 
     instauser = StringField('instauser')

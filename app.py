@@ -5,7 +5,7 @@ from form import LoginForm, CustomerRegistrationForm
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = "hardtoguess"
+app.config['SECRET_KEY'] = 'hardtoguess'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///artchain.db'
 
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
@@ -90,14 +90,19 @@ def signupartist():
     return render_template('signupartist.html')
 
 
-@app.route('/signupcustomer', methods=['GET'])
+@app.route('/signupcustomer', methods=['GET', 'POST'])
 def signupcustomer():
     form = CustomerRegistrationForm()
-    if form.validate_on_submit():
+    username = None
+    print(form.password)
+    print(form.confpassword)
+    print (form.validate_on_submit())
+    if form.validate_on_submit() and form.password.data == form.confpassword.data:
         username = form.username.data
         session['username'] = username
         return redirect(url_for('index'))
-    return render_template('signupcustomer.html', form=form)
+
+    return render_template('signupcustomer.html', form=form, name=username)
 
 
 @app.route('/new-nft')

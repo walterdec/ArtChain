@@ -87,7 +87,9 @@
 
     <div class="container">
 
-    <form class="well form-horizontal form-center">
+    <form method="post" class="well form-horizontal form-center">
+
+      {{ form.csrf_token }}
 
       <div class="container">
         <div class="container rounded bg-white mb-5">
@@ -95,25 +97,66 @@
            <div class="row mt-2">
            <div class="col-md-6 mt-2">
               {{form.username.label}}
-              {{form.username()}}
+              {{form.username(class="form-control", placeholder="username")}}
            </div><br>
              <div class="col-md-6 mt-2">
             {{form.email.label}}
-            {{form.email}}
+            {{form.email(class="form-control", placeholder="email")}}
              </div><br>
              <div class="col-md-6 mt-2">
                {{form.password.label}}
-               {{form.password}}
+               {{form.password(class="form-control", placeholder="password")}}
              </div><br>
              <div class="col-md-6 mt-2">
                {{form.confpassword.label}}
-               {{form.confpassword}}
+               {{form.confpassword(class="form-control", placeholder="confirm password")}}
+
              </div><br>
           </div>
             </div>
         <div class="mt-1 text-center"><button class="btn btn-primary profile-button btn-submit-artist-registration" type="submit">Create account</button></div>
       </div>
+
+        {% for error in form.email.errors %}
+          {% if error %}
+            <div class="alert alert-danger center-title" role="alert">
+              {{ error }}
+            </div>
+          {% endif %}
+        {% endfor %}
+
+         {% for error in form.username.errors %}
+          {% if error %}
+            <div class="alert alert-danger center-title" role="alert">
+              {{ error }}
+            </div>
+          {% endif %}
+        {% endfor %}
+
+          {% for error in form.password.errors %}
+          {% if error %}
+            <div class="alert alert-danger center-title" role="alert">
+              {{ error }}
+            </div>
+          {% endif %}
+        {% endfor %}
+
+          {% for error in form.confpassword.errors %}
+          {% if error %}
+            <div class="alert alert-danger center-title" role="alert">
+              {{ error }}
+            </div>
+          {% endif %}
+        {% endfor %}
+
+        {% if form.password.data != form.confpassword.data %}
+         <div class="alert alert-danger center-title" role="alert">
+              {{ "Password should match" }}
+            </div>
+        {% endif %}
+
     </div>
+
     </form>
 </div>
 
