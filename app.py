@@ -1,16 +1,20 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+
+from form import LoginForm, CustomerRegistrationForm
 
 app = Flask(__name__)
 
+app.config['SECRET_KEY'] = "hardtoguess"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///artchain.db'
 
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db=SQLAlchemy(app)
+db = SQLAlchemy(app)
 
 #from model import User, Auction, NFT, CryptoOnSale, Wallet da errore, uso import model per aggirare
+
 import model
 
 
@@ -18,7 +22,6 @@ import model
 def setup_db():
     db.drop_all()
     db.create_all()
-
 
 
 @app.route('/')
@@ -76,9 +79,10 @@ def my_settings():
     return render_template('myaccount-profile.html')
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    form = LoginForm()
+    return render_template('login.html', form=form)
 
 
 @app.route('/signupartist')
@@ -86,9 +90,14 @@ def signupartist():
     return render_template('signupartist.html')
 
 
-@app.route('/signupcustomer')
+@app.route('/signupcustomer', methods=['GET'])
 def signupcustomer():
-    return render_template('signupcustomer.html')
+    form = CustomerRegistrationForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        session['username'] = username
+        return redirect(url_for('index'))
+    return render_template('signupcustomer.html', form=form)
 
 
 @app.route('/new-nft')

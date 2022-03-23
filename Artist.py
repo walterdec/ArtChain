@@ -37,7 +37,7 @@ class Artist(object):
 
     def create_nft_and_auction(self, nft_id, type, description, auction_id, price, duration):
         nft = NFT(nft_id, id, type, description)
-        # aggiungere colelgamento a immagine tramite URI
+        # aggiungere collegamento a immagine tramite URI
         auction = Auction(auction_id, nft, price, duration)
         self.my_auctions_list.append(auction)
         auction.countdown()

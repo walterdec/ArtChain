@@ -83,12 +83,20 @@
 
  <div class="form-login">
   <div class="heading">
-    <form action="#">
+    <form method="POST">
+      <div>
+        {{form.username.label}}
+        {{form.username()}}
+      </div>
+   <div>
+      {{form.password.label}}
+      {{form.password()}}
+   </div>
 
-      <div class="col-md-12"><input type="text" class="form-control" placeholder="username" value=""></div>
-      <div class="col-md-12 mt-2"><input type="password" class="form-control" placeholder="password" value=""></div>
+      <div class="mt-3 text-center">
+         {{form.submit(class="btn btn-primary profile-button btn-submit-artist-registration")}}
+      </div>
 
-          <div class="mt-3 text-center"><button class="btn btn-primary profile-button btn-submit-artist-registration" type="submit">Login</button></div>
        </form>
  		</div>
  </div>
