@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
-from form import LoginForm, CustomerRegistrationForm
+from form import LoginForm, CustomerRegistrationForm, ArtistRegistrationForm
 
 app = Flask(__name__)
 
@@ -90,18 +90,20 @@ def login():
     return render_template('login.html', form=form)
 
 
-@app.route('/signupartist')
+@app.route('/signupartist', methods=['GET', 'POST'])
 def signupartist():
-    return render_template('signupartist.html')
+    form = ArtistRegistrationForm()
+    artist_categories = ['Musician', 'Sketcher', 'Other']
+    if form.validate_on_submit() and form.password.data == form.confpassword.data:
+        print("gin")
+        return redirect(url_for('index'))
+    return render_template('signupartist.html', form=form, artist_categories=artist_categories)
 
 
 @app.route('/signupcustomer', methods=['GET', 'POST'])
 def signupcustomer():
     form = CustomerRegistrationForm()
     username = None
-    print(form.password)
-    print(form.confpassword)
-    print (form.validate_on_submit())
     if form.validate_on_submit() and form.password.data == form.confpassword.data:
         username = form.username.data
         session['username'] = username

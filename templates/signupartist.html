@@ -88,6 +88,8 @@
     <div class="container">
 
 <div class="container rounded bg-white mt-5 mb-5">
+    <form method="post">
+        {{ form.csrf_token }}
     <div class="row">
         <div class="col-md-3 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold"></span><span class="text-black-50"></span><span> </span></div>
@@ -97,25 +99,25 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="text-right">Personal Data</h4>
                 </div>
+
                 <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" placeholder="first name" value=""></div>
-                    <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control" value="" placeholder="surname"></div>
+                    <div class="col-md-6">{{form.name.label}} {{form.name(class="form-control", placeholder="name")}}</div>
+                    <div class="col-md-6">{{form.surname.label}} {{form.surname(class="form-control", placeholder="surname")}}</div>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-md-12"><label class="labels">Username</label><input type="text" class="form-control" placeholder="username" value=""></div><br>
-                    <div class="col-md-12 mt-2"><label class="labels">Password</label><input type="password" class="form-control" placeholder="password" value=""></div><br>
-                    <div class="col-md-12 mt-2"><label class="labels">Confirm Password</label><input type="password" class="form-control" placeholder="confirm password" value=""></div><br>
-                    <div class="col-md-12 mt-2"><label class="labels">Email</label><input type="email" class="form-control" placeholder="email" value=""></div><br>
+                    <div class="col-md-12">{{form.username.label}} {{form.username(class="form-control", placeholder="username")}}</div><br>
+                    <div class="col-md-12 mt-2">{{form.password.label}} {{form.password(class="form-control", placeholder="password")}}</div><br>
+                    <div class="col-md-12 mt-2">{{form.confpassword.label}} {{form.confpassword(class="form-control", placeholder="confirm password")}}</div><br>
+                    <div class="col-md-12 mt-2">{{form.email.label}} {{form.email(class="form-control", placeholder="email")}}</div><br>
                     <div class="form-group">
                       <label class="col-md-12 mt-2 control-label">Category</label>
                         <div class="col-md-12 selectContainer">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-                        <select name="department" class="form-control selectpicker">
-                          <option value="">Select your category</option>
-                          <option>Musician</option>
-                          <option>Sketcher</option>
-                          <option>Other</option>
+                          <select name="category" method="GET" class="form-control selectpicker">
+                        {% for category in artist_categories %}
+                            <option value="{{category}}">{{category}}</option>"
+                        {% endfor %}
                         </select>
                       </div>
                     </div>
@@ -126,29 +128,60 @@
         </div>
         <div class="col-md-4">
             <div class="p-3 py-5">
-              <div class="d-flex justify-content-between align-items-center experience"><span><h4>Social Networks numbers</h4></span></div>
-              <div class="col-md-12 mt-2"><label class="labels">Instagram</label><input name="insta-u" type="text" class="form-control mb-2" placeholder="Username" value=""><input name="insta-f" type="text" class="form-control" placeholder="Followers" value=""></div>
-              <div class="col-md-12 mt-2"><label class="labels">Facebook</label><input name="face-u" type="text" class="form-control mb-2" placeholder="Username" value=""><input name="face-f" type="text" class="form-control" placeholder="Followers" value=""></div>
-              <div class="col-md-12 mt-2"><label class="labels">Twitter</label><input name="twitter-u" type="text" class="form-control mb-2" placeholder="Username" value=""><input name="twitter-f" type="text" class="form-control" placeholder="Followers" value=""></div>
-              <div class="col-md-12 mt-2"><label class="labels">YouTube</label><input name="yt-u" type="text" class="form-control mb-2" placeholder="Username" value=""><input name="yt-f" type="text" class="form-control" placeholder="Followers" value=""></div>
-              <div class="col-md-12 mt-2"><label class="labels">TikTok</label><input name="tiktok-u" type="text" class="form-control mb-2" placeholder="Username" value=""><input name="tiktok-f" type="text" class="form-control" placeholder="Followers" value=""></div>
-              <div class="col-md-12 mt-2"><label class="labels">Twitch</label><input name="twitch-u" type="text" class="form-control mb-2" placeholder="Username" value=""><input name="twitch-f" type="text" class="form-control" placeholder="Followers" value=""></div>
-              <div class="col-md-12 mt-2"><label class="labels">Apple Music</label><input name="applemusic-u" type="text" class="form-control mb-2" placeholder="Username" value=""><input name="applemusic-f" type="text" class="form-control" placeholder="Followers" value=""></div>
-              <div class="col-md-12 mt-2"><label class="labels">Spotify</label><input name="spotify-u" type="text" class="form-control mb-2" placeholder="Username" value=""><input name="spotify-f" type="text" class="form-control" placeholder="Followers" value=""></div>
-              <div class="col-md-12 mt-2"><label class="labels">SoundCloud</label><input name="soundcloud-u" type="text" class="form-control mb-2" placeholder="Username" value=""><input name="soundcloud-f" type="text" class="form-control" placeholder="Followers" value=""></div>
-              <div class="col-md-12 mt-2"><label class="labels">Sales</label><input name="sales-u" type="text" class="form-control mb-2" placeholder="Username" value=""><input name="sales-f" type="text" class="form-control" placeholder="Followers" value=""></div>
+                <div class="d-flex justify-content-between align-items-center experience"><span><h4>Social Networks</h4></span></div>
+                <div class="col-md-12 mt-2">{{form.instauser.label}} {{form.instauser(class="form-control mb-2", placeholder="username")}}{{form.instafollowers(class="form-control", placeholder="followers")}}</div>
+                <div class="col-md-12 mt-2">{{form.faceuser.label}} {{form.faceuser(class="form-control mb-2", placeholder="username")}}{{form.facefollowers(class="form-control", placeholder="followers")}}</div>
+                <div class="col-md-12 mt-2">{{form.twitteruser.label}} {{form.twitteruser(class="form-control mb-2", placeholder="username")}}{{form.twitterfollowers(class="form-control", placeholder="followers")}}</div>
+                <div class="col-md-12 mt-2">{{form.ytuser.label}} {{form.ytuser(class="form-control mb-2", placeholder="username")}}{{form.ytfollowers(class="form-control", placeholder="followers")}}</div>
+                <div class="col-md-12 mt-2">{{form.tiktokuser.label}} {{form.tiktokuser(class="form-control mb-2", placeholder="username")}}{{form.tiktokfollowers(class="form-control", placeholder="followers")}}</div>
+                <div class="col-md-12 mt-2">{{form.twitchuser.label}} {{form.twitchuser(class="form-control mb-2", placeholder="username")}}{{form.twitchfollowers(class="form-control", placeholder="followers")}}</div>
+                <div class="col-md-12 mt-2">{{form.applemusicuser.label}} {{form.applemusicuser(class="form-control mb-2", placeholder="username")}}{{form.applemusicfollowers(class="form-control", placeholder="followers")}}</div>
+                <div class="col-md-12 mt-2">{{form.spotifyuser.label}} {{form.spotifyuser(class="form-control mb-2", placeholder="username")}}{{form.spotifyfollowers(class="form-control", placeholder="followers")}}</div>
+                <div class="col-md-12 mt-2">{{form.soundclouduser.label}} {{form.soundclouduser(class="form-control mb-2", placeholder="username")}}{{form.soundcloudfollowers(class="form-control", placeholder="followers")}}</div>
+                <div class="col-md-12 mt-2">{{form.sales.label}} {{form.sales(class="form-control mb-2", placeholder="sales")}}</div>
             </div>
         </div>
     </div>
-</div>
-</div>
-</div>
+        <div class="mt-5 text-center">{{form.submit(class="btn btn-primary profile-button btn-submit-artist-registration")}}</div>
+</form>
+         {% for error in form.username.errors %}
+          {% if error %}
+            <div class="alert alert-danger center-title" role="alert">
+              {{ error }}
+            </div>
+          {% endif %}
+        {% endfor %}
 
-  <div class="mt-5 text-center"><button class="btn btn-primary profile-button btn-submit-artist-registration" type="button">Create account</button></div>
+        {% for error in form.password.errors %}
+          {% if error %}
+            <div class="alert alert-danger center-title" role="alert">
+              {{ error }}
+            </div>
+          {% endif %}
+        {% endfor %}
 
+        {% for error in form.email.errors %}
+          {% if error %}
+            <div class="alert alert-danger center-title" role="alert">
+              {{ error }}
+            </div>
+          {% endif %}
+        {% endfor %}
+
+        {% if form.password.data != form.confpassword.data %}
+         <div class="alert alert-danger center-title" role="alert">
+              {{"Password should match"}}
+            </div>
+        {% endif %}
+
+    </div>
+    </div>
+    </div>
   </div>
   </div>
   </div>
+
+
 
   <!-- Footer -->
   <footer class="py-5 bg-dark">
