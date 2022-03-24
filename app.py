@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
-from form import LoginForm, CustomerRegistrationForm, ArtistRegistrationForm
+from form import LoginForm, CustomerRegistrationForm, ArtistRegistrationForm, ForgotPasswordForm, EditArtistForm
 
 app = Flask(__name__)
 
@@ -75,22 +75,21 @@ def my_wallet():
     return render_template('myaccount-mywallet.html')
 
 
-@app.route('/myaccount-profile')
+@app.route('/myaccount-profile', methods=['GET', 'POST'])
 def my_settings():
-    return render_template('myaccount-profile.html')
+    form = EditArtistForm()
+    return render_template('myaccount-profile.html', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if session.get('username'):
-        return redirect(url_for('index'))
     form = LoginForm()
-    pagename = 'Login'
     if form.validate_on_submit():
         username = form.username.data
         session['username'] = username
+        print(session['username']+"2")
         return redirect(url_for('index'))
-    return render_template('login.html', pagename=pagename, form=form)
+    return render_template('login.html', form=form)
 
 
 @app.route('/signupartist', methods=['GET', 'POST'])
@@ -138,6 +137,12 @@ def logout():
 @app.route('/404')
 def pagenotfound():
     return render_template('404.html')
+
+
+@app.route('/forgot', methods=['GET', 'POST'])
+def forgot():
+    form = ForgotPasswordForm()
+    return render_template('forgot.html', form=form)
 
 
 if __name__ == '__main__':
