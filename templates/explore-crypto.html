@@ -1,70 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+{% include 'main-template.html' %}
+
+{% block content %}
 
 <head>
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <title>ArtChain - Cryptocurrencies</title>
-    <link rel="icon" type="image/x-icon" href="static/images/logos/Logo Artchain.png">
-
-  <!-- Bootstrap core CSS -->
-  <link href="static/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
-
-  <!-- Custom styles for this template -->
-  <link href="static/css/modern-business.css" rel="stylesheet">
-
+  <title>ArtChain - Cryptos</title>
 </head>
-
-<body>
-
-  <!-- Navigation -->
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark fixed-top">
-      <div class="container">
-        <a class="navbar-brand" href="/index"><img src="static/images/logos/Logo Artchain white.png" width="85" height="65"></a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="/about">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/contact">Contact</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPages" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Explore
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPages">
-                <a class="dropdown-item" href="/explore-nfts">NFTs</a>
-                <a class="dropdown-item" href="/explore-crypto">Cryptocurrencies</a>
-              </div>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/stats">Stats</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              MyAccount
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <a class="dropdown-item" href="/myaccount-mywallet">MyWallet</a>
-                <a class="dropdown-item" href="/myaccount-profile">Profile</a>
-              </div>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/login">Login</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  <br>
 
 
   <!-- Page Content -->
@@ -196,18 +136,6 @@
   </div>
     <hr>
 
-  <!-- Footer -->
-  <footer class="py-5 bg-dark">
-    <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; ArtChain 2022</p>
-    </div>
-    <!-- /.container -->
-  </footer>
+{% endblock content %}
 
-  <!-- Bootstrap core JavaScript -->
-  <script src="static/vendor/jquery/jquery.min.js"></script>
-  <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-</body>
-
-</html>
+{% include 'footer.html' %}

@@ -85,11 +85,12 @@ def login():
     if session.get('username'):
         return redirect(url_for('index'))
     form = LoginForm()
+    pagename = 'Login'
     if form.validate_on_submit():
         username = form.username.data
         session['username'] = username
         return redirect(url_for('index'))
-    return render_template('login.html', form=form)
+    return render_template('login.html', pagename=pagename, form=form)
 
 
 @app.route('/signupartist', methods=['GET', 'POST'])
