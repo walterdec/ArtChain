@@ -141,6 +141,15 @@
           {% endif %}
         {% endfor %}
 
+         {% for error in form.errors %}
+          {% if error %}
+            <div class="alert alert-danger center-title" role="alert">
+              {{ error }}
+            </div>
+          {% endif %}
+        {% endfor %}
+
+
           {% for error in form.confpassword.errors %}
           {% if error %}
             <div class="alert alert-danger center-title" role="alert">

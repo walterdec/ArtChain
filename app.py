@@ -95,7 +95,6 @@ def signupartist():
     form = ArtistRegistrationForm()
     artist_categories = ['Musician', 'Sketcher', 'Other']
     if form.validate_on_submit() and form.password.data == form.confpassword.data:
-        print("gin")
         return redirect(url_for('index'))
     return render_template('signupartist.html', form=form, artist_categories=artist_categories)
 

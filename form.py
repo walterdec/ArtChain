@@ -51,12 +51,12 @@ class CustomerRegistrationForm(FlaskForm):
 
 
 class ArtistRegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=3, max=20, message="Username must be between 3 and 20 characters")])
-    name = StringField('Name', validators=[DataRequired()])
-    surname = StringField('Surname', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=8, max=16, message="Password must be between 8 and 16 characters")])
-    confpassword = PasswordField('Confirm password', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email(message="Email is not valid")])
+    username = StringField('Username', validators=[InputRequired(), Length(min=3, max=20, message="Username must be between 3 and 20 characters")])
+    name = StringField('Name', validators=[InputRequired()])
+    surname = StringField('Surname', validators=[InputRequired()])
+    password = PasswordField('Password', validators=[InputRequired(), Length(min=8, max=16, message="Password must be between 8 and 16 characters")])
+    confpassword = PasswordField('Confirm password', validators=[InputRequired()])
+    email = StringField('Email', validators=[InputRequired(), Email(message="Email is not valid")])
 #   category = StringField('Category', validators=[DataRequired()])
 
     instauser = StringField('Instagram')
