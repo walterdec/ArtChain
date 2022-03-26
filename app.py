@@ -95,7 +95,7 @@ def login():
     form = LoginForm()
     login_error = 0
     if form.validate_on_submit():
-        if (model.User.query.filter(model.User.username == request.form['username']).first() or
+        if (model.User.query.filter(model.User.username == request.form['username']).first() and
                 model.User.query.filter(model.User.password == request.form['password']).first()):
             username = form.username.data
             session['username'] = username
@@ -165,7 +165,15 @@ def pagenotfound():
 @app.route('/forgot', methods=['GET', 'POST'])
 def forgot():
     form = ForgotPasswordForm()
-    return render_template('forgot.html', form=form)
+    wrong_email = 0
+    email_sent = 0
+    if form.validate_on_submit():
+        if model.User.query.filter(model.User.email == request.form['email']).first():
+            email_sent = 1
+        else:
+            wrong_email = 1
+
+    return render_template('forgot.html', form=form, email_sent=email_sent, wrong_email=wrong_email)
 
 
 if __name__ == '__main__':

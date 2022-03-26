@@ -41,6 +41,25 @@
  </div>
 </div>
 
+         {% for error in form.email.errors %}
+          {% if error %}
+            <div class="alert alert-danger center-title" role="alert">
+              {{ error }}
+            </div>
+          {% endif %}
+        {% endfor %}
+
+      {% if email_sent %}
+        <div class="alert alert-success center-title" role="alert">
+            An email with your username and password has been sent. Check your inbox.
+        </div>
+
+     {% elif wrong_email %}
+     <div class="alert alert-danger center-title" role="alert">
+         The email doesn't exists in our database.
+     </div>
+      {% endif %}
+
 {% endblock content %}
 
 {% include 'footer.html' %}

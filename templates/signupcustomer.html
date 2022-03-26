@@ -93,15 +93,6 @@
           {% endif %}
         {% endfor %}
 
-         {% for error in form.errors %}
-          {% if error %}
-            <div class="alert alert-danger center-title" role="alert">
-              {{ error }}
-            </div>
-          {% endif %}
-        {% endfor %}
-
-
           {% for error in form.confpassword.errors %}
           {% if error %}
             <div class="alert alert-danger center-title" role="alert">
@@ -112,7 +103,7 @@
 
         {% if form.password.data != form.confpassword.data %}
          <div class="alert alert-danger center-title" role="alert">
-              {{"Password should match"}}
+              {{"Passwords should match"}}
             </div>
         {% endif %}
 
