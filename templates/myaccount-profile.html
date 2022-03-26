@@ -27,9 +27,8 @@
         <div class="col-md-3 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                 <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
-                <span class="font-weight-bold">Name and Surname</span>
+                <span class="font-weight-bold">{{ user_logged_in.name }} {{ user_logged_in.surname }}</span>
                 <span class="text-black-50">{{session.username}}</span>
-                <span>ID</span>
             </div>
         </div>
         <div class="col-md-5 border-right">
@@ -38,7 +37,7 @@
                     <h4 class="text-right">Profile Settings</h4>
                 </div>
                 <div class="row mt-3">
-                <div class="col-md-12">{{form.email.label}}{{form.email(class="form-control")}}</div><br>
+                <div class="col-md-12">{{form.email.label}}{{form.email(class="form-control", placeholder=user_logged_in.email)}}</div><br>
                 <div class="col-md-12 mt-2">{{form.password.label}}{{form.password(class="form-control")}}</div><br>
                     <div class="col-md-12 mt-2">{{form.confpassword.label}}{{form.confpassword(class="form-control")}}</div><br>
                </div>
@@ -50,16 +49,16 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="text-right">Social Networks</h4>
                 </div>
-                <div class="col-md-12"><label class="labels">Instagram</label><input type="text" class="form-control" placeholder="current number" value=""></div> <br>
-                <div class="col-md-12"><label class="labels">Facebook</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
-                <div class="col-md-12"><label class="labels">Twitter</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
-                <div class="col-md-12"><label class="labels">Youtube</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
-                <div class="col-md-12"><label class="labels">TikTok</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
-                <div class="col-md-12"><label class="labels">Twitch</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
-                <div class="col-md-12"><label class="labels">Apple Music</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
-                <div class="col-md-12"><label class="labels">Spotify</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
-                <div class="col-md-12"><label class="labels">SoundCloud</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
-                <div class="col-md-12"><label class="labels">Sales</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
+                <div class="col-md-12"><label class="labels">Instagram</label><input type="text" class="form-control" placeholder= {{user_logged_in.insta}} value=""></div> <br>
+                <div class="col-md-12"><label class="labels">Facebook</label><input type="text" class="form-control" placeholder="{{user_logged_in.face}}" value=""></div> <br>
+                <div class="col-md-12"><label class="labels">Twitter</label><input type="text" class="form-control" placeholder="{{user_logged_in.twitter}}" value=""></div> <br>
+                <div class="col-md-12"><label class="labels">Youtube</label><input type="text" class="form-control" placeholder="{{user_logged_in.yt}}" value=""></div> <br>
+                <div class="col-md-12"><label class="labels">TikTok</label><input type="text" class="form-control" placeholder="{{user_logged_in.tiktok}}" value=""></div> <br>
+                <div class="col-md-12"><label class="labels">Twitch</label><input type="text" class="form-control" placeholder="{{user_logged_in.twitch}}" value=""></div> <br>
+                <div class="col-md-12"><label class="labels">Apple Music</label><input type="text" class="form-control" placeholder="{{user_logged_in.applemusic}}" value=""></div> <br>
+                <div class="col-md-12"><label class="labels">Spotify</label><input type="text" class="form-control" placeholder="{{user_logged_in.spotify}}" value=""></div> <br>
+                <div class="col-md-12"><label class="labels">SoundCloud</label><input type="text" class="form-control" placeholder="{{user_logged_in.soundcloud}}" value=""></div> <br>
+                <div class="col-md-12"><label class="labels">Sales</label><input type="text" class="form-control" placeholder="{{user_logged_in.sales}}" value=""></div> <br>
                 <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
 
             </div>

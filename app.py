@@ -1,5 +1,7 @@
 from flask import Flask, request, render_template, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import Session
+
 from form import LoginForm, CustomerRegistrationForm, ArtistRegistrationForm, ForgotPasswordForm, EditArtistForm
 import model
 
@@ -75,7 +77,15 @@ def my_wallet():
 @app.route('/myaccount-profile', methods=['GET', 'POST'])
 def my_settings():
     form = EditArtistForm()
-    return render_template('myaccount-profile.html', form=form)
+    username = None
+    try:
+        if session['username']:
+            user = session['username']
+            for row in db.session.query(model.User).filter_by(username=user):
+                user_logged_in = row
+    except KeyError:
+        return redirect(url_for('index'))
+    return render_template('myaccount-profile.html', form=form, user_logged_in=user_logged_in)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -104,14 +114,12 @@ def signupartist():
         if (model.User.query.filter(model.User.username == request.form['username']).first() or
                 model.User.query.filter(model.User.email == request.form['email']).first()):
             unique_db_error = 1
-            print("errore email o username non unici")
             return render_template('signupartist.html', form=form, artist_categories=artist_categories,
                                    registration_success=registration_success, unique_db_error=unique_db_error)
         else:
             if form.category.data == 'Musician':
                 is_musician = 1
 
-            print("sono entrato nella registrazione")
             artist_registration = model.User(username=form.username.data, email=form.email.data,
                                              password=form.password.data, role_id=3, name=form.name.data,
                                              surname=form.surname.data, is_musician=is_musician,
@@ -129,7 +137,7 @@ def signupartist():
             db.session.add(artist_registration)
             db.session.commit()
             registration_success = 1
-    print("nulla")
+
     return render_template('signupartist.html', form=form, artist_categories=artist_categories,
                            registration_success=registration_success, unique_db_error=unique_db_error)
 
