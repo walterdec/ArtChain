@@ -123,17 +123,21 @@ def signupartist():
             artist_registration = model.User(username=form.username.data, email=form.email.data,
                                              password=form.password.data, role_id=3, name=form.name.data,
                                              surname=form.surname.data, is_musician=is_musician,
-                                             insta=form.instafollowers.data, instaname=form.instauser.data,
-                                             face=form.facefollowers.data, facename=form.faceuser.data,
-                                             twitter=form.twitterfollowers.data, twittername=form.twitteruser.data,
-                                             yt=form.ytfollowers.data, ytname=form.ytuser.data,
-                                             tiktok=form.tiktokfollowers.data, tiktokname=form.tiktokuser.data,
-                                             twitch=form.twitchfollowers.data, twitchname=form.twitchuser.data,
-                                             applemusic=form.applemusicfollowers.data,
+                                             insta=int(form.instafollowers.data or 0), instaname=form.instauser.data,
+                                             face=int(form.facefollowers.data or 0), facename=form.faceuser.data,
+                                             twitter=int(form.twitterfollowers.data or 0),
+                                             twittername=form.twitteruser.data,
+                                             yt=int(form.ytfollowers.data or 0), ytname=form.ytuser.data,
+                                             tiktok=int(form.tiktokfollowers.data or 0),
+                                             tiktokname=form.tiktokuser.data,
+                                             twitch=int(form.twitchfollowers.data or 0),
+                                             twitchname=form.twitchuser.data,
+                                             applemusic=int(form.applemusicfollowers.data or 0),
                                              applemusicname=form.applemusicuser.data,
-                                             spotify=form.spotifyfollowers.data, spotifyname=form.spotifyuser.data,
-                                             soundcloud=form.soundcloudfollowers.data,
-                                             soundcloudname=form.soundclouduser.data, sales=form.sales.data)
+                                             spotify=int(form.spotifyfollowers.data or 0),
+                                             spotifyname=form.spotifyuser.data,
+                                             soundcloud=int(form.soundcloudfollowers.data or 0),
+                                             soundcloudname=form.soundclouduser.data, sales=int(form.sales.data or 0))
             db.session.add(artist_registration)
             db.session.commit()
             registration_success = 1
