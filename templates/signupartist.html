@@ -27,6 +27,101 @@
 
     <div class="container">
 
+                 {% for error in form.username.errors %}
+          {% if error %}
+            <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+              {{ error }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+          {% endif %}
+        {% endfor %}
+
+
+          {% if unique_db_error %}
+             <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+              Username or email already used
+                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+          {% endif %}
+
+          {% if registration_success %}
+          <div class="alert alert-success center-title alert-dismissible fade show" role="alert">
+              Registration successful.<br> <a href="/login" class="alert-link">Click here to login</a>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+          </div>
+          {% endif %}
+
+        {% for error in form.email.errors %}
+          {% if error %}
+            <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+              {{ error }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+          {% endif %}
+        {% endfor %}
+
+          {% for error in form.errors %}
+          {% if error %}
+            <div class="alert alert-danger alert-dismissible fade show center-title" role="alert">
+              {{ error }} field not valid
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+          {% endif %}
+        {% endfor %}
+
+         {% for error in form.username.errors %}
+          {% if error %}
+            <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+              {{ error }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+          {% endif %}
+        {% endfor %}
+
+          {% for error in form.password.errors %}
+          {% if error %}
+            <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+              {{ error }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+          {% endif %}
+        {% endfor %}
+
+          {% for error in form.confpassword.errors %}
+          {% if error %}
+            <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+              {{ error }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+          {% endif %}
+        {% endfor %}
+
+        {% if form.password.data != form.confpassword.data %}
+         <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+              {{"Passwords should match"}}
+             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+        {% endif %}
+
+
 <div class="container rounded bg-white mt-5 mb-5">
     <form method="post">
         {{ form.csrf_token }}
@@ -84,35 +179,6 @@
     </div>
         <div class="mt-5 text-center">{{form.submit(class="btn btn-primary profile-button btn-submit-artist-registration")}}</div>
 </form>
-         {% for error in form.username.errors %}
-          {% if error %}
-            <div class="alert alert-danger center-title" role="alert">
-              {{ error }}
-            </div>
-          {% endif %}
-        {% endfor %}
-
-        {% for error in form.password.errors %}
-          {% if error %}
-            <div class="alert alert-danger center-title" role="alert">
-              {{ error }}
-            </div>
-          {% endif %}
-        {% endfor %}
-
-        {% for error in form.email.errors %}
-          {% if error %}
-            <div class="alert alert-danger center-title" role="alert">
-              {{ error }}
-            </div>
-          {% endif %}
-        {% endfor %}
-
-        {% if form.password.data != form.confpassword.data %}
-         <div class="alert alert-danger center-title" role="alert">
-              {{"Password should match"}}
-            </div>
-        {% endif %}
 
     </div>
     </div>

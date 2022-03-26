@@ -10,7 +10,6 @@ class User(db.Model):
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     name = db.Column(db.String(64))
     surname = db.Column(db.String(64))
-    is_artist = db.Column(db.Boolean)
     is_musician = db.Column(db.Boolean, default=False)
 
     insta = db.Column(db.Integer)

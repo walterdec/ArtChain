@@ -19,19 +19,7 @@ db = SQLAlchemy(app)
 def setup_db():
     session.clear()
     db.drop_all()
-    role_admin = model.Role(role_name='Admin')
-    role_user = model.Role(role_name='User')
-    """user_admin = model.User(id=105, username="prova", password="pass", email="emailprova", name="nome",
-                           surname="cognome", is_artist=0, is_musician=0, insta=0, instaname="nome",
-                         face=0, facename="nome", twitter=0, twittername="nome", yt=0, ytname="nome", tiktok=0,
-                            tiktokname="nome", twitch=0, twitchname="nome", applemusic=0, applemusicname="nome",
-                           spotify=0, spotifyname="nome", soundcloud=0, soundcloudname="nome", sales=0, value=0,
-                            growth=0, role_id=1)
-    db.session.add_all([role_admin, role_user])
-    db.session.add(user_admin)
-    db.session.commit() """
     db.create_all()
-
 
 
 @app.route('/')
@@ -109,9 +97,41 @@ def login():
 def signupartist():
     form = ArtistRegistrationForm()
     artist_categories = ['Musician', 'Sketcher', 'Other']
+    unique_db_error = 0
+    registration_success = 0
+    is_musician = 0
     if form.validate_on_submit() and form.password.data == form.confpassword.data:
-        return redirect(url_for('index'))
-    return render_template('signupartist.html', form=form, artist_categories=artist_categories)
+        if (model.User.query.filter(model.User.username == request.form['username']).first() or
+                model.User.query.filter(model.User.email == request.form['email']).first()):
+            unique_db_error = 1
+            print("errore email o username non unici")
+            return render_template('signupartist.html', form=form, artist_categories=artist_categories,
+                                   registration_success=registration_success, unique_db_error=unique_db_error)
+        else:
+            if form.category.data == 'Musician':
+                is_musician = 1
+
+            print("sono entrato nella registrazione")
+            artist_registration = model.User(username=form.username.data, email=form.email.data,
+                                             password=form.password.data, role_id=3, name=form.name.data,
+                                             surname=form.surname.data, is_musician=is_musician,
+                                             insta=form.instafollowers.data, instaname=form.instauser.data,
+                                             face=form.facefollowers.data, facename=form.faceuser.data,
+                                             twitter=form.twitterfollowers.data, twittername=form.twitteruser.data,
+                                             yt=form.ytfollowers.data, ytname=form.ytuser.data,
+                                             tiktok=form.tiktokfollowers.data, tiktokname=form.tiktokuser.data,
+                                             twitch=form.twitchfollowers.data, twitchname=form.twitchuser.data,
+                                             applemusic=form.applemusicfollowers.data,
+                                             applemusicname=form.applemusicuser.data,
+                                             spotify=form.spotifyfollowers.data, spotifyname=form.spotifyuser.data,
+                                             soundcloud=form.soundcloudfollowers.data,
+                                             soundcloudname=form.soundclouduser.data, sales=form.sales.data)
+            db.session.add(artist_registration)
+            db.session.commit()
+            registration_success = 1
+    print("nulla")
+    return render_template('signupartist.html', form=form, artist_categories=artist_categories,
+                           registration_success=registration_success, unique_db_error=unique_db_error)
 
 
 @app.route('/signupcustomer', methods=['GET', 'POST'])
@@ -126,9 +146,9 @@ def signupcustomer():
                 model.User.query.filter(model.User.email == request.form['email']).first()):
             unique_db_error = 1
         else:
-            user_registration = model.User(username=form.username.data, email=form.email.data,
-                                           password=form.password.data, role_id=2)
-            db.session.add(user_registration)
+            customer_registration = model.User(username=form.username.data, email=form.email.data,
+                                               password=form.password.data, role_id=2)
+            db.session.add(customer_registration)
             db.session.commit()
             registration_success = 1
 
