@@ -22,7 +22,8 @@
       <li class="breadcrumb-item active">Profile</li>
     </ol>
 
-       {% if user_logged_in.role_id==3 %}
+      {% if user_logged_in.role_id == 3 %}
+
     <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
         <div class="col-md-3 border-right">
@@ -66,7 +67,8 @@
         </div>
     </div>
     </div>
-        {% else %}
+      
+        {% elif user_logged_in.role_id == 1 or user_logged_in.role_id == 2 %}
       <div class="container rounded bg-white mb-5 align-items-center">
         <div class="col-md-5 align-items-center">
             <div class="p-3 py-5 align-items-center">

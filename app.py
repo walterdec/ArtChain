@@ -93,11 +93,12 @@ def login():
     form = LoginForm()
     login_error = 0
     if form.validate_on_submit():
-        if (model.User.query.filter(model.User.username == request.form['username']).first() and
-                model.User.query.filter(model.User.password == request.form['password']).first()):
-            username = form.username.data
-            session['username'] = username
-            return redirect(url_for('index'))
+        for row in db.session.query(model.User).filter_by(username=request.form['username']):
+            user = row
+            if user.password == request.form['password']:
+                username = form.username.data
+                session['username'] = username
+                return redirect(url_for('index'))
         else:
             login_error = 1
     return render_template('login.html', form=form, login_error=login_error)
