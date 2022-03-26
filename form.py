@@ -26,7 +26,7 @@ class ArtistRegistrationForm(FlaskForm):
     password = PasswordField('Password', validators=[InputRequired(), Length(min=8, max=16, message="Password must be between 8 and 16 characters")])
     confpassword = PasswordField('Confirm password', validators=[InputRequired()])
     email = StringField('Email', validators=[InputRequired(), Email(message="Email is not valid")])
-#   category = StringField('Category', validators=[DataRequired()])
+    category = StringField('Category', validators=[DataRequired()])
 
     instauser = StringField('Instagram')
     instafollowers = IntegerField()

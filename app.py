@@ -1,28 +1,37 @@
 from flask import Flask, request, render_template, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-
 from form import LoginForm, CustomerRegistrationForm, ArtistRegistrationForm, ForgotPasswordForm, EditArtistForm
+import model
+
+# from model import User, Auction, NFT, CryptoOnSale, Wallet da errore, uso import model per aggirare
 
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'hardtoguess'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///artchain.db'
-
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
-
-#from model import User, Auction, NFT, CryptoOnSale, Wallet da errore, uso import model per aggirare
-
-import model
 
 
 @app.before_first_request
 def setup_db():
     session.clear()
     db.drop_all()
+    role_admin = model.Role(role_name='Admin')
+    role_user = model.Role(role_name='User')
+    """user_admin = model.User(id=105, username="prova", password="pass", email="emailprova", name="nome",
+                           surname="cognome", is_artist=0, is_musician=0, insta=0, instaname="nome",
+                         face=0, facename="nome", twitter=0, twittername="nome", yt=0, ytname="nome", tiktok=0,
+                            tiktokname="nome", twitch=0, twitchname="nome", applemusic=0, applemusicname="nome",
+                           spotify=0, spotifyname="nome", soundcloud=0, soundcloudname="nome", sales=0, value=0,
+                            growth=0, role_id=1)
+    db.session.add_all([role_admin, role_user])
+    db.session.add(user_admin)
+    db.session.commit() """
     db.create_all()
+
 
 
 @app.route('/')
@@ -84,12 +93,16 @@ def my_settings():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    login_error = 0
     if form.validate_on_submit():
-        username = form.username.data
-        session['username'] = username
-        print(session['username']+"2")
-        return redirect(url_for('index'))
-    return render_template('login.html', form=form)
+        if (model.User.query.filter(model.User.username == request.form['username']).first() or
+                model.User.query.filter(model.User.password == request.form['password']).first()):
+            username = form.username.data
+            session['username'] = username
+            return redirect(url_for('index'))
+        else:
+            login_error = 1
+    return render_template('login.html', form=form, login_error=login_error)
 
 
 @app.route('/signupartist', methods=['GET', 'POST'])
@@ -105,12 +118,22 @@ def signupartist():
 def signupcustomer():
     form = CustomerRegistrationForm()
     username = None
+    unique_db_error = 0
+    registration_success = 0
     if form.validate_on_submit() and form.password.data == form.confpassword.data:
         username = form.username.data
-        session['username'] = username
-        return redirect(url_for('index'))
+        if (model.User.query.filter(model.User.username == request.form['username']).first() or
+                model.User.query.filter(model.User.email == request.form['email']).first()):
+            unique_db_error = 1
+        else:
+            user_registration = model.User(username=form.username.data, email=form.email.data,
+                                           password=form.password.data, role_id=2)
+            db.session.add(user_registration)
+            db.session.commit()
+            registration_success = 1
 
-    return render_template('signupcustomer.html', form=form, name=username)
+    return render_template('signupcustomer.html', form=form, name=username, unique_db_error=unique_db_error,
+                           registration_success=registration_success)
 
 
 @app.route('/new-nft')

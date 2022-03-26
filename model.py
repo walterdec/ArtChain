@@ -3,10 +3,11 @@ from app import db
 
 class User(db.Model):
     __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, unique=True, primary_key=True)
     username = db.Column(db.String(64), unique=True, index=True)
     password = db.Column(db.String(64))
     email = db.Column(db.String(64), unique=True)
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     name = db.Column(db.String(64))
     surname = db.Column(db.String(64))
     is_artist = db.Column(db.Boolean)
@@ -33,7 +34,13 @@ class User(db.Model):
     sales = db.Column(db.Integer)
 
     value = db.Column(db.Float)
-    growth = db.Column(db.Float)
+
+
+class Role(db.Model):
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer, primary_key=True)
+    role_name = db.Column(db.String(100), nullable=False)
+    users = db.relationship('User', backref='role_name')
 
 
 class NFT(db.Model):
@@ -54,6 +61,7 @@ class Auction(db.Model):
     duration = db.Column(db.Time)
     best_bidder_id = db.Column(db.Integer)
     start_date = db.Column(db.Date)
+
 
 
 #class CryptoOnSale(db.Model):
