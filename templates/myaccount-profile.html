@@ -22,8 +22,91 @@
       <li class="breadcrumb-item active">Profile</li>
     </ol>
 
+      {% for error in form.email.errors %}
+          {% if error %}
+            <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+              {{ error }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+          {% endif %}
+        {% endfor %}
+
+          {% for error in form.errors %}
+          {% if error and user_logged_in.role_id == 3 %}
+            <div class="alert alert-danger alert-dismissible fade show center-title" role="alert">
+              {{ error }} field not valid
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+          {% endif %}
+        {% endfor %}
+
+          {% for error in form.password.errors %}
+          {% if error %}
+            <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+              {{ error }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+          {% endif %}
+        {% endfor %}
+
+          {% for error in form.confpassword.errors %}
+          {% if error %}
+            <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+              {{ error }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+          {% endif %}
+        {% endfor %}
+
+              {% if form.password.data != form.confpassword.data %}
+         <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+              {{"Passwords should match"}}
+             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+        {% endif %}
+
+                {% if password_edit_successful %}
+          <div class="alert alert-success center-title alert-dismissible fade show" role="alert">
+              Password updated.
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          {% endif %}
+
+            {% if email_edit_successful %}
+          <div class="alert alert-success center-title alert-dismissible fade show" role="alert">
+              Email updated.
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          {% endif %}
+
+             {% if email_already_existing %}
+          <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+              The email you inserted is already used.
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          {% endif %}
+
+
       {% if user_logged_in.role_id == 3 %}
 
+      <form method="post">
+          {{ form.hidden_tag() }}
     <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
         <div class="col-md-3 border-right">
@@ -39,9 +122,9 @@
                     <h4 class="text-right">Profile Settings</h4>
                 </div>
                 <div class="row mt-3">
-                <div class="col-md-12">{{form.email.label}}{{form.email(class="form-control", placeholder=user_logged_in.email)}}</div><br>
-                <div class="col-md-12 mt-2">{{form.password.label}}{{form.password(class="form-control")}}</div><br>
-                    <div class="col-md-12 mt-2">{{form.confpassword.label}}{{form.confpassword(class="form-control")}}</div><br>
+                <div class="col-md-12">{{form.email.label}}{{form.email(class="form-control", value=user_logged_in.email)}}</div><br>
+                <div class="col-md-12 mt-2">{{form.password.label}}{{form.password(class="form-control", placeholder="change password")}}</div><br>
+                    <div class="col-md-12 mt-2">{{form.confpassword.label}}{{form.confpassword(class="form-control", placeholder="confirm password")}}</div><br>
                </div>
                 <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
             </div>
@@ -67,24 +150,28 @@
         </div>
     </div>
     </div>
+      </form>
       
         {% elif user_logged_in.role_id == 1 or user_logged_in.role_id == 2 %}
-      <div class="container rounded bg-white mb-5 align-items-center">
-        <div class="col-md-5 align-items-center">
-            <div class="p-3 py-5 align-items-center">
+       <form method = "post">
+           {{ form.hidden_tag() }}
+      <div class="align-items-center">
+        <div class="align-items-center">
+            <div class="align-items-center">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="text-right">Profile Settings</h4>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-12"><label>Username</label><input type="text" class="form-control" name="country" value={{user_logged_in.username}} readonly><br></div><br>
-                <div class="col-md-12">{{form.email.label}}{{form.email(class="form-control", placeholder=user_logged_in.email)}}</div><br>
-                <div class="col-md-12 mt-2">{{form.password.label}}{{form.password(class="form-control")}}</div><br>
-                    <div class="col-md-12 mt-2">{{form.confpassword.label}}{{form.confpassword(class="form-control")}}</div><br>
+                    <div class="col-md-6 mt-2"><label>Username</label><input type="text" class="form-control" name="country" value={{user_logged_in.username}} readonly></div><br>
+                <div class="col-md-6 mt-2">{{form.email.label}}{{form.email(class="form-control", value=user_logged_in.email)}}</div><br>
+                <div class="col-md-6 mt-2">{{form.password.label}}{{form.password(class="form-control", placeholder="change password")}}</div><br>
+                    <div class="col-md-6 mt-2">{{form.confpassword.label}}{{form.confpassword(class="form-control", placeholder="confirm password")}}</div><br>
                </div>
-                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
+                <div class="mt-5 mb-5 text-center">{{form.submit(class="btn btn-primary profile-button")}}</div>
             </div>
         </div>
           </div>
+            </form>
 
         {% endif %}
 </div>

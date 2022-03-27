@@ -78,7 +78,15 @@ class EditArtistForm(FlaskForm):
     soundcloudfollowers = IntegerField()
     sales = IntegerField('Sales')
 
-    submit = SubmitField('Create Account')
+    submit = SubmitField('Save Profile')
+
+
+class EditCustomerForm(FlaskForm):
+    email = StringField('Email', validators=[Email(message="Email is not valid")])
+    password = PasswordField('Password', validators=[Length(min=6, max=30, message="Password must be between 6 and 30 "
+                                                                                   "characters")])
+    confpassword = PasswordField('Confirm password')
+    submit = SubmitField('Save Profile')
 
 
 class ForgotPasswordForm(FlaskForm):

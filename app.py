@@ -2,7 +2,8 @@ from flask import Flask, request, render_template, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import Session
 
-from form import LoginForm, CustomerRegistrationForm, ArtistRegistrationForm, ForgotPasswordForm, EditArtistForm
+from form import LoginForm, CustomerRegistrationForm, ArtistRegistrationForm, ForgotPasswordForm, EditArtistForm, \
+    EditCustomerForm
 import model
 
 # from model import User, Auction, NFT, CryptoOnSale, Wallet da errore, uso import model per aggirare
@@ -76,15 +77,44 @@ def my_wallet():
 
 @app.route('/myaccount-profile', methods=['GET', 'POST'])
 def my_settings():
-    form = EditArtistForm()
-    username = None
+    form = None
+    email_edit_successful = 0
+    email_already_existing = 0
+    password_edit_successful = 0
     try:
         if session['username']:
             user = session['username']
             for row in db.session.query(model.User).filter_by(username=user):
                 user_logged_in = row
+            if user_logged_in.role_id == 3:
+                form = EditArtistForm()
+            else:
+                form = EditCustomerForm()
+
+        if form.validate_on_submit():
+            user = db.session.query(model.User).filter_by(email=request.form['email']).first()
+            if user:
+                if user != user_logged_in:
+                    email_already_existing = 1
+
+            elif email_already_existing == 0:
+                user_logged_in.email = request.form['email']
+                db.session.commit()
+                email_edit_successful = 1
+
+            if form.password.data is not None and form.password.data == form.confpassword.data:
+                user_logged_in.password = form.password.data
+                db.session.commit()
+                password_edit_successful = 1
+
+            return render_template('myaccount-profile.html', form=form, user_logged_in=user_logged_in,
+                                   email_edit_successful=email_edit_successful,
+                                   email_already_existing=email_already_existing,
+                                   password_edit_successful=password_edit_successful)
+
     except KeyError:
         return redirect(url_for('index'))
+
     return render_template('myaccount-profile.html', form=form, user_logged_in=user_logged_in)
 
 
