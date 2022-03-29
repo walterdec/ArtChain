@@ -29,6 +29,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
+            {% if session.username %}
+            <li class="nav-item">
+              <a class="nav-link" href="/new-nft">New</a>
+            </li>
+            {% endif %}
             <li class="nav-item">
               <a class="nav-link" href="/about">About</a>
             </li>

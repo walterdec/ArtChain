@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import CSRFProtect
 from sqlalchemy.orm import Session
 
 from form import LoginForm, CustomerRegistrationForm, ArtistRegistrationForm, ForgotPasswordForm, EditArtistForm, \
@@ -16,6 +17,8 @@ app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+
+CSRFProtect(app)
 
 
 @app.before_first_request
@@ -136,6 +139,7 @@ def login():
 
 @app.route('/signupartist', methods=['GET', 'POST'])
 def signupartist():
+    session.clear()
     form = ArtistRegistrationForm()
     artist_categories = ['Musician', 'Sketcher', 'Other']
     unique_db_error = 0
@@ -179,6 +183,7 @@ def signupartist():
 
 @app.route('/signupcustomer', methods=['GET', 'POST'])
 def signupcustomer():
+    session.clear()
     form = CustomerRegistrationForm()
     username = None
     unique_db_error = 0
@@ -201,7 +206,9 @@ def signupcustomer():
 
 @app.route('/new-nft')
 def new_nft():
-    return render_template('new-nft.html')
+    for row in db.session.query(model.User).filter_by(username=session['username']):
+        user_logged_in = row
+    return render_template('new-nft.html', user_logged_in=user_logged_in)
 
 
 @app.route('/profile-page')
@@ -237,6 +244,17 @@ def forgot():
             wrong_email = 1
 
     return render_template('forgot.html', form=form, email_sent=email_sent, wrong_email=wrong_email)
+
+
+@app.route('/delete')
+def delete():
+    if session['username']:
+        for row in db.session.query(model.User).filter_by(username=session['username']):
+            user_to_delete = row
+        db.session.delete(user_to_delete)
+        db.session.commit()
+    session.clear()
+    return redirect('/index')
 
 
 if __name__ == '__main__':
