@@ -89,6 +89,17 @@ class EditCustomerForm(FlaskForm):
     submit = SubmitField('Save Profile')
 
 
+class NewNFTForm(FlaskForm):
+    nft_name = StringField('NFT Name',  validators=[InputRequired()])
+    category = SelectField('Category', choices=['Art', 'Music', 'Video Games', 'Collectible Items', 'Sport', 'Memes',
+                                                'Miscellaneous'])
+    starting_price = IntegerField('Price (Euros)', validators=[InputRequired()])
+    duration = SelectField('Duration', choices=['12 hours', '24 hours', '48 hours', '72 hours'])
+    description = TextAreaField('Description')
+    nft = FileField('NFT')
+    submit = SubmitField('Create Auction')
+
+
 class ForgotPasswordForm(FlaskForm):
     email = StringField('Type your email', validators=[InputRequired(), Email(message="Email is not valid")])
     submit = SubmitField('Send Email')

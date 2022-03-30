@@ -4,7 +4,7 @@ from flask_wtf import CSRFProtect
 from sqlalchemy.orm import Session
 
 from form import LoginForm, CustomerRegistrationForm, ArtistRegistrationForm, ForgotPasswordForm, EditArtistForm, \
-    EditCustomerForm
+    EditCustomerForm, NewNFTForm
 import model
 
 # from model import User, Auction, NFT, CryptoOnSale, Wallet da errore, uso import model per aggirare
@@ -206,9 +206,10 @@ def signupcustomer():
 
 @app.route('/new-nft')
 def new_nft():
+    form = NewNFTForm()
     for row in db.session.query(model.User).filter_by(username=session['username']):
         user_logged_in = row
-    return render_template('new-nft.html', user_logged_in=user_logged_in)
+    return render_template('new-nft.html', user_logged_in=user_logged_in, form=form)
 
 
 @app.route('/profile-page')
