@@ -40,7 +40,7 @@
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPages">
                 <a class="dropdown-item" href="/explore-nfts">NFTs</a>
-                <a class="dropdown-item" href="/explore-crypto">Cryptocurrencies</a>
+                <a class="dropdown-item" href="/explore-crypto">Cryptos</a>
               </div>
             </li>
             <li class="nav-item">
@@ -55,20 +55,16 @@
             {% if session.username %}
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              MyAccount<span class="sr-only">{{session.username}}</span>
+                {{session.username}}
               </a>
-
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <a class="dropdown-item" href="/myaccount-mywallet">Wallet</a>
+                <a class="dropdown-item" href="/myaccount-mywallet">MyWallet</a>
                 <a class="dropdown-item" href="/myaccount-profile">Profile</a>
+                <a class="dropdown-item text-danger" href="/logout">Logout</a>
               </div>
             </li>
             {% endif %}
-            {% if session.username %}
-              <li class="nav-item">
-                <a class="nav-link" href="/logout">Logout</a>
-            </li>
-            {% else %}
+            {% if not session.username %}
              <li class="nav-item">
                <a class="nav-link" href="/login">Login</a>
             </li>
