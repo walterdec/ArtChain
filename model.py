@@ -32,7 +32,7 @@ class User(db.Model):
     soundcloudname = db.Column(db.String(64))
     sales = db.Column(db.Integer)
 
-    value = db.Column(db.Float)
+    value = db.Column(db.Integer)
 
 
 class Role(db.Model):
@@ -45,21 +45,13 @@ class Role(db.Model):
 class NFT(db.Model):
     __tablename__ = 'nfts'
     id = db.Column(db.Integer, primary_key=True)
-    id_artist = db.Column(db.String(64), index=True)
+    creator_id = db.Column(db.String(64), index=True)
+    owner_id = db.Column(db.String(64))
     name = db.Column(db.String(64))
-    id_owner = db.Column(db.String(64))
-    type = db.Column(db.String(64))
+    category = db.Column(db.String(64))
     description = db.Column(db.Text)
-
-
-class Auction(db.Model):
-    __tablename__ = 'auctions'
-    auction_id = db.Column(db.Integer)
-    nft_id = db.Column(db.Integer, primary_key = True)
     price = db.Column(db.Float)
-    duration = db.Column(db.Time)
-    best_bidder_id = db.Column(db.Integer)
-    start_date = db.Column(db.Date)
+    nft_file = db.Column(db.BLOB)
 
 
 

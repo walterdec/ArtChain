@@ -27,6 +27,7 @@
            <div class="container">
 
     <form class="well form-horizontal form-center" method="post">
+         {{ form.hidden_tag() }}
 
     <div class="container">
 
@@ -37,12 +38,9 @@
                      <div class="col-md-6 mt-2">
                        {{form.category.label}}{{form.category(class="form-control")}}
                         </div><br>
-                    <div class="col-md-6 mt-2">{{form.starting_price.label}}{{form.starting_price(class="form-control")}}</div><br>
-                    <div class="col-md-6 mt-2">
-                        {{form.duration.label}}{{form.duration(class="form-control")}}
-                        </div><br>
+                    <div class="col-md-6 mt-2">{{form.price.label}}{{form.price(class="form-control")}}</div><br>
                     <div class="col-md-6 mt-2">{{form.description.label}}{{form.description(class="form-control")}}</div><br>
-                    <div class="col-md-6 mt-2">{{form.nft.label(class="form-label")}}{{form.nft(class="form-control mt-5, border-0", id="formFile")}}</div><br>
+                    <div class="col-md-6 mt-2 form-center">{{form.nft_file.label(class="form-label")}}{{form.nft_file(class="form-control mt-5, border-0", id="formFile")}}</div><br>
                 </div>
             </div>
         {{form.submit(class="btn btn-primary align-items-center")}}

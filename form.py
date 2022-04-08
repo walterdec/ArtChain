@@ -93,10 +93,9 @@ class NewNFTForm(FlaskForm):
     nft_name = StringField('NFT Name',  validators=[InputRequired()])
     category = SelectField('Category', choices=['Art', 'Music', 'Video Games', 'Collectible Items', 'Sport', 'Memes',
                                                 'Miscellaneous'])
-    starting_price = IntegerField('Price (Euros)', validators=[InputRequired()])
-    duration = SelectField('Duration', choices=['12 hours', '24 hours', '48 hours', '72 hours'])
+    price = IntegerField('Price (Euros)', validators=[InputRequired()])
     description = TextAreaField('Description')
-    nft = FileField('NFT')
+    nft_file = FileField('NFT')
     submit = SubmitField('Create Auction')
 
 

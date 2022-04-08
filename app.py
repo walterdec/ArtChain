@@ -152,30 +152,47 @@ def signupartist():
             return render_template('signupartist.html', form=form, artist_categories=artist_categories,
                                    registration_success=registration_success, unique_db_error=unique_db_error)
         else:
+            insta = int(form.instafollowers.data or 0)
+            face = int(form.facefollowers.data or 0)
+            twitter = int(form.twitterfollowers.data or 0)
+            yt = int(form.ytfollowers.data or 0)
+            tiktok = int(form.tiktokfollowers.data or 0)
+            twitch = int(form.twitchfollowers.data or 0)
+            applemusic = int(form.applemusicfollowers.data or 0)
+            spotify = int(form.spotifyfollowers.data or 0)
+            soundcloud = int(form.soundcloudfollowers.data or 0)
+            sales = int(form.sales.data or 0)
+
             if form.category.data == 'Musician':
                 is_musician = 1
+                value_c = ((insta * 0.3 + face * 0.2 + twitter * 0.2 + yt * 0.1 + tiktok * 0.1 + twitch * 0.1) * 0.5 +
+                           (applemusic * 0.4 + spotify * 0.4 + soundcloud * 0.2) * 0.3 + sales * 0.2)
+            else:
+                value_c = ((insta * 0.3 + face * 0.2 + twitter * 0.2 + yt * 0.1 + tiktok * 0.1 + twitch * 0.1) * 0.8 +
+                           + sales * 0.2)
 
             artist_registration = model.User(username=form.username.data, email=form.email.data,
                                              password=form.password.data, role_id=3, name=form.name.data,
                                              surname=form.surname.data, is_musician=is_musician,
-                                             insta=int(form.instafollowers.data or 0), instaname=form.instauser.data,
-                                             face=int(form.facefollowers.data or 0), facename=form.faceuser.data,
-                                             twitter=int(form.twitterfollowers.data or 0),
+                                             insta=insta, instaname=form.instauser.data,
+                                             face=face, facename=form.faceuser.data,
+                                             twitter=twitter,
                                              twittername=form.twitteruser.data,
-                                             yt=int(form.ytfollowers.data or 0), ytname=form.ytuser.data,
-                                             tiktok=int(form.tiktokfollowers.data or 0),
+                                             yt=yt, ytname=form.ytuser.data,
+                                             tiktok=tiktok,
                                              tiktokname=form.tiktokuser.data,
-                                             twitch=int(form.twitchfollowers.data or 0),
+                                             twitch=twitch,
                                              twitchname=form.twitchuser.data,
-                                             applemusic=int(form.applemusicfollowers.data or 0),
+                                             applemusic=applemusic,
                                              applemusicname=form.applemusicuser.data,
-                                             spotify=int(form.spotifyfollowers.data or 0),
+                                             spotify=spotify,
                                              spotifyname=form.spotifyuser.data,
-                                             soundcloud=int(form.soundcloudfollowers.data or 0),
-                                             soundcloudname=form.soundclouduser.data, sales=int(form.sales.data or 0))
-            db.session.add(artist_registration)
-            db.session.commit()
-            registration_success = 1
+                                             soundcloud=soundcloud,
+                                             soundcloudname=form.soundclouduser.data, sales=sales,
+                                             value=value_c)
+        db.session.add(artist_registration)
+        db.session.commit()
+        registration_success = 1
 
     return render_template('signupartist.html', form=form, artist_categories=artist_categories,
                            registration_success=registration_success, unique_db_error=unique_db_error)
@@ -201,14 +218,23 @@ def signupcustomer():
             registration_success = 1
 
     return render_template('signupcustomer.html', form=form, name=username, unique_db_error=unique_db_error,
-                           registration_success=registration_success)
+                             registration_success=registration_success)
 
 
-@app.route('/new-nft')
+@app.route('/new-nft', methods=['GET', 'POST'])
 def new_nft():
     form = NewNFTForm()
     for row in db.session.query(model.User).filter_by(username=session['username']):
         user_logged_in = row
+
+    if form.validate_on_submit():
+        nft = model.NFT(name=form.nft_name.data, description=form.description.data, category=form.category.data,
+                        price=form.price.data, nft_file=form.nft_file.data, creator_id=user_logged_in.id)
+        db.session.add(nft)
+        db.session.commit()
+
+        return redirect(url_for('my_wallet'))
+
     return render_template('new-nft.html', user_logged_in=user_logged_in, form=form)
 
 
