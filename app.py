@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
+from flask_bcrypt import Bcrypt, generate_password_hash, check_password_hash
 from sqlalchemy.orm import Session
 
 from form import LoginForm, CustomerRegistrationForm, ArtistRegistrationForm, ForgotPasswordForm, EditArtistForm, \
@@ -10,6 +11,8 @@ import model
 # from model import User, Auction, NFT, CryptoOnSale, Wallet da errore, uso import model per aggirare
 
 app = Flask(__name__)
+
+bcrypt = Bcrypt(app)
 
 app.config['SECRET_KEY'] = 'hardtoguess'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///artchain.db'
@@ -106,7 +109,8 @@ def my_settings():
                 email_edit_successful = 1
 
             if form.password.data is not None and form.password.data == form.confpassword.data:
-                user_logged_in.password = form.password.data
+                encrypted_password = generate_password_hash(form.password.data)
+                user_logged_in.password = encrypted_password
                 db.session.commit()
                 password_edit_successful = 1
 
@@ -128,7 +132,7 @@ def login():
     if form.validate_on_submit():
         for row in db.session.query(model.User).filter_by(username=request.form['username']):
             user = row
-            if user.password == request.form['password']:
+            if check_password_hash(user.password, request.form['password']):
                 username = form.username.data
                 session['username'] = username
                 return redirect(url_for('index'))
@@ -171,8 +175,10 @@ def signupartist():
                 value_c = ((insta * 0.3 + face * 0.2 + twitter * 0.2 + yt * 0.1 + tiktok * 0.1 + twitch * 0.1) * 0.8 +
                            + sales * 0.2)
 
+            encrypted_password = generate_password_hash(form.password.data)
+
             artist_registration = model.User(username=form.username.data, email=form.email.data,
-                                             password=form.password.data, role_id=3, name=form.name.data,
+                                             password=encrypted_password, role_id=3, name=form.name.data,
                                              surname=form.surname.data, is_musician=is_musician,
                                              insta=insta, instaname=form.instauser.data,
                                              face=face, facename=form.faceuser.data,
@@ -211,14 +217,15 @@ def signupcustomer():
                 model.User.query.filter(model.User.email == request.form['email']).first()):
             unique_db_error = 1
         else:
+            encrypted_password = generate_password_hash(form.password.data)
             customer_registration = model.User(username=form.username.data, email=form.email.data,
-                                               password=form.password.data, role_id=2)
+                                               password=encrypted_password, role_id=2)
             db.session.add(customer_registration)
             db.session.commit()
             registration_success = 1
 
     return render_template('signupcustomer.html', form=form, name=username, unique_db_error=unique_db_error,
-                             registration_success=registration_success)
+                           registration_success=registration_success)
 
 
 @app.route('/new-nft', methods=['GET', 'POST'])

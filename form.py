@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, BooleanField, DateField, SelectField, TextAreaField, PasswordField, SubmitField, \
-    IntegerField, SelectMultipleField, validators
+    IntegerField, SelectMultipleField, validators, FloatField
 from wtforms.validators import DataRequired, InputRequired, EqualTo, NumberRange, Email, Length
 from flask_wtf.file import FileField, FileAllowed
 
@@ -93,7 +93,7 @@ class NewNFTForm(FlaskForm):
     nft_name = StringField('NFT Name',  validators=[InputRequired()])
     category = SelectField('Category', choices=['Art', 'Music', 'Video Games', 'Collectible Items', 'Sport', 'Memes',
                                                 'Miscellaneous'])
-    price = IntegerField('Price (Euros)', validators=[InputRequired()])
+    price = FloatField('Price (Euros)', validators=[InputRequired()])
     description = TextAreaField('Description')
     nft_file = FileField('NFT')
     submit = SubmitField('Create Auction')
