@@ -122,13 +122,10 @@
         {% endif %}
 
 
-<div class="container rounded bg-white mt-5 mb-5">
+<div class="container rounded bg-white mt-4 mb-5">
     <form method="post">
         {{ form.csrf_token }}
-    <div class="row">
-        <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold"></span><span class="text-black-50"></span><span> </span></div>
-        </div>
+    <div class="row form-center">
         <div class="col-md-5 border-right">
             <div class="p-3 py-5">
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -145,19 +142,8 @@
                     <div class="col-md-12 mt-2">{{form.confpassword.label}} {{form.confpassword(class="form-control", placeholder="confirm password")}}</div><br>
                     <div class="col-md-12 mt-2">{{form.email.label}} {{form.email(class="form-control", placeholder="email")}}</div><br>
                     <div class="form-group">
-                      <label class="col-md-12 mt-2 control-label">Category</label>
-                        <div class="col-md-12 selectContainer">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-                          <select name="category" method="GET" class="form-control selectpicker">
-                        {% for category in artist_categories %}
-                            <option value="{{category}}">{{category}}</option>"
-                        {% endfor %}
-                        </select>
-                      </div>
+                    <div class="col-md-12 mt-2">{{form.category.label}} {{form.category(class="form-select form-control")}}</div>
                     </div>
-                    </div>
-
                 </div>
             </div>
         </div>

@@ -12,21 +12,29 @@ class LoginForm(FlaskForm):
 
 
 class CustomerRegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=3, max=20, message="Username must be between 3 and 20 characters")])
+    username = StringField('Username', validators=[DataRequired(),
+                                                   Length(min=3, max=20,
+                                                          message="Username must be between 3 and 20 characters")])
     email = StringField('Email', validators=[DataRequired(), Email(message="Email is not valid")])
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=6, max=30, message="Password must be between 6 and 30 characters")])
+    password = PasswordField('Password',
+                             validators=[DataRequired(),
+                                         Length(min=6, max=30, message="Password must be between 6 and 30 characters")])
     confpassword = PasswordField('Confirm Password', validators=[DataRequired()])
     submit = SubmitField('Create Account')
 
 
 class ArtistRegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[InputRequired(), Length(min=3, max=20, message="Username must be between 3 and 20 characters")])
+    username = StringField('Username', validators=[InputRequired(),
+                                                   Length(min=3, max=20,
+                                                          message="Username must be between 3 and 20 characters")])
     name = StringField('Name', validators=[InputRequired()])
     surname = StringField('Surname', validators=[InputRequired()])
-    password = PasswordField('Password', validators=[InputRequired(), Length(min=6, max=30, message="Password must be between 6 and 30 characters")])
+    password = PasswordField('Password', validators=[InputRequired(),
+                                                     Length(min=6, max=30,
+                                                     message="Password must be between 6 and 30 characters")])
     confpassword = PasswordField('Confirm password', validators=[InputRequired()])
     email = StringField('Email', validators=[InputRequired(), Email(message="Email is not valid")])
-    category = StringField('Category', [validators.optional()])
+    category = SelectField('Category', choices=['Musician', 'Sketcher', 'Video Maker', 'Other'])
 
     instauser = StringField('Instagram', [validators.optional()])
     instafollowers = IntegerField('Instagram followers', [validators.optional()])
@@ -53,10 +61,10 @@ class ArtistRegistrationForm(FlaskForm):
 
 class EditArtistForm(FlaskForm):
     email = StringField('Email', validators=[InputRequired(), Email(message="Email is not valid")])
-    password = PasswordField('Password', validators=[InputRequired(), Length(min=6, max=30, message="Password must be between 6 and 30 characters")])
+    password = PasswordField('Password', validators=[InputRequired(),
+                                                     Length(min=6, max=30,
+                                                            message="Password must be between 6 and 30 characters")])
     confpassword = PasswordField('Confirm password', validators=[InputRequired()])
-
-    #   category = StringField('Category', validators=[DataRequired()])
 
     instauser = StringField('Instagram')
     instafollowers = IntegerField()
@@ -90,7 +98,7 @@ class EditCustomerForm(FlaskForm):
 
 
 class NewNFTForm(FlaskForm):
-    nft_name = StringField('NFT Name',  validators=[InputRequired()])
+    nft_name = StringField('NFT Name', validators=[InputRequired()])
     category = SelectField('Category', choices=['Art', 'Music', 'Video Games', 'Collectible Items', 'Sport', 'Memes',
                                                 'Miscellaneous'])
     price = FloatField('Price (Euros)', validators=[InputRequired()])
@@ -102,4 +110,3 @@ class NewNFTForm(FlaskForm):
 class ForgotPasswordForm(FlaskForm):
     email = StringField('Type your email', validators=[InputRequired(), Email(message="Email is not valid")])
     submit = SubmitField('Send Email')
-

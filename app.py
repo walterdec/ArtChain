@@ -1,8 +1,10 @@
+import os
+
 from flask import Flask, request, render_template, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
-from flask_bcrypt import Bcrypt, generate_password_hash, check_password_hash
-from sqlalchemy.orm import Session
+from flask_bcrypt import generate_password_hash, check_password_hash
+from flask_mail import Message, Mail
 
 from form import LoginForm, CustomerRegistrationForm, ArtistRegistrationForm, ForgotPasswordForm, EditArtistForm, \
     EditCustomerForm, NewNFTForm
@@ -12,16 +14,29 @@ import model
 
 app = Flask(__name__)
 
-bcrypt = Bcrypt(app)
-
 app.config['SECRET_KEY'] = 'hardtoguess'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///artchain.db'
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+app.config['MAIL_SERVER'] = 'smtp.mail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USERNAME'] = 'artchain@mail.com'
+app.config['MAIL_PASSWORD'] = 'politecnicogroup6'
+app.config['MAIL_TLS'] = True
+app.config['MAIL_SSL'] = False
+
 db = SQLAlchemy(app)
 
+mail = Mail(app)
+
 CSRFProtect(app)
+
+
+def send_mail(to, subject, template, **kwargs):
+    msg = Message(subject, recipients=[to], sender=app.config['MAIL_USERNAME'])
+    msg.html = render_template(template + '.html', **kwargs)
+    mail.send(msg)
 
 
 @app.before_first_request
@@ -145,7 +160,6 @@ def login():
 def signupartist():
     session.clear()
     form = ArtistRegistrationForm()
-    artist_categories = ['Musician', 'Sketcher', 'Other']
     unique_db_error = 0
     registration_success = 0
     is_musician = 0
@@ -153,8 +167,8 @@ def signupartist():
         if (model.User.query.filter(model.User.username == request.form['username']).first() or
                 model.User.query.filter(model.User.email == request.form['email']).first()):
             unique_db_error = 1
-            return render_template('signupartist.html', form=form, artist_categories=artist_categories,
-                                   registration_success=registration_success, unique_db_error=unique_db_error)
+            return render_template('signupartist.html', form=form, registration_success=registration_success,
+                                   unique_db_error=unique_db_error)
         else:
             insta = int(form.instafollowers.data or 0)
             face = int(form.facefollowers.data or 0)
@@ -200,8 +214,8 @@ def signupartist():
         db.session.commit()
         registration_success = 1
 
-    return render_template('signupartist.html', form=form, artist_categories=artist_categories,
-                           registration_success=registration_success, unique_db_error=unique_db_error)
+    return render_template('signupartist.html', form=form, registration_success=registration_success,
+                           unique_db_error=unique_db_error)
 
 
 @app.route('/signupcustomer', methods=['GET', 'POST'])
@@ -223,6 +237,7 @@ def signupcustomer():
             db.session.add(customer_registration)
             db.session.commit()
             registration_success = 1
+            send_mail(form.email.data, "Welcome to ArtChain", "mail", username=form.username.data)
 
     return render_template('signupcustomer.html', form=form, name=username, unique_db_error=unique_db_error,
                            registration_success=registration_success)
@@ -289,6 +304,11 @@ def delete():
         db.session.commit()
     session.clear()
     return redirect('/index')
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 
 if __name__ == '__main__':
