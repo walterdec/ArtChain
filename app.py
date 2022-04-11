@@ -96,9 +96,8 @@ def my_wallet():
 @app.route('/myaccount-profile', methods=['GET', 'POST'])
 def my_settings():
     form = None
-    email_edit_successful = 0
     email_already_existing = 0
-    password_edit_successful = 0
+    settings_edited = 0
     try:
         if session['username']:
             user = session['username']
@@ -118,18 +117,65 @@ def my_settings():
             elif email_already_existing == 0:
                 user_logged_in.email = request.form['email']
                 db.session.commit()
-                email_edit_successful = 1
+                settings_edited = 1
 
-            if form.password.data is not None and form.password.data == form.confpassword.data:
+            password = form.password.data
+            if password != '' and form.password.data == form.confpassword.data:
                 encrypted_password = generate_password_hash(form.password.data)
                 user_logged_in.password = encrypted_password
                 db.session.commit()
-                password_edit_successful = 1
+                settings_edited = 1
+
+            if user_logged_in.role_id == 3:
+                if form.instafollowers.data is not None:
+                    user_logged_in.insta = request.form['instafollowers']
+                    db.session.commit()
+                    settings_edited = 1
+                if form.facefollowers.data is not None:
+                    user_logged_in.face = request.form['facefollowers']
+                    db.session.commit()
+                    settings_edited = 1
+                if form.twitterfollowers.data is not None:
+                    user_logged_in.twitter = request.form['twitterfollowers']
+                    db.session.commit()
+                    settings_edited = 1
+                if form.ytfollowers.data is not None:
+                    user_logged_in.yt = request.form['ytfollowers']
+                    db.session.commit()
+                    settings_edited = 1
+                if form.tiktokfollowers.data is not None:
+                    user_logged_in.tiktok = request.form['tiktokfollowers']
+                    db.session.commit()
+                    settings_edited = 1
+                if form.twitchfollowers.data is not None:
+                    user_logged_in.twitch = request.form['twitchfollowers']
+                    db.session.commit()
+                    settings_edited = 1
+
+                if user_logged_in.category == 'Musician':
+                    if form.applemusicfollowers.data is not None:
+                        user_logged_in.applemusic = request.form['applemusicfollowers']
+                        db.session.commit()
+                        settings_edited = 1
+                    if form.spotifyfollowers.data is not None:
+                        user_logged_in.spotify = request.form['spotifyfollowers']
+                        db.session.commit()
+                        settings_edited = 1
+                    if form.soundcloudfollowers.data is not None:
+                        user_logged_in.soundcloud = request.form['soundcloudfollowers']
+                        db.session.commit()
+                        settings_edited = 1
+
+                if form.sales.data is not None:
+                    user_logged_in.sales = request.form['sales']
+                    db.session.commit()
+                    settings_edited = 1
+
+                calculate_artist_value(user_logged_in)
 
             return render_template('myaccount-profile.html', form=form, user_logged_in=user_logged_in,
-                                   email_edit_successful=email_edit_successful,
                                    email_already_existing=email_already_existing,
-                                   password_edit_successful=password_edit_successful)
+                                   settings_edited=settings_edited)
 
     except KeyError:
         return redirect(url_for('index'))
@@ -308,6 +354,21 @@ def delete():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
+
+def calculate_artist_value(user_artist):
+    value = 0
+    if user_artist.category == 'Musician':
+        value = ((user_artist.insta * 0.3 + user_artist.face * 0.2 + user_artist.twitter * 0.2 + user_artist.yt * 0.1 +
+                  user_artist.tiktok * 0.1 + user_artist.twitch * 0.1) * 0.5 +
+                 (user_artist.applemusic * 0.4 + user_artist.spotify * 0.4 + user_artist.soundcloud * 0.2) * 0.3 +
+                 user_artist.sales * 0.2)
+    else:
+        value = ((user_artist.insta * 0.3 + user_artist.face * 0.2 + user_artist.twitter * 0.2 + user_artist.yt * 0.1 +
+                  user_artist.tiktok * 0.1 + user_artist.twitch * 0.1) * 0.8 + user_artist.sales * 0.2)
+
+    user_artist.value = value
+    db.session.commit()
 
 
 if __name__ == '__main__':

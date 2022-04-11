@@ -61,39 +61,30 @@ class ArtistRegistrationForm(FlaskForm):
 
 class EditArtistForm(FlaskForm):
     email = StringField('Email', validators=[InputRequired(), Email(message="Email is not valid")])
-    password = PasswordField('Password', validators=[InputRequired(),
+    password = PasswordField('Password', validators=[validators.optional(),
                                                      Length(min=6, max=30,
                                                             message="Password must be between 6 and 30 characters")])
-    confpassword = PasswordField('Confirm password', validators=[InputRequired()])
+    confpassword = PasswordField('Confirm password', validators=[validators.optional()])
 
-    instauser = StringField('Instagram')
-    instafollowers = IntegerField()
-    faceuser = StringField('Facebook')
-    facefollowers = IntegerField()
-    twitteruser = StringField('Twitter')
-    twitterfollowers = IntegerField()
-    ytuser = StringField('YouTube')
-    ytfollowers = IntegerField()
-    tiktokuser = StringField('TikTok')
-    tiktokfollowers = IntegerField()
-    twitchuser = StringField('Twitch')
-    twitchfollowers = IntegerField()
-    applemusicuser = StringField('Apple Music')
-    applemusicfollowers = IntegerField()
-    spotifyuser = StringField('Spotify')
-    spotifyfollowers = IntegerField()
-    soundclouduser = StringField('SoundCloud')
-    soundcloudfollowers = IntegerField()
-    sales = IntegerField('Sales')
+    instafollowers = IntegerField('Instagram', [validators.optional()])
+    facefollowers = IntegerField('Facebook', [validators.optional()])
+    twitterfollowers = IntegerField('Twitter', [validators.optional()])
+    ytfollowers = IntegerField('YouTube', [validators.optional()])
+    tiktokfollowers = IntegerField('TikTok', [validators.optional()])
+    twitchfollowers = IntegerField('Twitch', [validators.optional()])
+    applemusicfollowers = IntegerField('Apple Music', [validators.optional()])
+    spotifyfollowers = IntegerField('Spotify', [validators.optional()])
+    soundcloudfollowers = IntegerField('SoundCloud', [validators.optional()])
+    sales = IntegerField('Sales', [validators.optional()])
 
     submit = SubmitField('Save Profile')
 
 
 class EditCustomerForm(FlaskForm):
     email = StringField('Email', validators=[Email(message="Email is not valid")])
-    password = PasswordField('Password', validators=[Length(min=6, max=30, message="Password must be between 6 and 30 "
+    password = PasswordField('Password', validators=[validators.optional(), Length(min=6, max=30, message="Password must be between 6 and 30 "
                                                                                    "characters")])
-    confpassword = PasswordField('Confirm password')
+    confpassword = PasswordField('Confirm password', validators=[validators.optional()])
     submit = SubmitField('Save Profile')
 
 
