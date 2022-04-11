@@ -157,12 +157,11 @@ def login():
 
 
 @app.route('/artist-registration', methods=['GET', 'POST'])
-def artistregistration():
+def artist_registration():
     session.clear()
     form = ArtistRegistrationForm()
     unique_db_error = 0
     registration_success = 0
-    is_musician = 0
     if form.validate_on_submit() and form.password.data == form.confpassword.data:
         if (model.User.query.filter(model.User.username == request.form['username']).first() or
                 model.User.query.filter(model.User.email == request.form['email']).first()):
@@ -182,7 +181,6 @@ def artistregistration():
             sales = int(form.sales.data or 0)
 
             if form.category.data == 'Musician':
-                is_musician = 1
                 value_c = ((insta * 0.3 + face * 0.2 + twitter * 0.2 + yt * 0.1 + tiktok * 0.1 + twitch * 0.1) * 0.5 +
                            (applemusic * 0.4 + spotify * 0.4 + soundcloud * 0.2) * 0.3 + sales * 0.2)
             else:
@@ -191,26 +189,26 @@ def artistregistration():
 
             encrypted_password = generate_password_hash(form.password.data)
 
-            artist_registration = model.User(username=form.username.data, email=form.email.data,
-                                             password=encrypted_password, role_id=3, name=form.name.data,
-                                             surname=form.surname.data, is_musician=is_musician,
-                                             insta=insta, instaname=form.instauser.data,
-                                             face=face, facename=form.faceuser.data,
-                                             twitter=twitter,
-                                             twittername=form.twitteruser.data,
-                                             yt=yt, ytname=form.ytuser.data,
-                                             tiktok=tiktok,
-                                             tiktokname=form.tiktokuser.data,
-                                             twitch=twitch,
-                                             twitchname=form.twitchuser.data,
-                                             applemusic=applemusic,
-                                             applemusicname=form.applemusicuser.data,
-                                             spotify=spotify,
-                                             spotifyname=form.spotifyuser.data,
-                                             soundcloud=soundcloud,
-                                             soundcloudname=form.soundclouduser.data, sales=sales,
-                                             value=value_c)
-        db.session.add(artist_registration)
+            artist_reg = model.User(username=form.username.data, email=form.email.data,
+                                    password=encrypted_password, role_id=3, name=form.name.data,
+                                    surname=form.surname.data, category=form.category.data,
+                                    insta=insta, instaname=form.instauser.data,
+                                    face=face, facename=form.faceuser.data,
+                                    twitter=twitter,
+                                    twittername=form.twitteruser.data,
+                                    yt=yt, ytname=form.ytuser.data,
+                                    tiktok=tiktok,
+                                    tiktokname=form.tiktokuser.data,
+                                    twitch=twitch,
+                                    twitchname=form.twitchuser.data,
+                                    applemusic=applemusic,
+                                    applemusicname=form.applemusicuser.data,
+                                    spotify=spotify,
+                                    spotifyname=form.spotifyuser.data,
+                                    soundcloud=soundcloud,
+                                    soundcloudname=form.soundclouduser.data, sales=sales,
+                                    value=value_c)
+        db.session.add(artist_reg)
         db.session.commit()
         registration_success = 1
 
@@ -219,7 +217,7 @@ def artistregistration():
 
 
 @app.route('/customer-registration', methods=['GET', 'POST'])
-def customerregistration():
+def customer_registration():
     session.clear()
     form = CustomerRegistrationForm()
     username = None
@@ -232,9 +230,9 @@ def customerregistration():
             unique_db_error = 1
         else:
             encrypted_password = generate_password_hash(form.password.data)
-            customer_registration = model.User(username=form.username.data, email=form.email.data,
-                                               password=encrypted_password, role_id=2)
-            db.session.add(customer_registration)
+            customer_reg = model.User(username=form.username.data, email=form.email.data,
+                                      password=encrypted_password, role_id=2)
+            db.session.add(customer_reg)
             db.session.commit()
             registration_success = 1
             send_mail(form.email.data, "Welcome to ArtChain", "mail", username=form.username.data)
