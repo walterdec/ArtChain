@@ -1,5 +1,3 @@
-import os
-
 from flask import Flask, request, render_template, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
@@ -19,12 +17,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///artchain.db'
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-app.config['MAIL_SERVER'] = 'smtp.mail.com'
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
-app.config['MAIL_USERNAME'] = 'artchain@mail.com'
-app.config['MAIL_PASSWORD'] = 'politecnicogroup6'
-app.config['MAIL_TLS'] = True
-app.config['MAIL_SSL'] = False
+app.config['MAIL_USERNAME'] = 'service.artchain@gmail.com'
+app.config['MAIL_PASSWORD'] = 'ISPolitecnicoGroup6'
+app.config['MAIL_USE_TLS'] = True
 
 db = SQLAlchemy(app)
 
@@ -211,6 +208,9 @@ def artist_registration():
         db.session.add(artist_reg)
         db.session.commit()
         registration_success = 1
+        send_mail(form.email.data, "ArtChain | Registration success", "mail", username=form.username.data,
+                  password=form.password.data, name=form.name.data, surname=form.surname.data,
+                  category=form.category.data, artist=1)
 
     return render_template('artist-registration.html', form=form, registration_success=registration_success,
                            unique_db_error=unique_db_error)
@@ -235,7 +235,8 @@ def customer_registration():
             db.session.add(customer_reg)
             db.session.commit()
             registration_success = 1
-            send_mail(form.email.data, "Welcome to ArtChain", "mail", username=form.username.data)
+            send_mail(form.email.data, "ArtChain | Registration success", "mail", username=form.username.data,
+                      password=form.password.data, artist=0)
 
     return render_template('customer-registration.html', form=form, name=username, unique_db_error=unique_db_error,
                            registration_success=registration_success)
