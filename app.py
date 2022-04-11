@@ -156,8 +156,8 @@ def login():
     return render_template('login.html', form=form, login_error=login_error)
 
 
-@app.route('/signupartist', methods=['GET', 'POST'])
-def signupartist():
+@app.route('/artist-registration', methods=['GET', 'POST'])
+def artistregistration():
     session.clear()
     form = ArtistRegistrationForm()
     unique_db_error = 0
@@ -167,7 +167,7 @@ def signupartist():
         if (model.User.query.filter(model.User.username == request.form['username']).first() or
                 model.User.query.filter(model.User.email == request.form['email']).first()):
             unique_db_error = 1
-            return render_template('signupartist.html', form=form, registration_success=registration_success,
+            return render_template('artist-registration.html', form=form, registration_success=registration_success,
                                    unique_db_error=unique_db_error)
         else:
             insta = int(form.instafollowers.data or 0)
@@ -214,12 +214,12 @@ def signupartist():
         db.session.commit()
         registration_success = 1
 
-    return render_template('signupartist.html', form=form, registration_success=registration_success,
+    return render_template('artist-registration.html', form=form, registration_success=registration_success,
                            unique_db_error=unique_db_error)
 
 
-@app.route('/signupcustomer', methods=['GET', 'POST'])
-def signupcustomer():
+@app.route('/customer-registration', methods=['GET', 'POST'])
+def customerregistration():
     session.clear()
     form = CustomerRegistrationForm()
     username = None
@@ -239,7 +239,7 @@ def signupcustomer():
             registration_success = 1
             send_mail(form.email.data, "Welcome to ArtChain", "mail", username=form.username.data)
 
-    return render_template('signupcustomer.html', form=form, name=username, unique_db_error=unique_db_error,
+    return render_template('customer-registration.html', form=form, name=username, unique_db_error=unique_db_error,
                            registration_success=registration_success)
 
 
