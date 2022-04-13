@@ -296,6 +296,7 @@ def customer_registration():
 @app.route('/new-nft', methods=['GET', 'POST'])
 def new_nft():
     form = NewNFTForm()
+    duplicated_nft = 0
     try:
         for row in db.session.query(model.User).filter_by(username=session['username']):
             user_logged_in = row
@@ -303,15 +304,17 @@ def new_nft():
         return forbidden(KeyError)
 
     if form.validate_on_submit():
-        upload(form.nft_file.data, form.nft_name.data)
-        nft = model.NFT(name=form.nft_name.data, description=form.description.data, category=form.category.data,
-                        price=form.price.data, creator_id=user_logged_in.id)
-        db.session.add(nft)
-        db.session.commit()
+        if not db.session.query(model.NFT).filter_by(name=form.nft_name.data).first():
+            upload(form.nft_file.data, form.nft_name.data)
+            nft = model.NFT(name=form.nft_name.data, description=form.description.data, category=form.category.data,
+                            price=form.price.data, creator_id=user_logged_in.id)
+            db.session.add(nft)
+            db.session.commit()
+            return redirect(url_for('my_wallet'))
+        else:
+            duplicated_nft = 1
 
-        return redirect(url_for('my_wallet'))
-
-    return render_template('new-nft.html', user_logged_in=user_logged_in, form=form)
+    return render_template('new-nft.html', user_logged_in=user_logged_in, form=form, duplicated_nft=duplicated_nft)
 
 
 @app.route('/profile-page')

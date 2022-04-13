@@ -93,9 +93,9 @@ class NewNFTForm(FlaskForm):
     nft_name = StringField('NFT Name', validators=[DataRequired()])
     category = SelectField('Category', choices=['Art', 'Music', 'Video Games', 'Collectible Items', 'Sport', 'Memes',
                                                 'Miscellaneous'], validators=[DataRequired()])
-    price = FloatField('Price (Euros)', validators=[InputRequired()])
+    price = FloatField('Price (Euro)', validators=[InputRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
-    nft_file = FileField('File')
+    nft_file = FileField('File', validators=[DataRequired()])
     submit = SubmitField('Create NFT')
 
 
@@ -108,7 +108,7 @@ class ContactForm(FlaskForm):
 
 class ForgotPasswordForm(FlaskForm):
     email = StringField('Email', validators=[InputRequired(), Email(message="Email is not valid")])
-    submit = SubmitField('Send Email')
+    submit = SubmitField('Recover Password')
 
 
 

@@ -23,6 +23,8 @@
       <li class="breadcrumb-item active">Forgot Password</li>
     </ol>
 
+    <br><br>
+
     <p class="text-center text-primary">If you forgot your password, type your email in the form below.<br>We will send you the procedure to restore your account.</p>
     <p class="text-center text-danger">Please, once you have access again to your account, change your password for security reasons.</p>
 
@@ -35,14 +37,14 @@
         {{form.email(class="form-control")}}
       </div>
 
-      <div class="mt-5 text-center">
+      <div class="mt-4 text-center">
          {{form.submit(class="btn btn-primary profile-button btn-submit-artist-registration")}}
       </div>
 
     </form>
   </div>
  </div>
-</div>
+    <br>
 
          {% for error in form.email.errors %}
           {% if error %}
@@ -62,7 +64,8 @@
          The email doesn't exists in our database.
      </div>
       {% endif %}
-
+</div>
+<br>
 {% endblock content %}
 
 {% include 'footer.html' %}
