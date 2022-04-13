@@ -90,11 +90,11 @@ class EditCustomerForm(FlaskForm):
 
 
 class NewNFTForm(FlaskForm):
-    nft_name = StringField('NFT Name', validators=[InputRequired()])
+    nft_name = StringField('NFT Name', validators=[DataRequired()])
     category = SelectField('Category', choices=['Art', 'Music', 'Video Games', 'Collectible Items', 'Sport', 'Memes',
-                                                'Miscellaneous'])
+                                                'Miscellaneous'], validators=[DataRequired()])
     price = FloatField('Price (Euros)', validators=[InputRequired()])
-    description = TextAreaField('Description')
+    description = TextAreaField('Description', validators=[DataRequired()])
     nft_file = FileField('File')
     submit = SubmitField('Create NFT')
 

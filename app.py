@@ -8,6 +8,7 @@ from flask_wtf import CSRFProtect
 from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_mail import Message, Mail
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
+from werkzeug.utils import secure_filename
 from form import LoginForm, CustomerRegistrationForm, ArtistRegistrationForm, ForgotPasswordForm, EditArtistForm, \
     EditCustomerForm, NewNFTForm, ContactForm
 
@@ -304,7 +305,7 @@ def new_nft():
     if form.validate_on_submit():
         upload(form.nft_file.data, form.nft_name.data)
         nft = model.NFT(name=form.nft_name.data, description=form.description.data, category=form.category.data,
-                        price=form.price.data, nft_file=form.nft_file.data, creator_id=user_logged_in.id)
+                        price=form.price.data, creator_id=user_logged_in.id)
         db.session.add(nft)
         db.session.commit()
 
@@ -395,10 +396,8 @@ def calculate_artist_value(user_artist):
 def upload(nft_file, name):
     if not os.path.exists('static/uploads'):
         os.makedirs('static/uploads')
-    file_url = os.listdir('static/uploads')
-    photos.save(nft_file, name=name+'.jpg', folder='static/uploads')
-    file_url.append(filename)
-    return file_url
+    photos.save(nft_file, name=name+'.jpg')
+    return
 
 
 def password_generator(length):
