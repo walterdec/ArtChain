@@ -1,3 +1,5 @@
+import string
+import random
 from flask import Flask, request, render_template, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
@@ -178,20 +180,21 @@ def my_settings():
                                    settings_edited=settings_edited)
 
     except KeyError:
-        return redirect(url_for('index'))
+        return forbidden(KeyError)
 
     return render_template('myaccount-profile.html', form=form, user_logged_in=user_logged_in)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    session.clear()
     form = LoginForm()
     login_error = 0
     if form.validate_on_submit():
-        for row in db.session.query(model.User).filter_by(username=request.form['username']):
+        for row in db.session.query(model.User).filter_by(username=request.form['username'].lower()):
             user = row
             if check_password_hash(user.password, request.form['password']):
-                username = form.username.data
+                username = form.username.data.lower()
                 session['username'] = username
                 return redirect(url_for('index'))
         else:
@@ -206,7 +209,7 @@ def artist_registration():
     unique_db_error = 0
     registration_success = 0
     if form.validate_on_submit() and form.password.data == form.confpassword.data:
-        if (model.User.query.filter(model.User.username == request.form['username']).first() or
+        if (model.User.query.filter(model.User.username == request.form['username'].lower()).first() or
                 model.User.query.filter(model.User.email == request.form['email']).first()):
             unique_db_error = 1
             return render_template('artist-registration.html', form=form, registration_success=registration_success,
@@ -232,7 +235,7 @@ def artist_registration():
 
             encrypted_password = generate_password_hash(form.password.data)
 
-            artist_reg = model.User(username=form.username.data, email=form.email.data,
+            artist_reg = model.User(username=form.username.data.lower(), email=form.email.data,
                                     password=encrypted_password, role_id=3, name=form.name.data,
                                     surname=form.surname.data, category=form.category.data,
                                     insta=insta, instaname=form.instauser.data,
@@ -256,7 +259,7 @@ def artist_registration():
         registration_success = 1
         send_mail(form.email.data, "ArtChain | Registration success", "mail", username=form.username.data,
                   password=form.password.data, name=form.name.data, surname=form.surname.data,
-                  category=form.category.data, artist=1)
+                  category=form.category.data, artist=1, restore_account=0)
 
     return render_template('artist-registration.html', form=form, registration_success=registration_success,
                            unique_db_error=unique_db_error)
@@ -270,19 +273,18 @@ def customer_registration():
     unique_db_error = 0
     registration_success = 0
     if form.validate_on_submit() and form.password.data == form.confpassword.data:
-        username = form.username.data
-        if (model.User.query.filter(model.User.username == request.form['username']).first() or
+        if (model.User.query.filter(model.User.username == request.form['username'].lower()).first() or
                 model.User.query.filter(model.User.email == request.form['email']).first()):
             unique_db_error = 1
         else:
             encrypted_password = generate_password_hash(form.password.data)
-            customer_reg = model.User(username=form.username.data, email=form.email.data,
+            customer_reg = model.User(username=form.username.data.lower(), email=form.email.data,
                                       password=encrypted_password, role_id=2)
             db.session.add(customer_reg)
             db.session.commit()
             registration_success = 1
             send_mail(form.email.data, "ArtChain | Registration success", "mail", username=form.username.data,
-                      password=form.password.data, artist=0)
+                      password=form.password.data, artist=0, restore_account=0)
 
     return render_template('customer-registration.html', form=form, name=username, unique_db_error=unique_db_error,
                            registration_success=registration_success)
@@ -291,8 +293,11 @@ def customer_registration():
 @app.route('/new-nft', methods=['GET', 'POST'])
 def new_nft():
     form = NewNFTForm()
-    for row in db.session.query(model.User).filter_by(username=session['username']):
-        user_logged_in = row
+    try:
+        for row in db.session.query(model.User).filter_by(username=session['username']):
+            user_logged_in = row
+    except KeyError:
+        return forbidden(KeyError)
 
     if form.validate_on_submit():
         nft = model.NFT(name=form.nft_name.data, description=form.description.data, category=form.category.data,
@@ -331,8 +336,16 @@ def forgot():
     form = ForgotPasswordForm()
     wrong_email = 0
     email_sent = 0
+    restoring_user = None
     if form.validate_on_submit():
         if model.User.query.filter(model.User.email == request.form['email']).first():
+            for row in db.session.query(model.User).filter_by(email=form.email.data):
+                restoring_user = row
+            new_password = password_generator(12)
+            restoring_user.password = generate_password_hash(new_password)
+            db.session.commit()
+            send_mail(form.email.data, "ArtChain | Restore Account", "mail", username=restoring_user.username,
+                      password=new_password, artist=0, restore_account=1)
             email_sent = 1
         else:
             wrong_email = 1
@@ -356,6 +369,11 @@ def page_not_found(e):
     return render_template('404.html'), 404
 
 
+@app.errorhandler(403)
+def forbidden(e):
+    return render_template('403.html'), 403
+
+
 def calculate_artist_value(user_artist):
     value = 0
     if user_artist.category == 'Musician':
@@ -369,6 +387,32 @@ def calculate_artist_value(user_artist):
 
     user_artist.value = value
     db.session.commit()
+
+
+def password_generator(length):
+    uppercase_loc = random.randint(1, 4)  # random location of lowercase
+    symbol_loc = random.randint(5, 6)  # random location of symbols
+    lowercase_loc = random.randint(7, 12)  # random location of uppercase
+
+    password = ''
+
+    pool = string.ascii_letters + string.punctuation  # the selection of characters used
+
+    for i in range(length):
+
+        if i == uppercase_loc:   # this is to ensure there is at least one uppercase
+            password += random.choice(string.ascii_uppercase)
+
+        elif i == lowercase_loc:  # this is to ensure there is at least one uppercase
+            password += random.choice(string.ascii_lowercase)
+
+        elif i == symbol_loc:  # this is to ensure there is at least one symbol
+            password += random.choice(string.punctuation)
+
+        else:  # adds a random character from pool
+            password += random.choice(pool)
+
+    return password
 
 
 if __name__ == '__main__':

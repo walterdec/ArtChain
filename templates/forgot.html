@@ -23,6 +23,9 @@
       <li class="breadcrumb-item active">Forgot Password</li>
     </ol>
 
+    <p class="text-center text-primary">If you forgot your password, type your email in the form below.<br>We will send you the procedure to restore your account.</p>
+    <p class="text-center text-danger">Please, once you have access again to your account, change your password for security reasons.</p>
+
  <div class="form-login">
   <div class="heading">
     <form method="POST">
@@ -51,7 +54,7 @@
 
       {% if email_sent %}
         <div class="alert alert-success center-title" role="alert">
-            An email with your username and password has been sent. Check your inbox.
+            An email with your username and new password has been sent. Check your inbox.
         </div>
 
      {% elif wrong_email %}

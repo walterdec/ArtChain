@@ -6,7 +6,7 @@
 </head>
 <body>
 
-{%if artist %}
+{%if artist and not restore_account %}
 
 <p>Dear <strong>{{name}} {{surname}}</strong>, thanks for your registration!</p>
 
@@ -15,13 +15,24 @@
 <p>You registered as <strong>{{category}}</strong>.</p>
 <p>Welcome to ArtChain! We hope you will enjoy our website!</p>
 
-{% else %}
+{% endif %}
+
+{% if not artist and not restore_account %}
 
 <p>Dear customer, thanks for your registration! </p>
 
 <p>Your credentials are the following:</p>
 <p>Username: <strong>{{username}}</strong><br>Password: <strong>{{password}}</strong></p>
 <p>Welcome to ArtChain! We hope you will enjoy our website!</p>
+
+{% endif %}
+
+{% if restore_account %}
+<p>Dear customer, you requested the restore of your password.<br>Since we have no access to it, we changed it.</p>
+
+<p>Your new credentials are the following:</p>
+<p>Username: <strong>{{username}}</strong><br>Password: <strong>{{password}}</strong></p>
+<p class="text-danger"><strong>Please, once you have access again to your account, change your password for security reasons.</strong></p>
 
 {% endif %}
 
