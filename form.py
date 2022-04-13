@@ -100,9 +100,9 @@ class NewNFTForm(FlaskForm):
 
 
 class ContactForm(FlaskForm):
-    name = StringField('Name', validators=[InputRequired()])
-    email = StringField('Email', validators=[InputRequired(), Email(message="Email is not valid")])
-    message = TextAreaField('Message', )
+    name = StringField('Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email(message="Email is not valid")])
+    message = TextAreaField('Message', validators=[DataRequired()])
     submit = SubmitField('Send Message')
 
 

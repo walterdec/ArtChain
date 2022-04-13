@@ -7,7 +7,7 @@ from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_mail import Message, Mail
 
 from form import LoginForm, CustomerRegistrationForm, ArtistRegistrationForm, ForgotPasswordForm, EditArtistForm, \
-    EditCustomerForm, NewNFTForm
+    EditCustomerForm, NewNFTForm, ContactForm
 import model
 
 # from model import User, Auction, NFT, CryptoOnSale, Wallet da errore, uso import model per aggirare
@@ -64,15 +64,20 @@ def faq():
 def item():
     return render_template('item.html')
 
-
 @app.route('/about')
 def about():
     return render_template('about.html')
 
 
-@app.route('/contact')
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
-    return render_template('contact.html')
+    form = ContactForm()
+    contact_request = 0
+    if form.validate_on_submit():
+        contact_request = 1
+        send_mail(app.config['MAIL_USERNAME'], "Contact Request | "+form.name.data, "mail", name=form.name.data,
+                  email=form.email.data,  message=form.message.data, contact_request=contact_request)
+    return render_template('contact.html', form=form, contact_request=contact_request)
 
 
 @app.route('/explore-nfts')
