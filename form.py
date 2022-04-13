@@ -95,8 +95,8 @@ class NewNFTForm(FlaskForm):
                                                 'Miscellaneous'])
     price = FloatField('Price (Euros)', validators=[InputRequired()])
     description = TextAreaField('Description')
-    nft_file = FileField('NFT')
-    submit = SubmitField('Create Auction')
+    nft_file = FileField('File')
+    submit = SubmitField('Create NFT')
 
 
 class ContactForm(FlaskForm):

@@ -1,16 +1,15 @@
+import os
 import string
 import random
+import model
 from flask import Flask, request, render_template, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_mail import Message, Mail
-
+from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 from form import LoginForm, CustomerRegistrationForm, ArtistRegistrationForm, ForgotPasswordForm, EditArtistForm, \
     EditCustomerForm, NewNFTForm, ContactForm
-import model
-
-# from model import User, Auction, NFT, CryptoOnSale, Wallet da errore, uso import model per aggirare
 
 app = Flask(__name__)
 
@@ -25,10 +24,13 @@ app.config['MAIL_USERNAME'] = 'service.artchain@gmail.com'
 app.config['MAIL_PASSWORD'] = 'ISPolitecnicoGroup6'
 app.config['MAIL_USE_TLS'] = True
 
+app.config['UPLOADED_PHOTOS_DEST'] = os.getcwd()+"/static/uploads"
+photos = UploadSet('photos', IMAGES)
+configure_uploads(app, photos)
+patch_request_class(app)
+
 db = SQLAlchemy(app)
-
 mail = Mail(app)
-
 CSRFProtect(app)
 
 
@@ -46,11 +48,6 @@ def setup_db():
 
 
 @app.route('/')
-def home():
-    return render_template('index.html')
-
-
-@app.route('/index')
 def index():
     return render_template('index.html')
 
@@ -305,6 +302,7 @@ def new_nft():
         return forbidden(KeyError)
 
     if form.validate_on_submit():
+        upload(form.nft_file.data, form.nft_name.data)
         nft = model.NFT(name=form.nft_name.data, description=form.description.data, category=form.category.data,
                         price=form.price.data, nft_file=form.nft_file.data, creator_id=user_logged_in.id)
         db.session.add(nft)
@@ -328,7 +326,7 @@ def crypto():
 @app.route('/logout')
 def logout():
     session.clear()
-    return redirect('/index')
+    return redirect('/')
 
 
 @app.route('/404')
@@ -366,7 +364,7 @@ def delete():
         db.session.delete(user_to_delete)
         db.session.commit()
     session.clear()
-    return redirect('/index')
+    return redirect('/')
 
 
 @app.errorhandler(404)
@@ -394,29 +392,32 @@ def calculate_artist_value(user_artist):
     db.session.commit()
 
 
+def upload(nft_file, name):
+    if not os.path.exists('static/uploads'):
+        os.makedirs('static/uploads')
+    file_url = os.listdir('static/uploads')
+    photos.save(nft_file, name=name+'.jpg', folder='static/uploads')
+    file_url.append(filename)
+    return file_url
+
+
 def password_generator(length):
-    uppercase_loc = random.randint(1, 4)  # random location of lowercase
-    symbol_loc = random.randint(5, 6)  # random location of symbols
-    lowercase_loc = random.randint(7, 12)  # random location of uppercase
+    uppercase_loc = random.randint(1, 4)
+    symbol_loc = random.randint(5, 6)
+    lowercase_loc = random.randint(7, 12)
 
     password = ''
-
-    pool = string.ascii_letters + string.punctuation  # the selection of characters used
+    pool = string.ascii_letters + string.punctuation
 
     for i in range(length):
-
-        if i == uppercase_loc:   # this is to ensure there is at least one uppercase
+        if i == uppercase_loc:
             password += random.choice(string.ascii_uppercase)
-
-        elif i == lowercase_loc:  # this is to ensure there is at least one uppercase
+        elif i == lowercase_loc:
             password += random.choice(string.ascii_lowercase)
-
-        elif i == symbol_loc:  # this is to ensure there is at least one symbol
+        elif i == symbol_loc:
             password += random.choice(string.punctuation)
-
-        else:  # adds a random character from pool
+        else:
             password += random.choice(pool)
-
     return password
 
 
