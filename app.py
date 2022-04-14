@@ -53,14 +53,10 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/faq')
-def faq():
-    return render_template('faq.html')
-
-
 @app.route('/item')
 def item():
     return render_template('item.html')
+
 
 @app.route('/about')
 def about():
@@ -297,6 +293,7 @@ def customer_registration():
 def new_nft():
     form = NewNFTForm()
     duplicated_nft = 0
+    nft_created = 0
     try:
         for row in db.session.query(model.User).filter_by(username=session['username']):
             user_logged_in = row
@@ -310,7 +307,8 @@ def new_nft():
                             price=form.price.data, creator_id=user_logged_in.id)
             db.session.add(nft)
             db.session.commit()
-            return redirect(url_for('my_wallet'))
+            nft_created = 1
+            return render_template('new-nft.html', user_logged_in=user_logged_in, form=form, nft_created=nft_created)
         else:
             duplicated_nft = 1
 
