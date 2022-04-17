@@ -3,7 +3,7 @@
 {% block content %}
 
 <head>
-  <title>ArtChain | #ID Artist</title>
+  <title>ArtChain | {{user.username}}</title>
 </head>
 
 
@@ -12,20 +12,26 @@
 
     <!-- Page Heading/Breadcrumbs -->
     <h1 class="mt-4 mb-3">ArtChain
-      <small> Id Profile rednere dinamico</small>
+      <small>{{user.username}}</small>
     </h1>
 
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
         <a href="/">Home</a>
       </li>
-      <li class="breadcrumb-item active">Id Profile rendere dinamico</li>
+      <li class="breadcrumb-item active">Profile</li>
     </ol>
 
     <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
         <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">Edogaru</span><span> </span></div>
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+                <span class="font-weight-bold">{{user.username}}</span>
+                <span class="text-black-50 mt-1">{{user.category}}</span>
+                <span class="text-primary font-weight-bold mt-3">{{user.value}}<br>value points</span>
+            </div>
+
         </div>
         <div class="col-md-5 border-right">
             <div class="p-3 py-5">
@@ -33,33 +39,43 @@
                     <h4 class="text-right">Personal Data</h4>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Name</label><h6>Name</h6></div>
-                    <div class="col-md-6"><label class="labels">Surname</label><h6>Surname</h6></div>
+                    <div class="col-md-6"><label class="labels">Name</label><h6>{{user.name}}</h6></div>
+                    <div class="col-md-6"><label class="labels">Surname</label><h6>{{user.surname}}</h6></div>
                 </div>
                 <div class="row mt-2">
-                <div class="col-md-12"><label class="labels">Email</label><h6>Email</h6></div> <br>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Id</label><h6>Id</h6></div> <br>
-                    <div class="col-md-6"><label class="labels">Value</label><h6>Value</h6></div> <br>
+                <div class="col-md-12"><label class="labels">Email</label><h6>{{user.email}}</h6></div> <br>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="p-3 py-5">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="text-right">Social Networks Numbers</h4>
+                    <h4 class="text-right">Social Networks</h4>
                 </div>
-                <div class="col-md-12"><label class="labels">Instagram - Cle_ur</label><h6>Value</h6></div> <br>
-                <div class="col-md-12"><label class="labels">Facebook</label><h6>Value</h6></div> <br>
-                <div class="col-md-12"><label class="labels">Twitter</label><h6>Value</h6></div> <br>
-                <div class="col-md-12"><label class="labels">Youtube</label><h6>Value</h6></div> <br>
-                <div class="col-md-12"><label class="labels">TikTok</label><h6>Value</h6></div> <br>
-                <div class="col-md-12"><label class="labels">Twitch</label><h6>Value</h6></div> <br>
-                <div class="col-md-12"><label class="labels">Apple Music</label><h6>Value</h6></div> <br>
-                <div class="col-md-12"><label class="labels">Spotify</label><h6>Value</h6></div> <br>
-                <div class="col-md-12"><label class="labels">SoundCloud</label><h6>Value</h6></div> <br>
-                <div class="col-md-12"><label class="labels">Sales</label><h6>Value</h6></div> <br>
+                <div class="row mt-2">
+                <div class="col-md-6"><label class="labels">Instagram</label><h6>{{user.instaname}}</h6><h6>{{user.insta}}</h6></div> <br>
+                <div class="col-md-6"><label class="labels">Facebook</label><h6>{{user.instaname}}</h6><h6>{{user.face}}</h6></div> <br>
+                </div>
+                <div class="row mt-3">
+                <div class="col-md-6"><label class="labels">Twitter</label><h6>{{user.instaname}}</h6><h6>{{user.twitter}}</h6></div> <br>
+                <div class="col-md-6"><label class="labels">Youtube</label><h6>{{user.instaname}}</h6><h6>{{user.yt}}</h6></div> <br>
+                </div>
+                <div class="row mt-3">
+                <div class="col-md-6"><label class="labels">TikTok</label><h6>{{user.tiktokname}}</h6><h6>{{user.tiktok}}</h6></div> <br>
+                <div class="col-md-6"><label class="labels">Twitch</label><h6>{{user.twitchname}}</h6><h6>{{user.twitch}}</h6></div> <br>
+                </div>
+                {% if user.category == 'Musician' %}
+                <div class="row mt-3">
+                <div class="col-md-6"><label class="labels">Apple Music</label><h6>{{user.applemusicname}}</h6><h6>{{user.applemusic}}</h6></div> <br>
+                <div class="col-md-6"><label class="labels">Spotify</label><h6>{{user.spotifyname}}</h6><h6>{{user.spotify}}</h6></div> <br>
+                </div>
+                <div class="row mt-3">
+                <div class="col-md-6"><label class="labels">SoundCloud</label><h6>{{user.soundcloudname}})</h6><h6>{{user.soundcloud}}</h6></div> <br>
+                </div>
+                {% endif %}
+                <div class="row mt-3">
+                <div class="col-md-6"><label class="labels">Sales</label><h6>{{user.sales}}</h6></div> <br>
+                </div>
             </div>
         </div>
     </div>
@@ -69,90 +85,28 @@
 
 
   </div>
-  <!-- /.container -->
-        <!-- Related items section-->
+        <!-- NFTs section -->
         <section class="py-5 bg-light">
             <div class="container px-4 px-lg-5 mt-5">
-                <h1 class="fw-bolder mb-4">On sale NFTs</h1>
+                <h1 class="fw-bolder mb-4">NFTs</h1>
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                   <div class="col mb-5">
+                      {% for nft in nft_list %}
                     <div class="card h-100">
-                      <!-- Product image-->
-                      <img class="card-img-top" src="https://dummyimage.com/400x400/dee2e6/6c757d.jpg" alt="..." />
-                      <!-- Product details-->
+                      <img class="card-img-top" src="{{url_for('static', filename='uploads/'+nft.img_src)}}" alt="{{nft.name}}" height="50" width="50"/>
                       <div class="card-body p-4">
                         <div class="text-center">
-                          <!-- Product name-->
-                          <h5 class="fw-bolder">Fancy Product</h5>
-                          <!-- Product price-->
-                          $40.00 - $80.00
+                          <h5 class="fw-bolder">{{nft.name}}</h5>
                         </div>
                       </div>
-                      <!-- Product actions-->
                       <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
+                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/item/nft/{{nft.name}}">Open</a></div>
                       </div>
                     </div>
                   </div>
-                  <div class="col mb-5">
-                    <div class="card h-100">
-                      <!-- Product image-->
-                      <img class="card-img-top" src="https://dummyimage.com/400x400/dee2e6/6c757d.jpg" alt="..." />
-                      <!-- Product details-->
-                      <div class="card-body p-4">
-                        <div class="text-center">
-                          <!-- Product name-->
-                          <h5 class="fw-bolder">Fancy Product</h5>
-                          <!-- Product price-->
-                          $40.00 - $80.00
-                        </div>
-                      </div>
-                      <!-- Product actions-->
-                      <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
-                      </div>
+                    {% endfor %}
                     </div>
                   </div>
-                  <div class="col mb-5">
-                    <div class="card h-100">
-                      <!-- Product image-->
-                      <img class="card-img-top" src="https://dummyimage.com/400x400/dee2e6/6c757d.jpg" alt="..." />
-                      <!-- Product details-->
-                      <div class="card-body p-4">
-                        <div class="text-center">
-                          <!-- Product name-->
-                          <h5 class="fw-bolder">Fancy Product</h5>
-                          <!-- Product price-->
-                          $40.00 - $80.00
-                        </div>
-                      </div>
-                      <!-- Product actions-->
-                      <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col mb-5">
-                    <div class="card h-100">
-                      <!-- Product image-->
-                      <img class="card-img-top" src="https://dummyimage.com/400x400/dee2e6/6c757d.jpg" alt="..." />
-                      <!-- Product details-->
-                      <div class="card-body p-4">
-                        <div class="text-center">
-                          <!-- Product name-->
-                          <h5 class="fw-bolder">Fancy Product</h5>
-                          <!-- Product price-->
-                          $40.00 - $80.00
-                        </div>
-                      </div>
-                      <!-- Product actions-->
-                      <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-            </div>
         </section>
 
 {% endblock content %}

@@ -53,17 +53,6 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/item/nft/<name>', methods=['GET', 'POST'])
-def item_nft(name):
-    nft = None
-    for row in db.session.query(model.NFT).filter_by(name=name):
-        nft = row
-    if nft is None:
-        return page_not_found(TypeError)
-    nft_creator = db.session.query(model.User).filter_by(id=nft.creator_id).first()
-    return render_template('item.html', nft=nft, nft_creator=nft_creator)
-
-
 @app.route('/about')
 def about():
     return render_template('about.html')
@@ -296,8 +285,8 @@ def customer_registration():
                            registration_success=registration_success)
 
 
-@app.route('/new-nft', methods=['GET', 'POST'])
-def new_nft():
+@app.route('/create', methods=['GET', 'POST'])
+def create():
     form = NewNFTForm()
     duplicated_nft = 0
     nft_created = 0
@@ -315,16 +304,35 @@ def new_nft():
             db.session.add(nft)
             db.session.commit()
             nft_created = 1
-            return render_template('new-nft.html', user_logged_in=user_logged_in, form=form, nft_created=nft_created)
+            return render_template('create.html', user_logged_in=user_logged_in, form=form, nft_created=nft_created)
         else:
             duplicated_nft = 1
 
-    return render_template('new-nft.html', user_logged_in=user_logged_in, form=form, duplicated_nft=duplicated_nft)
+    return render_template('create.html', user_logged_in=user_logged_in, form=form, duplicated_nft=duplicated_nft)
 
 
-@app.route('/profile-page')
-def artist_profile():
-    return render_template('profile-page.html')
+@app.route('/item/nft/<name>', methods=['GET', 'POST'])
+def item_nft(name):
+    nft = None
+    for row in db.session.query(model.NFT).filter_by(name=name):
+        nft = row
+    if nft is None:
+        return page_not_found(TypeError)
+    nft_creator = db.session.query(model.User).filter_by(id=nft.creator_id).first()
+    return render_template('item.html', nft=nft, nft_creator=nft_creator)
+
+
+@app.route('/profile/<username>', endpoint="profile_by_user")
+def artist_profile(username):
+    user = None
+    nft_list = []
+    for row in db.session.query(model.User).filter_by(username=username):
+        user = row
+    if user is None or user.role_id is not 3:
+        return page_not_found(TypeError)
+    for row in db.session.query(model.NFT).filter_by(creator_id=user.id):
+        nft_list.append(row)
+    return render_template('profile-page.html', user=user, nft_list=nft_list)
 
 
 @app.route('/crypto')
