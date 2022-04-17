@@ -51,6 +51,7 @@ class NFT(db.Model):
     category = db.Column(db.String(64))
     description = db.Column(db.Text)
     price = db.Column(db.Float)
+    img_src = db.Column(db.String(64))
 
 
 

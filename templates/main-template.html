@@ -8,13 +8,13 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-    <link rel="icon" type="image/x-icon" href="static/images/logos/Logo Artchain.png">
+    <link rel="icon" type="image/x-icon" href="{{url_for('static',filename='images/logos/artchain_logo.png')}}">
 
   <!-- Bootstrap core CSS -->
-  <link href="static/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+  <link href="{{url_for('static',filename='vendor/bootstrap/css/bootstrap.css')}}" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="static/css/modern-business.css" rel="stylesheet">
+  <link href="{{url_for('static',filename='css/modern-business.css')}}" rel="stylesheet">
 
 </head>
 
@@ -23,7 +23,7 @@
   <!-- Navigation -->
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="/"><img src="static/images/logos/Logo Artchain white.png" width="85" height="65"></a>
+        <a class="navbar-brand" href="/"><img src="{{url_for('static',filename='images/logos/artchain_logo_white.png')}}" width="85" height="65"></a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
@@ -76,8 +76,8 @@
   <br>
 
   <!-- Bootstrap core JavaScript -->
-  <script src="static/vendor/jquery/jquery.min.js"></script>
-  <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="{{url_for('static',filename='vendor/jquery/jquery.min.js')}}"></script>
+  <script src="{{url_for('static',filename='vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
 </body>
 

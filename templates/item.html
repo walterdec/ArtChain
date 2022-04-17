@@ -3,136 +3,47 @@
 {% block content %}
 
 <head>
-  <title>ArtChain | #Codice Crypto</title>
+  <title>ArtChain | {{nft.name}}</title>
 </head>
 
     <div class="container">
 
-    <!-- Page Heading/Breadcrumbs -->
     <h1 class="mt-4 mb-3">ArtChain
-      <small>#Codice NFT</small> <!--RENDERE DINAMICO-->
+      <small>NFT</small>
     </h1>
 
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a href="/index">Home</a>
+        <a href="/">Home</a>
       </li>
-      <li class="breadcrumb-item active">NFT #codice</li> <!--rendere dinamico-->
+         <li class="breadcrumb-item">
+        <a href="/explore-nfts">NFTs</a>
+      </li>
+      <li class="breadcrumb-item active">{{nft.name}}</li>
     </ol>
 
   </div>
 
-        <!-- Product section-->
-        <section class="py-5">
+        <section>
             <div class="container px-4 px-lg-5 my-5">
                 <div class="row gx-4 gx-lg-5 align-items-center">
-                    <div class="col-lg-6 "><img class="img-fluid mb-5 mb-md-0" src="https://dummyimage.com/500x500/dee2e6/6c757d.jpg" alt="..." /></div>
-                    <div class="col-lg-6 ">
-                        <div class="small mb-1">Codice NFT codice_artista-xxxx</div>
-                        <h1 class="display-5 fw-bolder">Nome dell'articolo</h1>
-                        <div class="fs-5 mb-5">
-                            <span class="text-decoration-line-through">prezzo attuale</span>
-                            <span>offerta da fare</span>
-                            <span>(valore in euro)</span>
+                    <div class="col-lg-6"><img class="img-fluid mb-5 mb-md-0" src="{{url_for('static', filename='uploads/'+nft.img_src)}}" alt="{{nft.name}}"/></div>
+                    <div class="col-lg-6">
+                        <h1 class="display-5 fw-bolder">{{nft.name}}</h1>
+                        <div class="mt-5">
+                            <p class="lead"><strong>Creator</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{nft_creator.username}}</p>
+                        <p class="lead"><strong>Category</strong>&nbsp;&nbsp;&nbsp;&nbsp;{{nft.category}}</p>
+                        <p class="lead mt-5 font-italic">{{nft.description}}</p>
+                        <div class="fs-5 mt-5 text-center">
+                            <h2>{{nft.price}} €</h2>
                         </div>
-                        <p class="lead">Descriziione Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis delectus ipsam minima ea iste laborum vero?</p>
-                        <br>
-                        <p class="lead">Categoria dell'NFT</p>
-                        <br>
-                        <div class="d-flex">
-                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                                <i class="bi-cart-fill me-1"></i>
-                               Make a bid
-                            </button>
-                            <span class="mt-2 mb-2 ml-5"> Tempo rimasto</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-        <!-- Related items section-->
-        <section class="py-5 bg-light">
-            <div class="container px-4 px-lg-5 mt-5">
-                <h1 class="fw-bolder mb-4">Related products</h1>
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                  <div class="col mb-5">
-                    <div class="card h-100">
-                      <!-- Product image-->
-                      <img class="card-img-top" src="https://dummyimage.com/400x400/dee2e6/6c757d.jpg" alt="..." />
-                      <!-- Product details-->
-                      <div class="card-body p-4">
-                        <div class="text-center">
-                          <!-- Product name-->
-                          <h5 class="fw-bolder">Fancy Product</h5>
-                          <!-- Product price-->
-                          $40.00 - $80.00
-                        </div>
-                      </div>
-                      <!-- Product actions-->
-                      <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col mb-5">
-                    <div class="card h-100">
-                      <!-- Product image-->
-                      <img class="card-img-top" src="https://dummyimage.com/400x400/dee2e6/6c757d.jpg" alt="..." />
-                      <!-- Product details-->
-                      <div class="card-body p-4">
-                        <div class="text-center">
-                          <!-- Product name-->
-                          <h5 class="fw-bolder">Fancy Product</h5>
-                          <!-- Product price-->
-                          $40.00 - $80.00
-                        </div>
-                      </div>
-                      <!-- Product actions-->
-                      <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col mb-5">
-                    <div class="card h-100">
-                      <!-- Product image-->
-                      <img class="card-img-top" src="https://dummyimage.com/400x400/dee2e6/6c757d.jpg" alt="..." />
-                      <!-- Product details-->
-                      <div class="card-body p-4">
-                        <div class="text-center">
-                          <!-- Product name-->
-                          <h5 class="fw-bolder">Fancy Product</h5>
-                          <!-- Product price-->
-                          $40.00 - $80.00
-                        </div>
-                      </div>
-                      <!-- Product actions-->
-                      <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col mb-5">
-                    <div class="card h-100">
-                      <!-- Product image-->
-                      <img class="card-img-top" src="https://dummyimage.com/400x400/dee2e6/6c757d.jpg" alt="..." />
-                      <!-- Product details-->
-                      <div class="card-body p-4">
-                        <div class="text-center">
-                          <!-- Product name-->
-                          <h5 class="fw-bolder">Fancy Product</h5>
-                          <!-- Product price-->
-                          $40.00 - $80.00
-                        </div>
-                      </div>
-                      <!-- Product actions-->
-                      <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-            </div>
+               <div class="form-center mb-5">
+                   <button class="btn btn-outline-dark flex-shrink-0" type="button">Buy</button>
+               </div>
         </section>
 
 {% endblock content %}

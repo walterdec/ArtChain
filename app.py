@@ -53,9 +53,15 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/item')
-def item():
-    return render_template('item.html')
+@app.route('/item/nft/<name>', methods=['GET', 'POST'])
+def item_nft(name):
+    nft = None
+    for row in db.session.query(model.NFT).filter_by(name=name):
+        nft = row
+    if nft is None:
+        return page_not_found(TypeError)
+    nft_creator = db.session.query(model.User).filter_by(id=nft.creator_id).first()
+    return render_template('item.html', nft=nft, nft_creator=nft_creator)
 
 
 @app.route('/about')
@@ -74,9 +80,10 @@ def contact():
     return render_template('contact.html', form=form, contact_request=contact_request)
 
 
-@app.route('/explore-nfts')
+@app.route('/explore-nfts', methods=['GET', 'POST'])
 def explore_nfts():
-    return render_template('explore-nfts.html')
+    nfts_list = db.session.query(model.NFT)
+    return render_template('explore-nfts.html', nfts_list=nfts_list)
 
 
 @app.route('/explore-crypto')
@@ -302,9 +309,9 @@ def new_nft():
 
     if form.validate_on_submit():
         if not db.session.query(model.NFT).filter_by(name=form.nft_name.data).first():
-            upload(form.nft_file.data, form.nft_name.data)
+            img_src = upload(form.nft_file.data, form.nft_name.data)
             nft = model.NFT(name=form.nft_name.data, description=form.description.data, category=form.category.data,
-                            price=form.price.data, creator_id=user_logged_in.id)
+                            price=form.price.data, creator_id=user_logged_in.id, img_src=img_src)
             db.session.add(nft)
             db.session.commit()
             nft_created = 1
@@ -329,11 +336,6 @@ def crypto():
 def logout():
     session.clear()
     return redirect('/')
-
-
-@app.route('/404')
-def pagenotfound():
-    return render_template('404.html')
 
 
 @app.route('/forgot', methods=['GET', 'POST'])
@@ -395,10 +397,12 @@ def calculate_artist_value(user_artist):
 
 
 def upload(nft_file, name):
+    img_src = name.replace(" ", "_")
+    img_src = img_src+'.jpg'
     if not os.path.exists('static/uploads'):
         os.makedirs('static/uploads')
-    photos.save(nft_file, name=name+'.jpg')
-    return
+    photos.save(nft_file, name=img_src)
+    return img_src
 
 
 def password_generator(length):
