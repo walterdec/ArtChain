@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, BooleanField, DateField, SelectField, TextAreaField, PasswordField, SubmitField, \
-    IntegerField, SelectMultipleField, validators, FloatField
-from wtforms.validators import DataRequired, InputRequired, EqualTo, NumberRange, Email, Length
-from flask_wtf.file import FileField, FileAllowed
+from wtforms import StringField, SelectField, TextAreaField, PasswordField, SubmitField, IntegerField, validators,\
+        FloatField
+from wtforms.validators import DataRequired, InputRequired, Email, Length
+from flask_wtf.file import FileField
 
 
 class LoginForm(FlaskForm):
@@ -35,6 +35,10 @@ class ArtistRegistrationForm(FlaskForm):
     confpassword = PasswordField('Confirm password', validators=[InputRequired()])
     email = StringField('Email', validators=[InputRequired(), Email(message="Email is not valid")])
     category = SelectField('Category', choices=['Musician', 'Sketcher', 'Video Maker', 'Other'])
+
+    crypto = StringField('Crypto Acronym', validators=[DataRequired()])
+
+    profile_pic = FileField('Profile Picture', validators=[DataRequired()])
 
     instauser = StringField('Instagram', [validators.optional()])
     instafollowers = IntegerField('Instagram followers', [validators.optional()])
@@ -97,6 +101,11 @@ class NewNFTForm(FlaskForm):
     description = TextAreaField('Description', validators=[DataRequired()])
     nft_file = FileField('File', validators=[DataRequired()])
     submit = SubmitField('Create NFT')
+
+
+class BuyCryptoForm(FlaskForm):
+    amount = FloatField('Amount')
+    submit = SubmitField('Buy')
 
 
 class ContactForm(FlaskForm):

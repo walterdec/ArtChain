@@ -1,0 +1,90 @@
+{% include 'main-template.html' %}
+
+{% block content %}
+
+<head>
+  <title>ArtChain</title>
+</head>
+
+    <!-- Header-->
+    <header class="bg-dark py-5">
+      <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+          <h1 class="display-3 font-weight-bolder">The Future of Art</h1>
+          <p class="h2 font-weight-normal text-white-50 mb-0">Decentralize and own your artworks</p>
+        </div>
+      </div>
+    </header>
+
+
+
+    <!-- Section-->
+    <section class="py-5">
+
+      <div class="container px-4 px-lg-5 ">
+        <h3>NFTs</h3>
+          <hr>
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+          {% for nft in nfts %}
+          <div class="col mb-3">
+            <div class="card h-100">
+              <img class="card-img-top" src={{"static/uploads/nfts/"+nft.img_src}} alt="{{nft.name}}" width="50px" height="50px"/>
+              <div class="card-body p-4">
+                <div class="text-center">
+                  <h5 class="fw-bolder">{{nft.name}}</h5>
+                  <h5 class="mt-5">{{nft.price}} €</h5>
+                </div>
+              </div>
+              <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/item/nft/{{nft.name}}">Show</a></div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+            <h5 class="text-right"><a href="/explore-nfts">All NFTs &#10148;</a></h5>
+          <hr>
+      </div>
+    </section>
+    <section class="mb-5">
+      <div class="container px-4 px-lg-5">
+        <h3>Cryptos</h3>
+          <hr>
+          <table class="styled-table">
+           <thead>
+              <tr>
+                 <th>Crypto</th>
+                 <th>Artist</th>
+                 <th>Value</th>
+                 <th></th>
+              </tr>
+           </thead>
+           <tbody>
+              {% for crypto in cryptos %}
+              <tr class="mt-5">
+                  <th>
+                    <p>{{crypto.name}}</p>
+                 </th>
+                 <th>
+                     <p><a href="profile/{{users.get(crypto.user_id).username}}">
+                         {{users.get(crypto.user_id).username}}
+                     </a></p>
+                 </th>
+                 <th>
+                    <p>{{users.get(crypto.user_id).value}}</p>
+                 </th>
+                 <th>
+                    <div><a class="btn btn-outline-dark mt-auto" href="/item/crypto/{{crypto.name}}">Show</a></div>
+                 </th>
+              </tr>
+              {% endfor %}
+           </tbody>
+        </table>
+        <h5 class="text-right mt-3"><a href="/explore-crypto">All Cryptos &#10148;</a></h5>
+          <hr>
+      </div>
+    </section>
+
+{% endblock content %}
+
+{% include 'footer.html' %}

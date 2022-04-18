@@ -22,115 +22,35 @@
       <li class="breadcrumb-item active">Cryptos</li>
     </ol>
 
-
         <hr>
         <table class="styled-table">
            <thead>
               <tr>
+                 <th>Crypto</th>
                  <th>Artist</th>
-                 <th>Category</th>
                  <th>Value</th>
-                 <th>Growth</th>
                  <th></th>
               </tr>
            </thead>
            <tbody>
-              <tr>
-                 <th>
-                    <div>
-                       <div class="col">
-                          <a href="#">
-                             <img class="img-fluid-avatar" src="http://placehold.it/100x100" alt="">
-                             <p class="artist-name">Artist name</p>
-                          </a>
-                       </div>
-                    </div>
+              {% for crypto in cryptos_list %}
+              <tr class="mt-5">
+                  <th>
+                    <p>{{crypto.name}}</p>
                  </th>
                  <th>
-                    <p>Artist category</p>
+                     <p><a href="profile/{{users_dictionary.get(crypto.user_id).username}}">
+                         {{users_dictionary.get(crypto.user_id).username}}
+                     </a></p>
                  </th>
                  <th>
-                    <p>Artist Value</p>
+                    <p>{{users_dictionary.get(crypto.user_id).value}}</p>
                  </th>
                  <th>
-                    <p>Artist Growth</p>
-                 </th>
-                 <th>
-                    <div><a class="btn btn-outline-dark mt-auto btn-pad" href="#">Buy</a></div>
+                    <div><a class="btn btn-outline-dark mt-auto" href="/item/crypto/{{crypto.name}}">Show</a></div>
                  </th>
               </tr>
-              <tr>
-                 <th>
-                    <div>
-                       <div class="col">
-                          <a href="#">
-                             <img class="img-fluid-avatar" src="http://placehold.it/100x100" alt="">
-                             <p class="artist-name">Artist name</p>
-                          </a>
-                       </div>
-                    </div>
-                 </th>
-                 <th>
-                    <p>Artist category</p>
-                 </th>
-                 <th>
-                    <p>Artist Value</p>
-                 </th>
-                 <th>
-                    <p>Artist Growth</p>
-                 </th>
-                 <th>
-                    <div><a class="btn btn-outline-dark mt-auto btn-pad" href="#">Buy</a></div>
-                 </th>
-              </tr>
-              <tr>
-                 <th>
-                    <div>
-                       <div class="col">
-                          <a href="#">
-                             <img class="img-fluid-avatar" src="http://placehold.it/100x100" alt="">
-                             <p class="artist-name">Artist name</p>
-                          </a>
-                       </div>
-                    </div>
-                 </th>
-                 <th>
-                    <p>Artist category</p>
-                 </th>
-                 <th>
-                    <p>Artist Value</p>
-                 </th>
-                 <th>
-                    <p>Artist Growth</p>
-                 </th>
-                 <th>
-                    <div><a class="btn btn-outline-dark mt-auto btn-pad" href="#">Buy</a></div>
-                 </th>
-              </tr>
-              <tr>
-                 <th>
-                    <div>
-                       <div class="col">
-                          <a href="#">
-                             <img class="img-fluid-avatar" src="http://placehold.it/100x100" alt="">
-                             <p class="artist-name">Artist name</p>
-                          </a>
-                       </div>
-                    </div>
-                 </th>
-                 <th>
-                    <p>Artist category</p>
-                 </th>
-                 <th>
-                    <p>Artist Value</p>
-                 </th>
-                 <th>
-                    <p>Artist Growth</p>
-                 </th>
-                 <th>
-                    <div><a class="btn btn-outline-dark mt-auto btn-pad" href="#">Buy</a></div>
-                 </th>
-              </tr>
+              {% endfor %}
            </tbody>
         </table>
   </div>

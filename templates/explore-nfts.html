@@ -27,7 +27,7 @@
           {% for nft in nfts_list %}
           <div class="col mb-5">
             <div class="card h-100">
-              <img class="card-img-top" src={{"static/uploads/"+nft.img_src}} alt="{{nft.name}}" width="50" height="50"/>
+              <img class="card-img-top" src={{"static/uploads/nfts/"+nft.img_src}} alt="{{nft.name}}" width="50px" height="50px"/>
               <div class="card-body p-4">
                 <div class="text-center">
                   <h5 class="fw-bolder">{{nft.name}}</h5>
@@ -35,7 +35,7 @@
                 </div>
               </div>
               <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/item/nft/{{nft.name}}">Open</a></div>
+                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/item/nft/{{nft.name}}">Show</a></div>
               </div>
             </div>
           </div>

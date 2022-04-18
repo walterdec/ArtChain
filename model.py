@@ -12,6 +12,8 @@ class User(db.Model):
     surname = db.Column(db.String(64))
     category = db.Column(db.String(64), default=False)
 
+    profile_pic_src = db.Column(db.String(64))
+
     insta = db.Column(db.Integer)
     instaname = db.Column(db.String(64))
     face = db.Column(db.Integer)
@@ -54,21 +56,20 @@ class NFT(db.Model):
     img_src = db.Column(db.String(64))
 
 
-
-#class CryptoOnSale(db.Model):
-#    __tablename__ = 'cryptos_on_sale'
-#    crypto_id = db.Column(db.Integer)
-#    artist_id = db.Column(db.Integer)
-#    quantity = db.Column(db.Float)
-#    duration = db.Column(db.Time)
-#    best_bidder_id = db.Column(db.Integer)
-#    start_date = db.Column(db.Date)
+class Crypto(db.Model):
+    __tablename__ = 'cryptos'
+    id = db.Column(db.Integer, primary_key=True, unique=True)
+    user_id = db.Column(db.Integer)
+    name = db.Column(db.String(64), unique=True)
+    value = db.Column(db.Float)
 
 
-#class Wallet(db.Model):
-#    __tablename__ = 'wallets'
-#    owner_id = db.Column(db.Integer)
-#    ac_crypto = db.Column(db.Float, default=0.0)
+class Wallet(db.Model):
+    __tablename__ = 'wallets'
+    id = db.Column(db.Integer, primary_key=True, unique=True)
+    user_id = db.Column(db.Integer)
+    crypto_id = db.Column(db.Integer)
+    amount = db.Column(db.Float)
 
 
 

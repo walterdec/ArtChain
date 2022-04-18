@@ -48,6 +48,24 @@
             </div>
           {% endif %}
 
+               {% if crypto_already_existing %}
+             <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+              Crypto name already existing
+                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+          {% endif %}
+
+          {% if crypto_not_valid %}
+             <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+              Crypto name must be of 3 characters.
+                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+          {% endif %}
+
           {% if registration_success %}
           <div class="alert alert-success center-title alert-dismissible fade show" role="alert">
               Registration successful.<br> <a href="/login" class="alert-link">Click here to login</a>
@@ -123,7 +141,7 @@
 
 
 <div class="container rounded bg-white mt-4 mb-5">
-    <form method="post">
+    <form method="post" enctype=multipart/form-data>
         {{ form.csrf_token }}
     <div class="row form-center">
         <div class="col-md-5 border-right">
@@ -144,6 +162,12 @@
                     <div class="form-group">
                     <div class="col-md-12 mt-2">{{form.category.label}} {{form.category(class="form-select form-control")}}</div>
                     </div>
+                </div>
+                <div class="row mt-4">
+                     <div class="col-md-6">{{form.crypto.label}} {{form.crypto(class="form-control", placeholder="crypto acronym")}}</div>
+                </div>
+                <div class="row mt-5">
+                     <div class="col-md-6">{{form.profile_pic.label}} {{form.profile_pic}}</div>
                 </div>
             </div>
         </div>
