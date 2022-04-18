@@ -119,9 +119,11 @@ def my_wallet():
                                             (id=row.crypto_id).first())
         wallet_dictionary[row.crypto_id] = row
 
+    nfts_list = db.session.query(model.NFT).filter_by(owner_id=user_logged_in.id).all()
+
     return render_template('myaccount-mywallet.html', user=user_logged_in,
                            users_dictionary=users_dictionary, crypto_dictionary=crypto_dictionary,
-                           wallet_dictionary=wallet_dictionary)
+                           wallet_dictionary=wallet_dictionary, nfts_list=nfts_list)
 
 
 @app.route('/myaccount-profile', methods=['GET', 'POST'])
@@ -354,7 +356,8 @@ def create():
         if not db.session.query(model.NFT).filter_by(name=form.nft_name.data).first():
             img_src = upload_nft(form.nft_file.data, form.nft_name.data)
             nft = model.NFT(name=form.nft_name.data, description=form.description.data, category=form.category.data,
-                            price=form.price.data, creator_id=user_logged_in.id, img_src=img_src)
+                            price=form.price.data, creator_id=user_logged_in.id, owner_id=user_logged_in.id,
+                            img_src=img_src)
             db.session.add(nft)
             db.session.commit()
             return render_template('create.html', user_logged_in=user_logged_in, form=form, nft_created=1)

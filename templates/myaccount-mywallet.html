@@ -23,6 +23,10 @@
     </ol>
 <div class="mt-4 mb-3">
         <h3>My Cryptos</h3>
+    <hr>
+    {% if not crypto_dictionary %}
+    <h5 class="text-center">You have no cryptos in your wallet.</h5>
+    {% else %}
 <table class="styled-table">
            <thead>
               <tr>
@@ -38,7 +42,7 @@
               {% for crypto in crypto_dictionary.values() %}
               <tr class="mt-5">
                   <th>
-                    <p>{{crypto.name}}</p>
+                    <p><a href="item/crypto/{{crypto.name}}">{{crypto.name}}</a></p>
                  </th>
                  <th>
                      <p><a href="profile/{{users_dictionary.get(crypto.user_id).username}}">
@@ -54,53 +58,50 @@
                   <th>
                     <p>{{wallet_dictionary.get(crypto.id).amount*users_dictionary.get(crypto.user_id).value}}</p>
                   </th>
-                 <th>
-                    <div><a class="btn btn-outline-dark mt-auto" href="/item/crypto/{{crypto.name}}">Show</a></div>
-                 </th>
               </tr>
               {% endfor %}
            </tbody>
         </table>
+    {% endif %}
       </div>
     <br>
 <div class="mt-4 mb-3">
         <h3>My NFTs</h3>
           <hr>
+    {% if not nfts_list %}
+    <h5 class="text-center">You have no NFTs in your wallet.</h5>
+
+    {% else %}
           <table class="styled-table">
         <thead>
           <tr>
-            <th>NFT</th>
             <th>Name</th>
             <th>Artist</th>
             <th>Category</th>
-            <th>Value</th>
+            <th>Price</th>
           </tr>
         </thead>
         <tbody>
+        {% for nft in nfts_list %}
           <tr>
             <th>
-              <div>
-                <div class="col">
-                  <a href="#">
-                    <img class="img-fluid" src="http://placehold.it/200x200" alt="">
-                    <p class="artist-name">NFT name</p>
-                  </a>
-                </div>
-              </div>
+              <p><a href="item/nft/{{nft.name}}">{{nft.name}}</a></p>
             </th>
             <th>
-              <p>NFT category</p>
+                <p><a href="item/nft/{{users_dictionary.get(nft.creator_id).username}}">{{users_dictionary.get(nft.creator_id).username}}</a></p>
             </th>
             <th>
-              <p>NFT Value</p>
+              <p>{{users_dictionary.get(nft.creator_id).category}}</p>
             </th>
-            <th>
-              <p></p>
+              <th>
+              <p>{{nft.price}} €</p>
             </th>
           </tr>
+        {% endfor %}
 
         </tbody>
       </table>
+    {% endif %}
       </div>
   <br>
   </div>
