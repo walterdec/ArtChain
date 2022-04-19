@@ -298,7 +298,7 @@ def artist_registration():
             applemusic = int(form.applemusicfollowers.data or 0)
             spotify = int(form.spotifyfollowers.data or 0)
             soundcloud = int(form.soundcloudfollowers.data or 0)
-            sales = int(form.sales.data or 0)
+            sales = 0
 
             if form.category.data == 'Musician':
                 value_c = ((insta * 0.3 + face * 0.2 + twitter * 0.2 + yt * 0.1 + tiktok * 0.1 + twitch * 0.1) * 0.5 +

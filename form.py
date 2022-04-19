@@ -60,7 +60,6 @@ class ArtistRegistrationForm(FlaskForm):
     spotifyfollowers = IntegerField('Spotify followers', [validators.optional()])
     soundclouduser = StringField('SoundCloud', [validators.optional()])
     soundcloudfollowers = IntegerField('SoundCloud followers', [validators.optional()])
-    sales = IntegerField('Sales', [validators.optional()])
 
     submit = SubmitField('Create Account')
 
