@@ -265,9 +265,11 @@ def artist_registration():
             if form.category.data == 'Musician':
                 value_c = ((insta * 0.3 + face * 0.2 + twitter * 0.2 + yt * 0.1 + tiktok * 0.1 + twitch * 0.1) * 0.5 +
                            (applemusic * 0.4 + spotify * 0.4 + soundcloud * 0.2) * 0.3 + sales * 0.2)/1000
+                value_c = round(value_c, 3)
             else:
                 value_c = ((insta * 0.3 + face * 0.2 + twitter * 0.2 + yt * 0.1 + tiktok * 0.1 + twitch * 0.1) * 0.8 +
                            + sales * 0.2)/1000
+                value_c = round(value_c, 3)
 
             encrypted_password = generate_password_hash(form.password.data)
 
@@ -425,7 +427,7 @@ def forgot():
             new_password = password_generator(12)
             restoring_user.password = generate_password_hash(new_password)
             db.session.commit()
-            send_mail(form.email.data, "ArtChain | Restore Account", "mail", username=restoring_user.username,
+            send_mail(form.email.data, "ArtChain | Password Reset", "mail", username=restoring_user.username,
                       password=new_password, artist=0, restore_account=1)
             email_sent = 1
         else:
@@ -461,12 +463,12 @@ def calculate_artist_value(user_artist):
         value = ((user_artist.insta * 0.3 + user_artist.face * 0.2 + user_artist.twitter * 0.2 + user_artist.yt * 0.1 +
                   user_artist.tiktok * 0.1 + user_artist.twitch * 0.1) * 0.5 +
                  (user_artist.applemusic * 0.4 + user_artist.spotify * 0.4 + user_artist.soundcloud * 0.2) * 0.3 +
-                 user_artist.sales * 0.2)
+                 user_artist.sales * 0.2)/1000
     else:
         value = ((user_artist.insta * 0.3 + user_artist.face * 0.2 + user_artist.twitter * 0.2 + user_artist.yt * 0.1 +
-                  user_artist.tiktok * 0.1 + user_artist.twitch * 0.1) * 0.8 + user_artist.sales * 0.2)
+                  user_artist.tiktok * 0.1 + user_artist.twitch * 0.1) * 0.8 + user_artist.sales * 0.2)/1000
 
-    user_artist.value = value
+    user_artist.value = round(value, 3)
     db.session.commit()
 
 

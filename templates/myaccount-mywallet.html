@@ -50,7 +50,7 @@
                      </a></p>
                  </th>
                  <th>
-                    <p>{{users_dictionary.get(crypto.user_id).value}}</p>
+                    <p>{{users_dictionary.get(crypto.user_id).value}} €</p>
                  </th>
                   <th>
                      <p>{{wallet_dictionary.get(crypto.id).amount}}</p>
@@ -88,7 +88,7 @@
               <p><a href="item/nft/{{nft.name}}">{{nft.name}}</a></p>
             </th>
             <th>
-                <p><a href="item/nft/{{users_dictionary.get(nft.creator_id).username}}">{{users_dictionary.get(nft.creator_id).username}}</a></p>
+                <p><a href="profile/{{users_dictionary.get(nft.creator_id).username}}">{{users_dictionary.get(nft.creator_id).username}}</a></p>
             </th>
             <th>
               <p>{{users_dictionary.get(nft.creator_id).category}}</p>

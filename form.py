@@ -104,7 +104,7 @@ class NewNFTForm(FlaskForm):
 
 
 class BuyCryptoForm(FlaskForm):
-    amount = FloatField('Amount')
+    amount = FloatField('Select the amount')
     submit = SubmitField('Buy')
 
 

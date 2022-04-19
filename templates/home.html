@@ -56,14 +56,13 @@
                  <th>Crypto</th>
                  <th>Artist</th>
                  <th>Value</th>
-                 <th></th>
               </tr>
            </thead>
            <tbody>
               {% for crypto in cryptos %}
               <tr class="mt-5">
                   <th>
-                    <p>{{crypto.name}}</p>
+                    <p><a href="/item/crypto/{{crypto.name}}">{{crypto.name}}</a></p>
                  </th>
                  <th>
                      <p><a href="profile/{{users.get(crypto.user_id).username}}">
@@ -71,10 +70,7 @@
                      </a></p>
                  </th>
                  <th>
-                    <p>{{users.get(crypto.user_id).value}}</p>
-                 </th>
-                 <th>
-                    <div><a class="btn btn-outline-dark mt-auto" href="/item/crypto/{{crypto.name}}">Show</a></div>
+                    <p>{{users.get(crypto.user_id).value}} €</p>
                  </th>
               </tr>
               {% endfor %}
