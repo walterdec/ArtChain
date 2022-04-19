@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, TextAreaField, PasswordField, SubmitField, IntegerField, validators,\
         FloatField
 from wtforms.validators import DataRequired, InputRequired, Email, Length
-from flask_wtf.file import FileField
+from flask_wtf.file import FileField, FileAllowed
 
 
 class LoginForm(FlaskForm):
@@ -97,9 +97,10 @@ class NewNFTForm(FlaskForm):
     nft_name = StringField('NFT Name', validators=[DataRequired()])
     category = SelectField('Category', choices=['Art', 'Music', 'Video Games', 'Collectible Items', 'Sport', 'Memes',
                                                 'Miscellaneous'], validators=[DataRequired()])
-    price = FloatField('Price (Euro)', validators=[InputRequired()])
+    price = FloatField('Price (ACH)', validators=[InputRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
-    nft_file = FileField('File', validators=[DataRequired()])
+    nft_file = FileField('File', validators=[DataRequired(), FileAllowed(['jpg', 'png', 'jpeg'],
+                                                                         message="File must be .jpg, .png or .jpeg")])
     submit = SubmitField('Create NFT')
 
 

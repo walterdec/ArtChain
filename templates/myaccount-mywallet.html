@@ -50,13 +50,13 @@
                      </a></p>
                  </th>
                  <th>
-                    <p>{{users_dictionary.get(crypto.user_id).value}} €</p>
+                    <p>{{users_dictionary.get(crypto.user_id).value}} ACH</p>
                  </th>
                   <th>
                      <p>{{wallet_dictionary.get(crypto.id).amount}}</p>
                  </th>
                   <th>
-                    <p>{{wallet_dictionary.get(crypto.id).amount*users_dictionary.get(crypto.user_id).value}}</p>
+                    <p>{{wallet_dictionary.get(crypto.id).amount*users_dictionary.get(crypto.user_id).value}} ACH</p>
                   </th>
               </tr>
               {% endfor %}
@@ -91,10 +91,10 @@
                 <p><a href="profile/{{users_dictionary.get(nft.creator_id).username}}">{{users_dictionary.get(nft.creator_id).username}}</a></p>
             </th>
             <th>
-              <p>{{users_dictionary.get(nft.creator_id).category}}</p>
+              <p>{{nft.category}}</p>
             </th>
               <th>
-              <p>{{nft.price}} €</p>
+              <p>{{nft.price}} ACH</p>
             </th>
           </tr>
         {% endfor %}

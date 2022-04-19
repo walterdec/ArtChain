@@ -10,6 +10,7 @@ from flask_mail import Message, Mail
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 from form import LoginForm, CustomerRegistrationForm, ArtistRegistrationForm, ForgotPasswordForm, EditArtistForm, \
     EditCustomerForm, NewNFTForm, ContactForm, BuyCryptoForm
+from PIL import Image
 
 app = Flask(__name__)
 
@@ -357,12 +358,15 @@ def create():
     if form.validate_on_submit():
         if not db.session.query(model.NFT).filter_by(name=form.nft_name.data).first():
             img_src = upload_nft(form.nft_file.data, form.nft_name.data)
-            nft = model.NFT(name=form.nft_name.data, description=form.description.data, category=form.category.data,
-                            price=form.price.data, creator_id=user_logged_in.id, owner_id=user_logged_in.id,
-                            img_src=img_src)
-            db.session.add(nft)
-            db.session.commit()
-            return render_template('create.html', user_logged_in=user_logged_in, form=form, nft_created=1)
+            if img_src is not None:
+                nft = model.NFT(name=form.nft_name.data, description=form.description.data, category=form.category.data,
+                                price=form.price.data, creator_id=user_logged_in.id, owner_id=user_logged_in.id,
+                                img_src=img_src)
+                db.session.add(nft)
+                db.session.commit()
+                return render_template('create.html', user_logged_in=user_logged_in, form=form, nft_created=1)
+            else:
+                return render_template('create.html', user_logged_in=user_logged_in, form=form, img_size_error=1)
         else:
             duplicated_nft = 1
 
@@ -473,13 +477,27 @@ def calculate_artist_value(user_artist):
 
 
 def upload_nft(nft_file, name):
-    img_src = name.replace(" ", "_")
-    img_src = img_src+'.jpg'
+    img_name = name.replace(" ", "_")
+    img_name = img_name+'.jpg'
     if not os.path.exists('static/uploads/nfts'):
         os.makedirs('static/uploads/nfts')
     folder = 'nfts'
-    photos.save(nft_file, name=img_src, folder=folder)
-    return img_src
+    photos.save(nft_file, name=img_name, folder=folder)
+    img_src = 'static/uploads/nfts/'+img_name
+    if check_size(img_src):
+        return img_name
+    else:
+        os.remove(img_src)
+        return None
+
+
+def check_size(image):
+    img = Image.open(image)
+    width, height = img.size
+    if width in range(height-10, height+10):
+        return True
+    else:
+        return False
 
 
 def upload_profile_pic(pic_file, username):

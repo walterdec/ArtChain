@@ -43,6 +43,15 @@
              </div>
           {% endif %}
 
+                  {% if img_size_error %}
+                 <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+              Image must be squared (e.g. 200x200)
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+             </button>
+             </div>
+          {% endif %}
+
                {% for error in form.errors %}
           {% if error %}
             <div class="alert alert-danger alert-dismissible fade show center-title" role="alert">
@@ -59,23 +68,23 @@
 
     <div class="container">
 
-<div class="container rounded bg-white mb-5">
+<div class="container rounded bg-white">
             <div class="p-3 py-5 form-center">
                 <div class="row">
                     <div class="col-md-6 mt-2">{{form.nft_name.label}}{{form.nft_name(class="form-control")}}</div><br>
                      <div class="col-md-6 mt-2">
-                       {{form.category.label}}{{form.category(class="form-control")}}
-                        </div><br>
+                       {{form.category.label}}{{form.category(class="form-control")}}</div><br>
                     <div class="col-md-6 mt-2">{{form.price.label}}{{form.price(class="form-control")}}</div><br>
                     <div class="col-md-6 mt-2">{{form.description.label}}{{form.description(class="form-control")}}</div><br>
-                    <div class="col-md-6 mt-2 form-center">{{form.nft_file.label(class="form-label")}}{{form.nft_file(class="form-control mt-5, border-0", id="formFile")}}</div><br>
+                    <div class="col-md-6 mt-2">{{form.nft_file.label(class="form-label")}}{{form.nft_file(class="form-control mt-5, border-0", id="formFile")}}</div><br>
+                    <div class="alert alert-warning form-center mt-4">&#8226; Only squared images allowed<br>&#8226; File must be .jpg, .jpeg or .png</div>
                 </div>
-            </div>
-    <div class="form-center">
+                </div>
+          <div class="form-center mb-3">
         {{form.submit(class="btn btn-primary")}}
+            </div>
     </div>
-    </div>
-</div>
+     </div>
     </form>
 </div>
 
