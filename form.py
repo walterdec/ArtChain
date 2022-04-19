@@ -38,7 +38,9 @@ class ArtistRegistrationForm(FlaskForm):
 
     crypto = StringField('Crypto Acronym', validators=[DataRequired()])
 
-    profile_pic = FileField('Profile Picture', validators=[DataRequired()])
+    profile_pic = FileField('Profile Picture', validators=[DataRequired(),
+                                                           FileAllowed(['jpg', 'png', 'jpeg'],
+                                                                       message="File must be .jpg, .png or .jpeg")])
 
     instauser = StringField('Instagram', [validators.optional()])
     instafollowers = IntegerField('Instagram followers', [validators.optional()])
@@ -70,16 +72,28 @@ class EditArtistForm(FlaskForm):
                                                             message="Password must be between 6 and 30 characters")])
     confpassword = PasswordField('Confirm password', validators=[validators.optional()])
 
+    profile_pic = FileField('Profile Picture', validators=[validators.optional(),
+                                                           FileAllowed(['jpg', 'png', 'jpeg'],
+                                                                       message="File must be .jpg, .png or .jpeg")])
+
+    instauser = StringField('Instagram', [validators.optional()])
     instafollowers = IntegerField('Instagram', [validators.optional()])
+    faceuser = StringField('Facebook', [validators.optional()])
     facefollowers = IntegerField('Facebook', [validators.optional()])
+    twitteruser = StringField('Twitter', [validators.optional()])
     twitterfollowers = IntegerField('Twitter', [validators.optional()])
+    ytuser = StringField('YouTube', [validators.optional()])
     ytfollowers = IntegerField('YouTube', [validators.optional()])
+    tiktokuser = StringField('TikTok', [validators.optional()])
     tiktokfollowers = IntegerField('TikTok', [validators.optional()])
+    twitchuser = StringField('Twitch', [validators.optional()])
     twitchfollowers = IntegerField('Twitch', [validators.optional()])
+    applemusicuser = StringField('Apple Music', [validators.optional()])
     applemusicfollowers = IntegerField('Apple Music', [validators.optional()])
+    spotifyuser = StringField('Spotify', [validators.optional()])
     spotifyfollowers = IntegerField('Spotify', [validators.optional()])
+    soundclouduser = StringField('SoundCloud', [validators.optional()])
     soundcloudfollowers = IntegerField('SoundCloud', [validators.optional()])
-    sales = IntegerField('Sales', [validators.optional()])
 
     submit = SubmitField('Save Profile')
 

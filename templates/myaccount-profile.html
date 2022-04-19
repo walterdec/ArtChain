@@ -96,7 +96,7 @@
 
       {% if user_logged_in.role_id == 3 %}
 
-      <form method="post">
+      <form method="post" enctype=multipart/form-data>
           {{ form.hidden_tag() }}
     <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
@@ -119,7 +119,9 @@
                 <div class="col-md-12">{{form.email.label}}{{form.email(class="form-control", value=user_logged_in.email)}}</div><br>
                 <div class="col-md-12 mt-2">{{form.password.label}}{{form.password(class="form-control", placeholder="change password")}}</div><br>
                     <div class="col-md-12 mt-2">{{form.confpassword.label}}{{form.confpassword(class="form-control", placeholder="confirm password")}}</div><br>
+                    <div class="col-md-12 mt-4">{{form.profile_pic.label}}{{form.profile_pic(class="form-control mt-5, border-0", id="formFile")}}</div>
                </div>
+
             </div>
         </div>
         <div class="col-md-4">
@@ -127,18 +129,17 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="text-right">Social Networks</h4>
                 </div>
-                <div class="col-md-12">{{form.instafollowers.label}}{{form.instafollowers(class="form-control", placeholder=user_logged_in.insta)}}</div><br>
-                <div class="col-md-12">{{form.facefollowers.label}}{{form.facefollowers(class="form-control", placeholder=user_logged_in.face)}}</div><br>
-                <div class="col-md-12">{{form.twitterfollowers.label}}{{form.twitterfollowers(class="form-control", placeholder=user_logged_in.twitter)}}</div><br>
-                <div class="col-md-12">{{form.ytfollowers.label}}{{form.ytfollowers(class="form-control", placeholder=user_logged_in.yt)}}</div><br>
-                <div class="col-md-12">{{form.tiktokfollowers.label}}{{form.tiktokfollowers(class="form-control", placeholder=user_logged_in.tiktok)}}</div><br>
-                <div class="col-md-12">{{form.twitchfollowers.label}}{{form.twitchfollowers(class="form-control", placeholder=user_logged_in.twitch)}}</div><br>
+                <div class="col-md-12">{{form.instafollowers.label}}{{form.instauser(class="form-control", placeholder=user_logged_in.instaname or "username")}}{{form.instafollowers(class="form-control", placeholder=user_logged_in.insta or "followers")}}</div><br>
+                <div class="col-md-12">{{form.facefollowers.label}}{{form.faceuser(class="form-control", placeholder=user_logged_in.facename or "username")}}{{form.facefollowers(class="form-control", placeholder=user_logged_in.face or "followers")}}</div><br>
+                <div class="col-md-12">{{form.twitterfollowers.label}}{{form.twitteruser(class="form-control", placeholder=user_logged_in.twittername or "username")}}{{form.twitterfollowers(class="form-control", placeholder=user_logged_in.twitter or "followers")}}</div><br>
+                <div class="col-md-12">{{form.ytfollowers.label}}{{form.ytuser(class="form-control", placeholder=user_logged_in.ytname or "username")}}{{form.ytfollowers(class="form-control", placeholder=user_logged_in.yt or "followers")}}</div><br>
+                <div class="col-md-12">{{form.tiktokfollowers.label}}{{form.tiktokuser(class="form-control", placeholder=user_logged_in.tiktokname or "username")}}{{form.tiktokfollowers(class="form-control", placeholder=user_logged_in.tiktok or "followers")}}</div><br>
+                <div class="col-md-12">{{form.twitchfollowers.label}}{{form.twitchuser(class="form-control", placeholder=user_logged_in.twitchname or "username")}}{{form.twitchfollowers(class="form-control", placeholder=user_logged_in.twitch or "followers")}}</div><br>
                 {% if user_logged_in.category == 'Musician' %}
-                <div class="col-md-12">{{form.applemusicfollowers.label}}{{form.applemusicfollowers(class="form-control", placeholder=user_logged_in.applemusic)}}</div><br>
-                <div class="col-md-12">{{form.spotifyfollowers.label}}{{form.spotifyfollowers(class="form-control", placeholder=user_logged_in.spotify)}}</div><br>
-                <div class="col-md-12">{{form.soundcloudfollowers.label}}{{form.soundcloudfollowers(class="form-control", placeholder=user_logged_in.soundcloud)}}</div><br>
+                <div class="col-md-12">{{form.applemusicfollowers.label}}{{form.applemusicuser(class="form-control", placeholder=user_logged_in.applemusicname or "username")}}{{form.applemusicfollowers(class="form-control", placeholder=user_logged_in.applemusic or "followers")}}</div><br>
+                <div class="col-md-12">{{form.spotifyfollowers.label}}{{form.spotifyuser(class="form-control", placeholder=user_logged_in.spotifyname or "username")}}{{form.spotifyfollowers(class="form-control", placeholder=user_logged_in.spotify or "followers")}}</div><br>
+                <div class="col-md-12">{{form.soundcloudfollowers.label}}{{form.soundclouduser(class="form-control", placeholder=user_logged_in.soundcloudname or "username")}}{{form.soundcloudfollowers(class="form-control", placeholder=user_logged_in.soundcloud or "followers")}}</div><br>
                 {% endif %}
-                <div class="col-md-12">{{form.sales.label}}{{form.sales(class="form-control", placeholder=user_logged_in.sales)}}</div><br>
             </div>
         </div>
     </div>

@@ -160,25 +160,55 @@ def my_settings():
                 db.session.commit()
                 settings_edited = 1
 
+            if form.profile_pic.data is not None:
+                os.remove('static/uploads/profilepics/'+user_logged_in.profile_pic_src)
+                upload_profile_pic(form.profile_pic.data, user_logged_in.username)
+                settings_edited = 1
+
             if user_logged_in.role_id == 3:
+                print form.instauser.data
+                if form.instauser.data != '' and form.instauser.data is not None:
+                    user_logged_in.instaname = request.form['instauser']
+                    db.session.commit()
+                    settings_edited = 1
                 if form.instafollowers.data is not None:
                     user_logged_in.insta = request.form['instafollowers']
+                    db.session.commit()
+                    settings_edited = 1
+                if form.faceuser.data != '' and form.faceuser.data is not None:
+                    user_logged_in.facename = request.form['faceuser']
                     db.session.commit()
                     settings_edited = 1
                 if form.facefollowers.data is not None:
                     user_logged_in.face = request.form['facefollowers']
                     db.session.commit()
                     settings_edited = 1
+                if form.twitteruser.data != '' and form.twitteruser.data is not None:
+                    user_logged_in.twittername = request.form['twitteruser']
+                    db.session.commit()
+                    settings_edited = 1
                 if form.twitterfollowers.data is not None:
                     user_logged_in.twitter = request.form['twitterfollowers']
+                    db.session.commit()
+                    settings_edited = 1
+                if form.ytuser.data != '' and form.ytuser.data is not None:
+                    user_logged_in.ytname = request.form['ytuser']
                     db.session.commit()
                     settings_edited = 1
                 if form.ytfollowers.data is not None:
                     user_logged_in.yt = request.form['ytfollowers']
                     db.session.commit()
                     settings_edited = 1
+                if form.tiktokuser.data != '' and form.tiktokuser.data is not None:
+                    user_logged_in.tiktokname = request.form['tiktokuser']
+                    db.session.commit()
+                    settings_edited = 1
                 if form.tiktokfollowers.data is not None:
                     user_logged_in.tiktok = request.form['tiktokfollowers']
+                    db.session.commit()
+                    settings_edited = 1
+                if form.twitchuser.data != '' and form.twitchuser.data is not None:
+                    user_logged_in.twitchname = request.form['twitchuser']
                     db.session.commit()
                     settings_edited = 1
                 if form.twitchfollowers.data is not None:
@@ -187,23 +217,30 @@ def my_settings():
                     settings_edited = 1
 
                 if user_logged_in.category == 'Musician':
+                    if form.applemusicuser.data != '' and form.applemusicuser.data is not None:
+                        user_logged_in.applemusicname = request.form['applemusicuser']
+                        db.session.commit()
+                        settings_edited = 1
                     if form.applemusicfollowers.data is not None:
                         user_logged_in.applemusic = request.form['applemusicfollowers']
+                        db.session.commit()
+                        settings_edited = 1
+                    if form.spotifyuser.data != '' and form.spotifyuser.data is not None:
+                        user_logged_in.spotifyname = request.form['spotifyuser']
                         db.session.commit()
                         settings_edited = 1
                     if form.spotifyfollowers.data is not None:
                         user_logged_in.spotify = request.form['spotifyfollowers']
                         db.session.commit()
                         settings_edited = 1
+                    if form.soundclouduser.data != '' and form.soundclouduser.data is not None:
+                        user_logged_in.soundcloudname = request.form['soundclouduser']
+                        db.session.commit()
+                        settings_edited = 1
                     if form.soundcloudfollowers.data is not None:
                         user_logged_in.soundcloud = request.form['soundcloudfollowers']
                         db.session.commit()
                         settings_edited = 1
-
-                if form.sales.data is not None:
-                    user_logged_in.sales = request.form['sales']
-                    db.session.commit()
-                    settings_edited = 1
 
                 calculate_artist_value(user_logged_in)
 
