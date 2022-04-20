@@ -130,6 +130,15 @@
           {% endif %}
         {% endfor %}
 
+                {% if password_check_fail %}
+          <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+              Password must contain at least 1 lowercase char, 1 uppercase char, 1 digit and 1 symbol
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          {% endif %}
+
         {% if form.password.data != form.confpassword.data %}
          <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
               {{"Passwords should match"}}

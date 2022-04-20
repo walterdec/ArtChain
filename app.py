@@ -141,6 +141,7 @@ def my_settings():
     form = None
     email_already_existing = 0
     settings_edited = 0
+    password_check_fail = 0
     try:
         if session['username']:
             user = session['username']
@@ -164,10 +165,13 @@ def my_settings():
 
             password = form.password.data
             if password != '' and form.password.data == form.confpassword.data:
-                encrypted_password = generate_password_hash(form.password.data)
-                user_logged_in.password = encrypted_password
-                db.session.commit()
-                settings_edited = 1
+                if password_check(form.password.data):
+                    encrypted_password = generate_password_hash(form.password.data)
+                    user_logged_in.password = encrypted_password
+                    db.session.commit()
+                    settings_edited = 1
+                else:
+                    password_check_fail = 1
 
             if form.profile_pic.data is not None:
                 os.remove('static/uploads/profilepics/'+user_logged_in.profile_pic_src)
@@ -255,7 +259,7 @@ def my_settings():
 
             return render_template('myaccount-profile.html', form=form, user_logged_in=user_logged_in,
                                    email_already_existing=email_already_existing,
-                                   settings_edited=settings_edited)
+                                   settings_edited=settings_edited, password_check_fail=password_check_fail)
 
     except KeyError:
         return forbidden(KeyError)
@@ -297,6 +301,8 @@ def artist_registration():
             unique_db_error = 1
             return render_template('artist-registration.html', form=form, registration_success=registration_success,
                                    unique_db_error=unique_db_error)
+        if not password_check(form.password.data):
+            return render_template('artist-registration.html', form=form, password_check_fail=1)
         else:
             insta = int(form.instafollowers.data or 0)
             face = int(form.facefollowers.data or 0)
@@ -373,14 +379,14 @@ def customer_registration():
     username = None
     unique_db_error = 0
     registration_success = 0
-    password_regex_no_match = 0
+    password_check_fail = 0
     if form.validate_on_submit() and form.password.data == form.confpassword.data:
         if (model.User.query.filter(model.User.username == request.form['username'].lower().strip()).first() or
                 model.User.query.filter(model.User.email == request.form['email']).first()):
             unique_db_error = 1
 
         elif not password_check(form.password.data):
-            password_regex_no_match = 1
+            password_check_fail = 1
         else:
             encrypted_password = generate_password_hash(form.password.data)
             customer_reg = model.User(username=form.username.data.lower().strip(),
@@ -394,7 +400,7 @@ def customer_registration():
                       password=form.password.data, artist=0, restore_account=0)
 
     return render_template('customer-registration.html', form=form, name=username, unique_db_error=unique_db_error,
-                           registration_success=registration_success, password_regex_no_match=password_regex_no_match)
+                           registration_success=registration_success, password_check_fail=password_check_fail)
 
 
 @app.route('/create', methods=['GET', 'POST'])
