@@ -41,6 +41,7 @@
                         </div>
                     <div class="col-lg-6">
                     <div class="form-center mt-5 mb-5">
+                        {% if session.username %}
                    <form>
                        {{form.hidden_tag()}}
                        <div class="text-center">
@@ -50,6 +51,7 @@
                        {{form.submit(class="btn btn-outline-dark flex-shrink-0 btn-lg")}}
                         </div>
                    </form>
+                        {% endif %}
                </div>
                     </div>
                 </div>

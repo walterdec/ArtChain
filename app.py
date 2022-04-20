@@ -273,10 +273,10 @@ def login():
     form = LoginForm()
     login_error = 0
     if form.validate_on_submit():
-        for row in db.session.query(model.User).filter_by(username=request.form['username'].lower()):
+        for row in db.session.query(model.User).filter_by(username=request.form['username'].lower().strip()):
             user = row
             if check_password_hash(user.password, request.form['password']):
-                username = form.username.data.lower()
+                username = form.username.data.lower().strip()
                 session['username'] = username
                 return redirect(url_for('home'))
         else:
@@ -296,7 +296,7 @@ def artist_registration():
         if len(request.form['crypto']) is not 3:
             return render_template('artist-registration.html', form=form, crypto_not_valid=1)
 
-        if (model.User.query.filter(model.User.username == request.form['username'].lower()).first() or
+        if (model.User.query.filter(model.User.username == request.form['username'].lower().strip()).first() or
                 model.User.query.filter(model.User.email == request.form['email']).first()):
             unique_db_error = 1
             return render_template('artist-registration.html', form=form, registration_success=registration_success,
@@ -324,9 +324,9 @@ def artist_registration():
 
             encrypted_password = generate_password_hash(form.password.data)
 
-            img_src = upload_profile_pic(form.profile_pic.data, form.username.data.lower())
+            img_src = upload_profile_pic(form.profile_pic.data, form.username.data.lower().strip())
 
-            artist_reg = model.User(username=form.username.data.lower(), email=form.email.data,
+            artist_reg = model.User(username=form.username.data.lower().strip(), email=form.email.data,
                                     password=encrypted_password, role_id=3, name=form.name.data,
                                     surname=form.surname.data, category=form.category.data,
                                     insta=insta, instaname=form.instauser.data,
@@ -351,12 +351,12 @@ def artist_registration():
             registration_success = 1
 
             crypto_creation = model.Crypto(name=form.crypto.data.upper(), user_id=model.User.query.filter_by
-                                           (username=form.username.data.lower()).first().id, value=value_c)
+                                           (username=form.username.data.lower().strip()).first().id, value=value_c)
             db.session.add(crypto_creation)
             db.session.commit()
 
             wallet_row = model.Wallet(user_id=model.User.query.filter_by
-                                      (username=form.username.data.lower()).first().id,
+                                      (username=form.username.data.lower().strip()).first().id,
                                       crypto_id=model.Crypto.query.filter_by(name=form.crypto.data.upper()).first().id,
                                       amount=100)
             db.session.add(wallet_row)
@@ -378,17 +378,19 @@ def customer_registration():
     unique_db_error = 0
     registration_success = 0
     if form.validate_on_submit() and form.password.data == form.confpassword.data:
-        if (model.User.query.filter(model.User.username == request.form['username'].lower()).first() or
+        if (model.User.query.filter(model.User.username == request.form['username'].lower().strip()).first() or
                 model.User.query.filter(model.User.email == request.form['email']).first()):
             unique_db_error = 1
         else:
             encrypted_password = generate_password_hash(form.password.data)
-            customer_reg = model.User(username=form.username.data.lower(), email=form.email.data,
+            customer_reg = model.User(username=form.username.data.lower().strip(),
+                                      email=form.email.data.lower(),
                                       password=encrypted_password, role_id=2)
             db.session.add(customer_reg)
             db.session.commit()
             registration_success = 1
-            send_mail(form.email.data, "ArtChain | Registration success", "mail", username=form.username.data,
+            send_mail(form.email.data, "ArtChain | Registration success", "mail",
+                      username=form.username.data.lower().strip(),
                       password=form.password.data, artist=0, restore_account=0)
 
     return render_template('customer-registration.html', form=form, name=username, unique_db_error=unique_db_error,
@@ -406,10 +408,11 @@ def create():
         return forbidden(KeyError)
 
     if form.validate_on_submit():
-        if not db.session.query(model.NFT).filter_by(name=form.nft_name.data).first():
-            img_src = upload_nft(form.nft_file.data, form.nft_name.data)
+        nft_name = form.nft_name.data.strip()
+        if not db.session.query(model.NFT).filter_by(name=nft_name).first():
+            img_src = upload_nft(form.nft_file.data, nft_name)
             if img_src is not None:
-                nft = model.NFT(name=form.nft_name.data, description=form.description.data, category=form.category.data,
+                nft = model.NFT(name=nft_name, description=form.description.data, category=form.category.data,
                                 price=form.price.data, creator_id=user_logged_in.id, owner_id=user_logged_in.id,
                                 img_src=img_src)
                 db.session.add(nft)

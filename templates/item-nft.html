@@ -41,9 +41,11 @@
                     </div>
                 </div>
             </div>
+            {% if session.username %}
                <div class="form-center mb-5">
                    <button class="btn btn-outline-dark flex-shrink-0 btn-lg" type="button">Buy</button>
                </div>
+            {% endif %}
         </section>
 
 {% endblock content %}

@@ -45,8 +45,8 @@ class ArtistRegistrationForm(FlaskForm):
     crypto = StringField('Crypto Acronym', validators=[DataRequired()])
 
     profile_pic = FileField('Profile Picture', validators=[DataRequired(),
-                                                           FileAllowed(['jpg', 'png', 'jpeg'],
-                                                                       message="File must be .jpg, .png or .jpeg")])
+                                                           FileAllowed(['jpg', 'png', 'jpeg', 'webp'],
+                                                                       message="File must be .jpg, .png, .jpeg or .webp")])
 
     instauser = StringField('Instagram', [validators.optional()])
     instafollowers = IntegerField('Instagram followers', [validators.optional()])
@@ -78,8 +78,8 @@ class EditArtistForm(FlaskForm):
     confpassword = PasswordField('Confirm password', validators=[validators.optional()])
 
     profile_pic = FileField('Profile Picture', validators=[validators.optional(),
-                                                           FileAllowed(['jpg', 'png', 'jpeg'],
-                                                                       message="File must be .jpg, .png or .jpeg")])
+                                                           FileAllowed(['jpg', 'png', 'jpeg', 'webp'],
+                                                                       message="File must be .jpg, .png, .jpeg or .webp")])
 
     instauser = StringField('Instagram', [validators.optional()])
     instafollowers = IntegerField('Instagram', [validators.optional()])
@@ -118,8 +118,9 @@ class NewNFTForm(FlaskForm):
                                                 'Miscellaneous'], validators=[DataRequired()])
     price = FloatField('Price (ACH)', validators=[InputRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
-    nft_file = FileField('File', validators=[DataRequired(), FileAllowed(['jpg', 'png', 'jpeg'],
-                                                                         message="File must be .jpg, .png or .jpeg")])
+    nft_file = FileField('File', validators=[DataRequired(),
+                                             FileAllowed(['jpg', 'png', 'jpeg', 'webp'],
+                                                         message="File must be .jpg, .png, .jpeg or .webp")])
     submit = SubmitField('Create NFT')
 
 
