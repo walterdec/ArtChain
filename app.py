@@ -53,9 +53,9 @@ def home():
     form = SearchForm()
     if form.validate_on_submit():
         searched = form.search.data
-        profiles = db.session.query(model.User).filter_by(username=searched).all()
-        nfts = db.session.query(model.NFT).filter_by(name=searched).all()
-        cryptos = db.session.query(model.Crypto).filter_by(name=searched).all()
+        profiles = db.session.query(model.User).filter(model.User.username.like(searched)).all()
+        nfts = db.session.query(model.NFT).filter(model.NFT.name.like(searched)).all()
+        cryptos = db.session.query(model.Crypto).filter(model.Crypto.name.like(searched)).all()
         return render_template('search.html', form=form, searched=searched, profiles=profiles, nfts=nfts,
                                cryptos=cryptos)
     users_dictionary = {}
