@@ -1,6 +1,7 @@
 import os
 import string
 import random
+import re
 import model
 from flask import Flask, request, render_template, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
@@ -104,11 +105,6 @@ def explore_crypto():
         users_dictionary[cryptocurrency.user_id] = (db.session.query(model.User).filter_by
                                                     (id=cryptocurrency.user_id).first())
     return render_template('explore-crypto.html', users_dictionary=users_dictionary, cryptos_list=cryptos_list)
-
-
-@app.route('/stats')
-def stats():
-    return render_template('stats.html')
 
 
 @app.route('/myaccount-mywallet')
@@ -377,10 +373,14 @@ def customer_registration():
     username = None
     unique_db_error = 0
     registration_success = 0
+    password_regex_no_match = 0
     if form.validate_on_submit() and form.password.data == form.confpassword.data:
         if (model.User.query.filter(model.User.username == request.form['username'].lower().strip()).first() or
                 model.User.query.filter(model.User.email == request.form['email']).first()):
             unique_db_error = 1
+
+        elif not password_check(form.password.data):
+            password_regex_no_match = 1
         else:
             encrypted_password = generate_password_hash(form.password.data)
             customer_reg = model.User(username=form.username.data.lower().strip(),
@@ -394,7 +394,7 @@ def customer_registration():
                       password=form.password.data, artist=0, restore_account=0)
 
     return render_template('customer-registration.html', form=form, name=username, unique_db_error=unique_db_error,
-                           registration_success=registration_success)
+                           registration_success=registration_success, password_regex_no_match=password_regex_no_match)
 
 
 @app.route('/create', methods=['GET', 'POST'])
@@ -570,6 +570,14 @@ def password_generator(length):
         else:
             password += random.choice(pool)
     return password
+
+
+def password_check(password):
+    if re.search(r"\d", password) and re.search(r"[a-z]", password) and re.search(r"[A-Z]", password) and \
+            re.search(r"[ !#$%&'()*+,-./[\\\]^_`{|}~"+r'"]', password):
+        return True
+    else:
+        return False
 
 
 if __name__ == '__main__':

@@ -24,7 +24,7 @@ class CustomerRegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email(message="Email is not valid")])
     password = PasswordField('Password',
                              validators=[DataRequired(),
-                                         Length(min=6, max=30, message="Password must be between 6 and 30 characters")])
+                                         Length(min=8, max=30, message="Password must be between 8 and 30 characters")])
     confpassword = PasswordField('Confirm Password', validators=[DataRequired()])
     submit = SubmitField('Create Account')
 
@@ -36,8 +36,8 @@ class ArtistRegistrationForm(FlaskForm):
     name = StringField('Name', validators=[InputRequired()])
     surname = StringField('Surname', validators=[InputRequired()])
     password = PasswordField('Password', validators=[InputRequired(),
-                                                     Length(min=6, max=30,
-                                                     message="Password must be between 6 and 30 characters")])
+                                                     Length(min=8, max=30,
+                                                     message="Password must be between 8 and 30 characters")])
     confpassword = PasswordField('Confirm password', validators=[InputRequired()])
     email = StringField('Email', validators=[InputRequired(), Email(message="Email is not valid")])
     category = SelectField('Category', choices=['Musician', 'Sketcher', 'Video Maker', 'Other'])
@@ -73,8 +73,8 @@ class ArtistRegistrationForm(FlaskForm):
 class EditArtistForm(FlaskForm):
     email = StringField('Email', validators=[InputRequired(), Email(message="Email is not valid")])
     password = PasswordField('Password', validators=[validators.optional(),
-                                                     Length(min=6, max=30,
-                                                            message="Password must be between 6 and 30 characters")])
+                                                     Length(min=8, max=30,
+                                                            message="Password must be between 8 and 30 characters")])
     confpassword = PasswordField('Confirm password', validators=[validators.optional()])
 
     profile_pic = FileField('Profile Picture', validators=[validators.optional(),
@@ -106,7 +106,7 @@ class EditArtistForm(FlaskForm):
 class EditCustomerForm(FlaskForm):
     email = StringField('Email', validators=[Email(message="Email is not valid")])
     password = PasswordField('Password', validators=[validators.optional(),
-                                                     Length(min=6, max=30, message="Password must be between 6 and 30 "
+                                                     Length(min=8, max=30, message="Password must be between 8 and 30 "
                                                                                    "characters")])
     confpassword = PasswordField('Confirm password', validators=[validators.optional()])
     submit = SubmitField('Save Profile')
