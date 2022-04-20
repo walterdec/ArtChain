@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from markupsafe import Markup
 from wtforms import StringField, SelectField, TextAreaField, PasswordField, SubmitField, IntegerField, validators,\
         FloatField
 from wtforms.validators import DataRequired, InputRequired, Email, Length
@@ -9,6 +10,11 @@ class LoginForm(FlaskForm):
     username = StringField('Username')
     password = PasswordField('Password')
     submit = SubmitField('Login')
+
+
+class SearchForm(FlaskForm):
+    search = StringField('Search', validators=[DataRequired()])
+    submit = SubmitField(Markup('&#x1F50D;'))
 
 
 class CustomerRegistrationForm(FlaskForm):

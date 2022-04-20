@@ -9,7 +9,7 @@ from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_mail import Message, Mail
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 from form import LoginForm, CustomerRegistrationForm, ArtistRegistrationForm, ForgotPasswordForm, EditArtistForm, \
-    EditCustomerForm, NewNFTForm, ContactForm, BuyCryptoForm
+    EditCustomerForm, NewNFTForm, ContactForm, BuyCryptoForm, SearchForm
 from PIL import Image
 
 app = Flask(__name__)
@@ -48,8 +48,16 @@ def setup_db():
     db.create_all()
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home():
+    form = SearchForm()
+    if form.validate_on_submit():
+        searched = form.search.data
+        profiles = db.session.query(model.User).filter_by(username=searched).all()
+        nfts = db.session.query(model.NFT).filter_by(name=searched).all()
+        cryptos = db.session.query(model.Crypto).filter_by(name=searched).all()
+        return render_template('search.html', form=form, searched=searched, profiles=profiles, nfts=nfts,
+                               cryptos=cryptos)
     users_dictionary = {}
     nfts_list = db.session.query(model.NFT).all()
     cryptos_list = db.session.query(model.Crypto).all()
@@ -58,7 +66,12 @@ def home():
                                                     filter_by(id=cryptocurrency.user_id).first())
     random.shuffle(nfts_list)
     random.shuffle(cryptos_list)
-    return render_template('home.html', cryptos=cryptos_list[0:4], nfts=nfts_list[0:4], users=users_dictionary)
+    return render_template('home.html', form=form, cryptos=cryptos_list[0:4], nfts=nfts_list[0:4], users=users_dictionary)
+
+
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    return
 
 
 @app.route('/about')
@@ -475,17 +488,6 @@ def forgot():
             wrong_email = 1
 
     return render_template('forgot.html', form=form, email_sent=email_sent, wrong_email=wrong_email)
-
-
-@app.route('/delete')
-def delete():
-    if session['username']:
-        for row in db.session.query(model.User).filter_by(username=session['username']):
-            user_to_delete = row
-        db.session.delete(user_to_delete)
-        db.session.commit()
-    session.clear()
-    return redirect('/')
 
 
 @app.errorhandler(404)

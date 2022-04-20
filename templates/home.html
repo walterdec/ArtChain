@@ -20,6 +20,17 @@
 
     <!-- Section-->
     <section class="py-5">
+        <div class="container form-center mb-5">
+        <form method="post">
+            {{form.hidden_tag()}}
+        <div class="input-group">
+      <div class="form-outline">
+        {{form.search(class="form-control rounded form-control-lg col-md-12", placeholder="Search")}}
+      </div>
+            {{form.submit(class="btn btn-primary btn-lg")}}
+    </div>
+        </form>
+            </div>
 
       <div class="container px-4 px-lg-5 ">
         <h3>NFTs</h3>

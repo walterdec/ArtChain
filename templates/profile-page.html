@@ -55,31 +55,57 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="text-right">Social Networks</h4>
                 </div>
+                {% if user.insta or user.face %}
                 <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Instagram</label><a href="https://www.instagram.com/{{user.instaname}}"><h6>{{user.instaname}}</h6></a><h6>{{user.insta}}<br>followers</h6></div> <br>
+                    {% if user.insta %}
+                        <div class="col-md-6"><label class="labels">Instagram</label><a href="https://www.instagram.com/{{user.instaname}}"><h6>{{user.instaname}}</h6></a><h6>{{user.insta}}<br>followers</h6></div> <br>
+                    {% endif %}
+                      {% if user.face %}
                     <div class="col-md-6"><label class="labels">Facebook</label><h6><a href="https://www.facebook.com/{{user.facename}}">{{user.facename}}</a></h6><h6>{{user.face}}<br>followers</h6></div> <br>
+                    {% endif %}
                 </div>
                 <hr>
+                {% endif %}
+                {% if user.twitter or user.yt %}
                 <div class="row mt-3">
+                    {% if user.twitter %}
                 <div class="col-md-6"><label class="labels">Twitter</label><h6><a href="https://www.twitter.com/{{user.twittername}}">{{user.twittername}}</a></h6><h6>{{user.twitter}}<br>followers</h6></div> <br>
+                    {% endif %}
+                    {% if user.yt %}
                     <div class="col-md-6"><label class="labels">Youtube</label><a href="https://www.youtube.com/c/{{user.ytname}}"><h6>{{user.ytname}}</h6></a><h6>{{user.yt}}<br>followers</h6></div> <br>
+                    {% endif %}
                 </div>
                 <hr>
+                {% endif %}
+                {% if user.tiktok or user.twitch %}
                 <div class="row mt-3">
-                    <div class="col-md-6"><label class="labels">TikTok</label><a href="https://www.tiktok.com/{{user.tiktokname}}"><h6>{{user.tiktokname}}</h6></a><h6>{{user.tiktok}}<br>followers</h6></div> <br>
+                    {% if user.tiktok %}
+                    <div class="col-md-6"><label class="labels font-weight-bold">TikTok</label><a href="https://www.tiktok.com/{{user.tiktokname}}"><h6>{{user.tiktokname}}</h6></a><h6>{{user.tiktok}}<br>followers</h6></div> <br>
+                    {% endif %}
+                    {% if user.twitch %}
                     <div class="col-md-6"><label class="labels">Twitch</label><a href="https://www.twitch.com/{{user.twitchname}}"><h6>{{user.twitchname}}</h6></a><h6>{{user.twitch}}<br>followers</h6></div> <br>
+                    {% endif %}
                 </div>
-                <hr>
+                    <hr>
+                {% endif %}
                 {% if user.category == 'Musician' %}
+                {% if user.applemusic or user.spotify %}
                 <div class="row mt-3">
+                    {% if user.applemusic %}
                     <div class="col-md-6"><label class="labels">Apple Music</label><a href="https://music.apple.com/it/search?term={{user.applemusicname}}"><h6>{{user.applemusicname}}</h6></a><h6>{{user.applemusic}}<br>followers</h6></div> <br>
+                    {% endif %}
+                    {% if user.spotify %}
                     <div class="col-md-6"><label class="labels">Spotify</label><a href="https://www.spotify.com/{{user.spotifyname}}"><h6>{{user.spotifyname}}</h6></a><h6>{{user.spotify}}<br>followers</h6></div> <br>
+                    {% endif %}
                 </div>
                 <hr>
+                {% endif %}
+                {% if user.soundcloud %}
                 <div class="row mt-3">
-                    <div class="col-md-6"><label class="labels">SoundCloud</label><a href="https://www.soundcloud.com/{{user.soundcloudname}}"><h6>{{user.soundcloudname}}</h6></a><h6>{{user.soundcloud}}<br>followers</h6></div> <br>
+                 <div class="col-md-6"><label class="labels">SoundCloud</label><a href="https://www.soundcloud.com/{{user.soundcloudname}}"><h6>{{user.soundcloudname}}</h6></a><h6>{{user.soundcloud}}<br>followers</h6></div> <br>
                 </div>
                 <hr>
+                {% endif %}
                 {% endif %}
                 <div class="row mt-3">
                 <div class="col-md-6"><label class="labels">Sales</label><h6>{{user.sales}}</h6></div> <br>
