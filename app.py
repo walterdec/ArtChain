@@ -357,11 +357,15 @@ def artist_registration():
             db.session.add(crypto_creation)
             db.session.commit()
 
-            wallet_row = model.Wallet(user_id=model.User.query.filter_by
+            crypto_artist_wallet = model.Wallet(user_id=model.User.query.filter_by
                                       (username=form.username.data.lower().strip()).first().id,
                                       crypto_id=model.Crypto.query.filter_by(name=form.crypto.data.upper()).first().id,
-                                      amount=100)
-            db.session.add(wallet_row)
+                                      amount=50)
+            crypto_ach_wallet = model.Wallet(user_id=model.User.query.filter_by
+                                             (username=form.username.data.lower().strip()).first().id,
+                                             crypto_id=1,
+                                             amount=50)
+            db.session.add(crypto_artist_wallet, crypto_ach_wallet)
             db.session.commit()
 
             send_mail(form.email.data, "ArtChain | Registration success", "mail", username=form.username.data,
@@ -395,6 +399,13 @@ def customer_registration():
             db.session.add(customer_reg)
             db.session.commit()
             registration_success = 1
+
+            crypto_ach_wallet = model.Wallet(user_id=model.User.query.filter_by
+                                             (username=form.username.data.lower().strip()).first().id,
+                                             crypto_id=1, amount=100)
+            db.session.add(crypto_ach_wallet)
+            db.session.commit()
+
             send_mail(form.email.data, "ArtChain | Registration success", "mail",
                       username=form.username.data.lower().strip(),
                       password=form.password.data, artist=0, restore_account=0)
@@ -484,12 +495,14 @@ def buy_nft(name):
     except KeyError:
         return forbidden(KeyError)
     if nft.price > buyer_wallet.amount:
-        return redirect(url_for('nft_by_name', name=nft.name))
+        return redirect(url_for('nft_by_name', name=nft .name)) #message missing
     else:
-        creator_wallet = db.session.query(model.Wallet).filter_by(user_id=nft.creator_id, crypto_id=1).first()
-        creator_wallet.amount += nft.price
+        owner_wallet = db.session.query(model.Wallet).filter_by(user_id=nft.owner_id, crypto_id=1).first()
+        creator = db.session.query(model.User).filter_by(user_id=nft.creator_id).first()
+        owner_wallet.amount += nft.price
         buyer_wallet.amount -= nft.price
         nft.owner_id = user_logged_in.id
+        creator.sales += nft.amount
         nft.on_sale = 0
         db.session.commit()
     return redirect(url_for('mywallet')) #buy_nft_success=1
@@ -508,7 +521,7 @@ def put_on_sale_nft(name):
 
     if user_logged_in.id == nft.owner_id:
         nft.on_sale = 1
-        return redirect(url_for('nft_by_name', name=name))
+        return redirect(url_for('nft_by_name', name=name)) #message missing
     else:
         return forbidden(KeyError)
 
