@@ -93,7 +93,7 @@ def contact():
 
 @app.route('/explore-nfts', methods=['GET', 'POST'])
 def explore_nfts():
-    nfts_list = db.session.query(model.NFT).all()
+    nfts_list = db.session.query(model.NFT).filter_by(on_sale=1).all()
     return render_template('explore-nfts.html', nfts_list=nfts_list)
 
 
@@ -107,7 +107,7 @@ def explore_crypto():
     return render_template('explore-crypto.html', users_dictionary=users_dictionary, cryptos_list=cryptos_list)
 
 
-@app.route('/myaccount-mywallet')
+@app.route('/myaccount-mywallet', endpoint='mywallet')
 def my_wallet():
     try:
         if session['username']:
@@ -420,7 +420,7 @@ def create():
             if img_src is not None:
                 nft = model.NFT(name=nft_name, description=form.description.data, category=form.category.data,
                                 price=form.price.data, creator_id=user_logged_in.id, owner_id=user_logged_in.id,
-                                img_src=img_src)
+                                on_sale=1, img_src=img_src)
                 db.session.add(nft)
                 db.session.commit()
                 return render_template('create.html', user_logged_in=user_logged_in, form=form, nft_created=1)
@@ -432,7 +432,7 @@ def create():
     return render_template('create.html', user_logged_in=user_logged_in, form=form, duplicated_nft=duplicated_nft)
 
 
-@app.route('/item/nft/<name>', methods=['GET', 'POST'])
+@app.route('/item/nft/<name>', methods=['GET', 'POST'], endpoint="nft_by_name")
 def item_nft(name):
     nft = None
     for row in db.session.query(model.NFT).filter_by(name=name):
@@ -440,7 +440,8 @@ def item_nft(name):
     if nft is None:
         return page_not_found(TypeError)
     nft_creator = db.session.query(model.User).filter_by(id=nft.creator_id).first()
-    return render_template('item-nft.html', nft=nft, nft_creator=nft_creator)
+    nft_owner = db.session.query(model.User).filter_by(id=nft.owner_id).first()
+    return render_template('item-nft.html', nft=nft, nft_creator=nft_creator, nft_owner=nft_owner)
 
 
 @app.route('/item/crypto/<name>', methods=['GET', 'POST'])
@@ -469,6 +470,47 @@ def artist_profile(username):
         nft_list.append(row)
     cryptocurrency = db.session.query(model.Crypto).filter_by(user_id=user.id).first()
     return render_template('profile-page.html', user=user, nft_list=nft_list, crypto=cryptocurrency)
+
+
+@app.route('/buy-nft/<name>')
+def buy_nft(name):
+    try:
+        if session['username']:
+            user = session['username']
+            for row in db.session.query(model.User).filter_by(username=user):
+                user_logged_in = row
+            buyer_wallet = db.session.query(model.Wallet).filter_by(crypto_id=1, user_id=user_logged_in.id).first()
+        nft = db.session.query(model.NFT).filter_by(name=name).first()
+    except KeyError:
+        return forbidden(KeyError)
+    if nft.price > buyer_wallet.amount:
+        return redirect(url_for('nft_by_name', name=nft.name))
+    else:
+        creator_wallet = db.session.query(model.Wallet).filter_by(user_id=nft.creator_id, crypto_id=1).first()
+        creator_wallet.amount += nft.price
+        buyer_wallet.amount -= nft.price
+        nft.owner_id = user_logged_in.id
+        nft.on_sale = 0
+        db.session.commit()
+    return redirect(url_for('mywallet')) #buy_nft_success=1
+
+
+@app.route('/sell-nft/<name>')
+def put_on_sale_nft(name):
+    try:
+        if session['username']:
+            user = session['username']
+            for row in db.session.query(model.User).filter_by(username=user):
+                user_logged_in = row
+            nft = db.session.query(model.NFT).filter_by(name=name).first()
+    except KeyError:
+        return forbidden(KeyError)
+
+    if user_logged_in.id == nft.owner_id:
+        nft.on_sale = 1
+        return redirect(url_for('nft_by_name', name=name))
+    else:
+        return forbidden(KeyError)
 
 
 @app.route('/logout')

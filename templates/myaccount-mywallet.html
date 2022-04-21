@@ -21,6 +21,16 @@
       </li>
       <li class="breadcrumb-item active">MyWallet</li>
     </ol>
+
+          {% if buy_nft_success %}
+             <div class="alert alert-success center-title alert-dismissible fade show" role="alert">
+            Congratulations! You bought a new NFT!
+                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+          {% endif %}
+
 <div class="mt-4 mb-3">
         <h3>My Cryptos</h3>
     <hr>
@@ -35,7 +45,6 @@
                  <th>Value</th>
                  <th>Quantity</th>
                  <th>Total Value</th>
-                 <th></th>
               </tr>
            </thead>
            <tbody>

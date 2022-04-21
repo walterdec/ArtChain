@@ -47,12 +47,13 @@ class Role(db.Model):
 class NFT(db.Model):
     __tablename__ = 'nfts'
     id = db.Column(db.Integer, primary_key=True)
-    creator_id = db.Column(db.String(64), index=True)
-    owner_id = db.Column(db.String(64))
     name = db.Column(db.String(64))
     category = db.Column(db.String(64))
     description = db.Column(db.Text)
     price = db.Column(db.Float)
+    creator_id = db.Column(db.String(64), index=True)
+    owner_id = db.Column(db.String(64))
+    on_sale = db.Column(db.Boolean(1))
     img_src = db.Column(db.String(64))
 
 
@@ -69,7 +70,7 @@ class Wallet(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     user_id = db.Column(db.Integer)
     crypto_id = db.Column(db.Integer)
-    amount = db.Column(db.Float)
+    amount = db.Column(db.Integer)
 
 
 

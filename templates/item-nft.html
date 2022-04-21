@@ -26,6 +26,16 @@
 
         <section>
             <div class="container px-4 px-lg-5 my-5">
+
+          {% if insufficient_amount %}
+             <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+              You have not enough ACH to buy this NFT
+                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+          {% endif %}
+
                 <div class="row gx-4 gx-lg-5 align-items-center">
                     <div class="col-lg-6"><img class="img-fluid mb-5 mb-md-0" src="{{url_for('static', filename='uploads/nfts/'+nft.img_src)}}" alt="{{nft.name}}"/></div>
                     <div class="col-lg-6">
@@ -33,6 +43,7 @@
                         <div class="mt-5">
                             <p class="lead"><strong>Creator</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{url_for('profile_by_user', username=nft_creator.username)}}">{{nft_creator.username}}</a></p>
                         <p class="lead"><strong>Category</strong>&nbsp;&nbsp;&nbsp;&nbsp;{{nft.category}}</p>
+                             <p class="lead"><strong>Owner</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{nft_owner.username}}</p>
                         <p class="lead mt-5 font-italic">{{nft.description}}</p>
                         <div class="fs-5 mt-5 text-center">
                             <h2>{{nft.price}} ACH</h2>
@@ -41,9 +52,15 @@
                     </div>
                 </div>
             </div>
-            {% if session.username %}
+            {% if session.username and session.username != nft_owner.username %}
                <div class="form-center mb-5">
-                   <button class="btn btn-outline-dark flex-shrink-0 btn-lg" type="button">Buy</button>
+                   <a class="btn btn-outline-dark flex-shrink-0 btn-lg" href="/buy-nft/{{nft.name}}" onclick="return confirm('Are you sure you want to buy this NFT?');">Buy</a>
+               </div>
+            {% endif %}
+
+            {% if session.username and session.username == nft_owner.username and nft.on_sale == 0 %}
+                           <div class="form-center mb-5">
+                   <a class="btn btn-outline-dark flex-shrink-0 btn-lg" href="/sell-nft/{{nft.name}}" onclick="return confirm('Are you sure you want to put on sale this NFT?');">Put On Sale</a>
                </div>
             {% endif %}
         </section>
