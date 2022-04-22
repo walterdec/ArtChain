@@ -116,7 +116,7 @@ class NewNFTForm(FlaskForm):
     nft_name = StringField('NFT Name', validators=[DataRequired()])
     category = SelectField('Category', choices=['Art', 'Music', 'Video Games', 'Collectible Items', 'Sport', 'Memes',
                                                 'Miscellaneous'], validators=[DataRequired()])
-    price = FloatField('Price (ACH)', validators=[InputRequired()])
+    price = FloatField('Price', validators=[InputRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
     nft_file = FileField('File', validators=[DataRequired(),
                                              FileAllowed(['jpg', 'png', 'jpeg', 'webp'],
@@ -127,6 +127,11 @@ class NewNFTForm(FlaskForm):
 class BuyCryptoForm(FlaskForm):
     amount = FloatField('Select the amount')
     submit = SubmitField('Buy')
+
+
+class ResellNFTForm(FlaskForm):
+    new_price = FloatField('Price', validators=[DataRequired()])
+    submit = SubmitField('Put On Sale')
 
 
 class ContactForm(FlaskForm):

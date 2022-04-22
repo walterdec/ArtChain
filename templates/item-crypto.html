@@ -40,9 +40,9 @@
                     </div>
                         </div>
                     <div class="col-lg-6">
-                    <div class="form-center mt-5 mb-5">
+                    <div class="form-login mt-5 mb-5">
                         {% if session.username %}
-                   <form>
+                   <form method="post">
                        {{form.hidden_tag()}}
                        <div class="text-center">
                            {{form.amount.label(class="text-center")}}{{form.amount(class="form-control")}}

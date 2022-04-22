@@ -3,7 +3,7 @@
 {% block content %}
 
 <head>
-  <title>ArtChain | MyWallet</title>
+  <title>ArtChain | Wallet</title>
 </head>
 
 
@@ -12,24 +12,28 @@
 
     <!-- Page Heading/Breadcrumbs -->
     <h1 class="mt-4 mb-3">ArtChain
-      <small>MyWallet</small>
+      <small>Wallet</small>
     </h1>
 
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
         <a href="/">Home</a>
       </li>
-      <li class="breadcrumb-item active">MyWallet</li>
+      <li class="breadcrumb-item active">Wallet</li>
     </ol>
 
-          {% if buy_nft_success %}
-             <div class="alert alert-success center-title alert-dismissible fade show" role="alert">
-            Congratulations! You bought a new NFT!
+                  {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="alert alert-success center-title alert-dismissible fade show" role="alert">
+                      {{message}}
                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
             </div>
-          {% endif %}
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
 
 <div class="mt-4 mb-3">
         <h3>My Cryptos</h3>
