@@ -29,7 +29,7 @@
             {% with messages = get_flashed_messages() %}
               {% if messages %}
                 {% for message in messages %}
-                  <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+                  <div class="alert alert-warning center-title alert-dismissible fade show" role="alert">
                       {{message}}
                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -39,14 +39,16 @@
               {% endif %}
             {% endwith %}
 
-                {% if nft_on_sale %}
-             <div class="alert alert-success center-title alert-dismissible fade show" role="alert">
-              Your NFT is on sale!
-                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                {% for error in form.errors %}
+          {% if error %}
+            <div class="alert alert-danger alert-dismissible fade show center-title" role="alert">
+              {{ error }} field not valid
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
             </div>
           {% endif %}
+        {% endfor %}
 
                 <div class="row gx-4 gx-lg-5 align-items-center">
                     <div class="col-lg-6"><img class="img-fluid mb-5 mb-md-0" src="{{url_for('static', filename='uploads/nfts/'+nft.img_src)}}" alt="{{nft.name}}"/></div>
@@ -56,6 +58,13 @@
                             <p class="lead"><strong>Creator</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{url_for('profile_by_user', username=nft_creator.username)}}">{{nft_creator.username}}</a></p>
                         <p class="lead"><strong>Category</strong>&nbsp;&nbsp;&nbsp;&nbsp;{{nft.category}}</p>
                              <p class="lead"><strong>Owner</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{nft_owner.username}}</p>
+                            <p class="lead"><strong>On Sale</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                {% if nft.on_sale %}
+                                Yes
+                                {% else %}
+                                No
+                                {% endif %}
+                            </p>
                         <p class="lead mt-5 font-italic">{{nft.description}}</p>
                         <div class="fs-5 mt-5 text-center">
                             <h2>{{nft.price}} ACH</h2>
@@ -64,15 +73,28 @@
                     </div>
                 </div>
             {% if session.username and session.username != nft_owner.username %}
+                <form method="post">
+                    {{form.hidden_tag()}}
                <div class="form-center mt-5">
-                   <a class="btn btn-outline-dark flex-shrink-0 btn-lg" href="/buy-nft/{{nft.name}}" onclick="return confirm('Are you sure you want to buy this NFT?');">Buy</a>
+                   {{form.submit(class="btn btn-outline-dark flex-shrink-0 btn-lg", onclick="return confirm('Are you sure you want to buy this NFT?');")}}
                </div>
+                </form>
+            {% endif %}
+
+                {% if session.username and session.username == nft_owner.username and nft.on_sale == 1 %}
+                <form method="post">
+                    {{form.hidden_tag()}}
+               <div class="form-center mt-5">
+                   {{form.submit(class="btn btn-outline-dark flex-shrink-0 btn-lg", onclick="return confirm('Are you sure you want to keep this item?');")}}
+               </div>
+                </form>
             {% endif %}
 
             {% if session.username and session.username == nft_owner.username and nft.on_sale == 0 %}
+                <hr>
             <form method="post">
                 {{form.hidden_tag()}}
-                 <div class="container form-center">
+                 <div class="container form-center mt-3">
                            <div class="col-lg-6">
                                <div class="row text-center form-center">
                                  <div class="text-center">

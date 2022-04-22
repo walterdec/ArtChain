@@ -92,6 +92,7 @@
             <th>Artist</th>
             <th>Category</th>
             <th>Price</th>
+            <th>On Sale</th>
           </tr>
         </thead>
         <tbody>
@@ -109,6 +110,11 @@
               <th>
               <p>{{nft.price}} ACH</p>
             </th>
+              {% if nft.on_sale %}
+              <th>Yes</th>
+              {% else %}
+              <th>No</th>
+              {% endif %}
           </tr>
         {% endfor %}
 

@@ -130,8 +130,16 @@ class BuyCryptoForm(FlaskForm):
 
 
 class ResellNFTForm(FlaskForm):
-    new_price = FloatField('Price', validators=[DataRequired()])
+    new_price = FloatField('New Price', validators=[DataRequired()])
     submit = SubmitField('Put On Sale')
+
+
+class BuyNFTForm(FlaskForm):
+    submit = SubmitField('Buy')
+
+
+class CancelNFTSaleForm(FlaskForm):
+    submit = SubmitField('Keep NFT')
 
 
 class ContactForm(FlaskForm):

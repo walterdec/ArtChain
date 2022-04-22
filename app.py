@@ -10,7 +10,7 @@ from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_mail import Message, Mail
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 from form import LoginForm, CustomerRegistrationForm, ArtistRegistrationForm, ForgotPasswordForm, EditArtistForm, \
-    EditCustomerForm, NewNFTForm, ContactForm, BuyCryptoForm, SearchForm, ResellNFTForm
+    EditCustomerForm, NewNFTForm, ContactForm, BuyCryptoForm, SearchForm, ResellNFTForm, CancelNFTSaleForm, BuyNFTForm
 from PIL import Image
 
 app = Flask(__name__)
@@ -446,19 +446,47 @@ def create():
 @app.route('/item/nft/<name>', methods=['GET', 'POST'], endpoint="nft_by_name")
 def item_nft(name):
     nft = None
-    form = ResellNFTForm()
+    user_logged_in = None
+    form = None
     for row in db.session.query(model.NFT).filter_by(name=name):
         nft = row
     if nft is None:
-        return page_not_found(TypeError)
+        return page_not_found(KeyError)
+
     nft_creator = db.session.query(model.User).filter_by(id=nft.creator_id).first()
     nft_owner = db.session.query(model.User).filter_by(id=nft.owner_id).first()
 
-    if form.validate_on_submit():
+    try:
+        if session['username']:
+            user_logged_in = db.session.query(model.User).filter_by(username=session['username']).first()
+    except KeyError:
+        return render_template('item-nft.html', form=form, nft=nft, nft_creator=nft_creator, nft_owner=nft_owner)
+
+    if user_logged_in.id != nft.owner_id and nft.on_sale == 1:
+        form = BuyNFTForm()
+
+    if user_logged_in.id == nft.owner_id and nft.on_sale == 0:
+        form = ResellNFTForm()
+
+    if user_logged_in.id == nft.owner_id and nft.on_sale == 1:
+        form = CancelNFTSaleForm()
+
+    if form.validate_on_submit() and isinstance(form, ResellNFTForm):
         nft.price = form.new_price.data
         nft.on_sale = 1
         db.session.commit()
-        return render_template('item-nft.html', form=form, nft=nft, nft_creator=nft_creator, nft_owner=nft_owner, nft_on_sale=1)
+        flash('Your NFT is on sale!')
+        return redirect(url_for('nft_by_name', name=nft.name))
+
+    if form.is_submitted() and isinstance(form, CancelNFTSaleForm):
+        nft.on_sale = 0
+        db.session.commit()
+        flash('You canceled the sale of this NFT.')
+        return redirect(url_for('nft_by_name', name=nft.name))
+
+    if form.is_submitted() and isinstance(form, BuyNFTForm):
+        buy_nft(nft.name)
+        return redirect(url_for('nft_by_name', name=nft.name))
 
     return render_template('item-nft.html', form=form, nft=nft, nft_creator=nft_creator, nft_owner=nft_owner)
 
@@ -489,34 +517,6 @@ def artist_profile(username):
         nft_list.append(row)
     cryptocurrency = db.session.query(model.Crypto).filter_by(user_id=user.id).first()
     return render_template('profile-page.html', user=user, nft_list=nft_list, crypto=cryptocurrency)
-
-
-@app.route('/buy-nft/<name>')
-def buy_nft(name):
-    try:
-        if session['username']:
-            user = session['username']
-            for row in db.session.query(model.User).filter_by(username=user):
-                user_logged_in = row
-            buyer_wallet = db.session.query(model.Wallet).filter_by(crypto_id=1, user_id=user_logged_in.id).first()
-        nft = db.session.query(model.NFT).filter_by(name=name).first()
-    except KeyError:
-        return forbidden(KeyError)
-    if nft.price > buyer_wallet.amount:
-        flash('Your ACH amount is insufficient!')
-        return redirect(url_for('nft_by_name', name=nft .name))
-    else:
-        owner_wallet = db.session.query(model.Wallet).filter_by(user_id=nft.owner_id, crypto_id=1).first()
-        creator = db.session.query(model.User).filter_by(id=nft.creator_id).first()
-        owner_wallet.amount += nft.price
-        buyer_wallet.amount -= nft.price
-        nft.owner_id = user_logged_in.id
-        creator.sales += nft.price
-        calculate_artist_value(creator)
-        nft.on_sale = 0
-        db.session.commit()
-        flash('Congratulations! You bought the NFT!')
-    return redirect(url_for('mywallet'))
 
 
 @app.route('/logout')
@@ -557,8 +557,34 @@ def forbidden(e):
     return render_template('403.html'), 403
 
 
+def buy_nft(name):
+    try:
+        if session['username']:
+            user = session['username']
+            for row in db.session.query(model.User).filter_by(username=user):
+                user_logged_in = row
+            buyer_wallet = db.session.query(model.Wallet).filter_by(crypto_id=1, user_id=user_logged_in.id).first()
+        nft = db.session.query(model.NFT).filter_by(name=name).first()
+    except KeyError:
+        return forbidden(KeyError)
+    if nft.price > buyer_wallet.amount:
+        flash('Your ACH amount is insufficient!')
+        return redirect(url_for('nft_by_name', name=nft.name))
+    else:
+        owner_wallet = db.session.query(model.Wallet).filter_by(user_id=nft.owner_id, crypto_id=1).first()
+        creator = db.session.query(model.User).filter_by(id=nft.creator_id).first()
+        owner_wallet.amount += nft.price
+        buyer_wallet.amount -= nft.price
+        nft.owner_id = user_logged_in.id
+        creator.sales += nft.price
+        calculate_artist_value(creator)
+        nft.on_sale = 0
+        db.session.commit()
+        flash('Congratulations! You bought the NFT!')
+        return
+
+
 def calculate_artist_value(user_artist):
-    value = 0
     if user_artist.category == 'Musician':
         value = ((user_artist.insta * 0.3 + user_artist.face * 0.2 + user_artist.twitter * 0.2 + user_artist.yt * 0.1 +
                   user_artist.tiktok * 0.1 + user_artist.twitch * 0.1) * 0.5 +
