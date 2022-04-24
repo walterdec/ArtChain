@@ -53,6 +53,27 @@
            </thead>
            <tbody>
               {% for crypto in crypto_dictionary.values() %}
+              {% if crypto.name == 'ACH' %}
+              <tr class="mt-5">
+                  <th>
+                    <p>{{crypto.name}}</p>
+                 </th>
+                 <th>
+                     <p>
+                         {{users_dictionary.get(crypto.user_id).username}}
+                     </p>
+                 </th>
+                 <th>
+                    <p>{{users_dictionary.get(crypto.user_id).value}} ACH</p>
+                 </th>
+                  <th>
+                     <p>{{wallet_dictionary.get(crypto.id).amount}}</p>
+                 </th>
+                  <th>
+                    <p>{{wallet_dictionary.get(crypto.id).amount*users_dictionary.get(crypto.user_id).value}} ACH</p>
+                  </th>
+              </tr>
+              {% else %}
               <tr class="mt-5">
                   <th>
                     <p><a href="item/crypto/{{crypto.name}}">{{crypto.name}}</a></p>
@@ -72,6 +93,7 @@
                     <p>{{wallet_dictionary.get(crypto.id).amount*users_dictionary.get(crypto.user_id).value}} ACH</p>
                   </th>
               </tr>
+              {% endif %}
               {% endfor %}
            </tbody>
         </table>

@@ -127,9 +127,9 @@ class NewNFTForm(FlaskForm):
 
 class BuySellCryptoForm(FlaskForm):
     amount_buy = FloatField('Buy/Sell', validators=[validators.optional(), NumberRange
-                                                    (min=0, message="Price must be at least 0 ACH")])
+                                                    (min=0, message="Amount must be > 0")])
     amount_sell = FloatField('Buy/Sell', validators=[validators.optional(), NumberRange
-                                                     (min=0, message="Price must be at least 0 ACH")])
+                                                     (min=0, message="Amount must be > 0")])
     submit = SubmitField('Buy/Sell')
 
 

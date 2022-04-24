@@ -616,6 +616,8 @@ def buy_sell_crypto(cryptocurrency, amount_buy, amount_sell):
             ach_wallet = db.session.query(model.Wallet).filter_by(crypto_id=1, user_id=user_logged_in.id).first()
             crypto_wallet = db.session.query(model.Wallet).filter_by(crypto_id=cryptocurrency.id,
                                                                      user_id=user_logged_in.id).first()
+            artchain_wallet = db.session.query(model.Wallet).filter_by(crypto_id=1, user_id=1).first()
+            artist = db.session.query(model.User).filter_by(id=cryptocurrency.user_id).first()
     except KeyError:
         return forbidden(KeyError)
 
@@ -625,15 +627,21 @@ def buy_sell_crypto(cryptocurrency, amount_buy, amount_sell):
 
     if amount_buy is not None and amount_buy > 0:
         ach_amount = amount_buy * cryptocurrency.value
+        website_fee = amount_buy * 0.02
         if ach_wallet.amount >= ach_amount:
             ach_wallet.amount -= ach_amount
             if crypto_wallet:
-                crypto_wallet.amount += amount_buy
+                crypto_wallet.amount += (amount_buy - website_fee)
+                artchain_wallet.amount += website_fee
+                artist.sales += amount_buy
                 flash('You have successfully bought '+str(amount_buy)+' '+cryptocurrency.name)
             else:
-                crypto_wallet = model.Wallet(user_id=user_logged_in.id, crypto_id=cryptocurrency.id, amount=amount_buy)
+                crypto_wallet = model.Wallet(user_id=user_logged_in.id, crypto_id=cryptocurrency.id,
+                                             amount=(amount_buy - website_fee))
                 db.session.add(crypto_wallet)
                 db.session.commit()
+                artchain_wallet.amount += website_fee
+                artist.sales += amount_buy
                 flash('You have successfully bought '+str(amount_buy)+' '+cryptocurrency.name)
         else:
             flash("You don't have enough ACH to buy  "+str(amount_buy)+' '+cryptocurrency.name)
@@ -642,8 +650,10 @@ def buy_sell_crypto(cryptocurrency, amount_buy, amount_sell):
         if crypto_wallet:
             ach_amount = amount_sell * cryptocurrency.value
             if crypto_wallet.amount >= amount_sell:
-                ach_wallet.amount += ach_amount
+                website_fee = ach_amount * 0.02
+                ach_wallet.amount += (ach_amount - website_fee)
                 crypto_wallet.amount -= amount_sell
+                artchain_wallet.amount += website_fee
                 flash('You have successfully sold '+str(amount_sell)+' '+cryptocurrency.name)
         else:
             flash("You don't have this crypto in your wallet")

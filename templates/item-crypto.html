@@ -40,6 +40,28 @@
               {% endif %}
             {% endwith %}
 
+             {% for error in form.amount_buy.errors %}
+          {% if error %}
+            <div class="alert alert-danger alert-dismissible fade show center-title" role="alert">
+              {{ error }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+          {% endif %}
+        {% endfor %}
+
+                      {% for error in form.amount_sell.errors %}
+          {% if error %}
+            <div class="alert alert-danger alert-dismissible fade show center-title" role="alert">
+              {{ error }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+          {% endif %}
+        {% endfor %}
+
                 <div class="row gx-4 gx-lg-5 align-items-center">
                     <div class="col-lg-6">
                         <div class="mt-4">
