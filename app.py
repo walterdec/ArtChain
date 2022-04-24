@@ -10,7 +10,8 @@ from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_mail import Message, Mail
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 from form import LoginForm, CustomerRegistrationForm, ArtistRegistrationForm, ForgotPasswordForm, EditArtistForm, \
-    EditCustomerForm, NewNFTForm, ContactForm, BuyCryptoForm, SearchForm, ResellNFTForm, CancelNFTSaleForm, BuyNFTForm, \
+    EditCustomerForm, NewNFTForm, ContactForm, BuySellCryptoForm, SearchForm, ResellNFTForm, CancelNFTSaleForm, \
+    BuyNFTForm, \
     SelectNFTView
 from PIL import Image
 
@@ -27,7 +28,7 @@ app.config['MAIL_USERNAME'] = 'service.artchain@gmail.com'
 app.config['MAIL_PASSWORD'] = 'ISPolitecnicoGroup6'
 app.config['MAIL_USE_TLS'] = True
 
-app.config['UPLOADED_PHOTOS_DEST'] = os.getcwd()+"/static/uploads"
+app.config['UPLOADED_PHOTOS_DEST'] = os.getcwd() + "/static/uploads"
 photos = UploadSet('photos', IMAGES)
 configure_uploads(app, photos)
 patch_request_class(app)
@@ -68,7 +69,8 @@ def home():
                                                     filter_by(id=cryptocurrency.user_id).first())
     random.shuffle(nfts_list)
     random.shuffle(cryptos_list)
-    return render_template('home.html', form=form, cryptos=cryptos_list[0:4], nfts=nfts_list[0:4], users=users_dictionary)
+    return render_template('home.html', form=form, cryptos=cryptos_list[0:4], nfts=nfts_list[0:4],
+                           users=users_dictionary)
 
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -87,8 +89,8 @@ def contact():
     contact_request = 0
     if form.validate_on_submit():
         contact_request = 1
-        send_mail(app.config['MAIL_USERNAME'], "Contact Request | "+form.name.data, "mail", name=form.name.data,
-                  email=form.email.data,  message=form.message.data, contact_request=contact_request)
+        send_mail(app.config['MAIL_USERNAME'], "Contact Request | " + form.name.data, "mail", name=form.name.data,
+                  email=form.email.data, message=form.message.data, contact_request=contact_request)
     return render_template('contact.html', form=form, contact_request=contact_request)
 
 
@@ -183,7 +185,7 @@ def my_settings():
                     password_check_fail = 1
 
             if form.profile_pic.data is not None:
-                os.remove('static/uploads/profilepics/'+user_logged_in.profile_pic_src)
+                os.remove('static/uploads/profilepics/' + user_logged_in.profile_pic_src)
                 upload_profile_pic(form.profile_pic.data, user_logged_in.username)
                 settings_edited = 1
 
@@ -326,11 +328,11 @@ def artist_registration():
 
             if form.category.data == 'Musician':
                 value_c = ((insta * 0.3 + face * 0.2 + twitter * 0.2 + yt * 0.1 + tiktok * 0.1 + twitch * 0.1) * 0.5 +
-                           (applemusic * 0.4 + spotify * 0.4 + soundcloud * 0.2) * 0.3 + sales * 0.2)/1000
+                           (applemusic * 0.4 + spotify * 0.4 + soundcloud * 0.2) * 0.3 + sales * 0.2) / 1000
                 value_c = round(value_c, 3)
             else:
                 value_c = ((insta * 0.3 + face * 0.2 + twitter * 0.2 + yt * 0.1 + tiktok * 0.1 + twitch * 0.1) * 0.8 +
-                           + sales * 0.2)/1000
+                           + sales * 0.2) / 1000
                 value_c = round(value_c, 3)
 
             encrypted_password = generate_password_hash(form.password.data)
@@ -362,16 +364,17 @@ def artist_registration():
             registration_success = 1
 
             crypto_creation = model.Crypto(name=form.crypto.data.upper(), user_id=model.User.query.filter_by
-                                           (username=form.username.data.lower().strip()).first().id, value=value_c)
+            (username=form.username.data.lower().strip()).first().id, value=value_c)
             db.session.add(crypto_creation)
             db.session.commit()
 
             crypto_artist_wallet = model.Wallet(user_id=model.User.query.filter_by
-                                      (username=form.username.data.lower().strip()).first().id,
-                                      crypto_id=model.Crypto.query.filter_by(name=form.crypto.data.upper()).first().id,
-                                      amount=50)
+            (username=form.username.data.lower().strip()).first().id,
+                                                crypto_id=model.Crypto.query.filter_by(
+                                                    name=form.crypto.data.upper()).first().id,
+                                                amount=50)
             crypto_ach_wallet = model.Wallet(user_id=model.User.query.filter_by
-                                             (username=form.username.data.lower().strip()).first().id,
+            (username=form.username.data.lower().strip()).first().id,
                                              crypto_id=1,
                                              amount=50)
             db.session.add(crypto_artist_wallet, crypto_ach_wallet)
@@ -410,7 +413,7 @@ def customer_registration():
             registration_success = 1
 
             crypto_ach_wallet = model.Wallet(user_id=model.User.query.filter_by
-                                             (username=form.username.data.lower().strip()).first().id,
+            (username=form.username.data.lower().strip()).first().id,
                                              crypto_id=1, amount=100)
             db.session.add(crypto_ach_wallet)
             db.session.commit()
@@ -505,7 +508,7 @@ def item_nft(name):
 
 @app.route('/item/crypto/<name>', methods=['GET', 'POST'])
 def item_crypto(name):
-    form = BuyCryptoForm()
+    form = BuySellCryptoForm()
     cryptocurrency = None
     for row in db.session.query(model.Crypto).filter_by(name=name):
         cryptocurrency = row
@@ -513,6 +516,9 @@ def item_crypto(name):
         return page_not_found(TypeError)
     crypto_artist = db.session.query(model.User).filter_by(id=cryptocurrency.user_id).first()
     if form.validate_on_submit():
+        amount_buy = form.amount_buy.data
+        amount_sell = form.amount_sell.data
+        buy_sell_crypto(cryptocurrency, amount_buy, amount_sell)
         return render_template('item-crypto.html', form=form, crypto=cryptocurrency, crypto_artist=crypto_artist)
     return render_template('item-crypto.html', form=form, crypto=cryptocurrency, crypto_artist=crypto_artist)
 
@@ -583,17 +589,65 @@ def buy_nft(name):
         flash('Your ACH amount is insufficient!')
         return redirect(url_for('nft_by_name', name=nft.name))
     else:
+        website_wallet = db.session.query(model.Wallet).filter_by(user_id=1, crypto_id=1).first()
         owner_wallet = db.session.query(model.Wallet).filter_by(user_id=nft.owner_id, crypto_id=1).first()
         creator = db.session.query(model.User).filter_by(id=nft.creator_id).first()
-        owner_wallet.amount += nft.price
+
+        website_fee = nft.price * 0.05
+        website_wallet.amount += website_fee
+        owner_wallet.amount += (nft.price - website_fee)
         buyer_wallet.amount -= nft.price
         nft.owner_id = user_logged_in.id
         creator.sales += nft.price
         calculate_artist_value(creator)
         nft.on_sale = 0
+
         db.session.commit()
         flash('Congratulations! You bought the NFT!')
         return
+
+
+def buy_sell_crypto(cryptocurrency, amount_buy, amount_sell):
+    try:
+        if session['username']:
+            user = session['username']
+            for row in db.session.query(model.User).filter_by(username=user):
+                user_logged_in = row
+            ach_wallet = db.session.query(model.Wallet).filter_by(crypto_id=1, user_id=user_logged_in.id).first()
+            crypto_wallet = db.session.query(model.Wallet).filter_by(crypto_id=cryptocurrency.id,
+                                                                     user_id=user_logged_in.id).first()
+    except KeyError:
+        return forbidden(KeyError)
+
+    if amount_buy is not None and amount_sell is not None and amount_buy > 0 and amount_sell > 0:
+        flash('Choose if you want to buy or sell')
+        return
+
+    if amount_buy is not None and amount_buy > 0:
+        ach_amount = amount_buy * cryptocurrency.value
+        if ach_wallet.amount >= ach_amount:
+            ach_wallet.amount -= ach_amount
+            if crypto_wallet:
+                crypto_wallet.amount += amount_buy
+                flash('You have successfully bought '+str(amount_buy)+' '+cryptocurrency.name)
+            else:
+                crypto_wallet = model.Wallet(user_id=user_logged_in.id, crypto_id=cryptocurrency.id, amount=amount_buy)
+                db.session.add(crypto_wallet)
+                db.session.commit()
+                flash('You have successfully bought '+str(amount_buy)+' '+cryptocurrency.name)
+        else:
+            flash("You don't have enough ACH to buy  "+str(amount_buy)+' '+cryptocurrency.name)
+
+    if amount_sell is not None and amount_sell > 0:
+        if crypto_wallet:
+            ach_amount = amount_sell * cryptocurrency.value
+            if crypto_wallet.amount >= amount_sell:
+                ach_wallet.amount += ach_amount
+                crypto_wallet.amount -= amount_sell
+                flash('You have successfully sold '+str(amount_sell)+' '+cryptocurrency.name)
+        else:
+            flash("You don't have this crypto in your wallet")
+    return
 
 
 def calculate_artist_value(user_artist):
@@ -601,10 +655,10 @@ def calculate_artist_value(user_artist):
         value = ((user_artist.insta * 0.3 + user_artist.face * 0.2 + user_artist.twitter * 0.2 + user_artist.yt * 0.1 +
                   user_artist.tiktok * 0.1 + user_artist.twitch * 0.1) * 0.5 +
                  (user_artist.applemusic * 0.4 + user_artist.spotify * 0.4 + user_artist.soundcloud * 0.2) * 0.3 +
-                 user_artist.sales * 0.2)/1000
+                 user_artist.sales * 0.2) / 1000
     else:
         value = ((user_artist.insta * 0.3 + user_artist.face * 0.2 + user_artist.twitter * 0.2 + user_artist.yt * 0.1 +
-                  user_artist.tiktok * 0.1 + user_artist.twitch * 0.1) * 0.8 + user_artist.sales * 0.2)/1000
+                  user_artist.tiktok * 0.1 + user_artist.twitch * 0.1) * 0.8 + user_artist.sales * 0.2) / 1000
 
     user_artist.value = round(value, 3)
     db.session.commit()
@@ -612,12 +666,12 @@ def calculate_artist_value(user_artist):
 
 def upload_nft(nft_file, name):
     img_name = name.replace(" ", "_")
-    img_name = img_name+'.jpg'
+    img_name = img_name + '.jpg'
     if not os.path.exists('static/uploads/nfts'):
         os.makedirs('static/uploads/nfts')
     folder = 'nfts'
     photos.save(nft_file, name=img_name, folder=folder)
-    img_src = 'static/uploads/nfts/'+img_name
+    img_src = 'static/uploads/nfts/' + img_name
     if check_size(img_src):
         return img_name
     else:
@@ -628,7 +682,7 @@ def upload_nft(nft_file, name):
 def check_size(image):
     img = Image.open(image)
     width, height = img.size
-    if width in range(height-10, height+10):
+    if width in range(height - 10, height + 10):
         return True
     else:
         return False
@@ -636,7 +690,7 @@ def check_size(image):
 
 def upload_profile_pic(pic_file, username):
     img_src = username.replace(" ", "_")
-    img_src = img_src+'.jpg'
+    img_src = img_src + '.jpg'
     if not os.path.exists('static/uploads/profilepics'):
         os.makedirs('static/uploads/profilepics')
     folder = 'profilepics'
@@ -666,7 +720,7 @@ def password_generator(length):
 
 def password_check(password):
     if re.search(r"\d", password) and re.search(r"[a-z]", password) and re.search(r"[A-Z]", password) and \
-            re.search(r"[ !#$%&'()*+,-./[\\\]^_`{|}~"+r'"]', password):
+            re.search(r"[ !#$%&'()*+,-./[\\\]^_`{|}~" + r'"]', password):
         return True
     else:
         return False
