@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from markupsafe import Markup
 from wtforms import StringField, SelectField, TextAreaField, PasswordField, SubmitField, IntegerField, validators,\
         FloatField
-from wtforms.validators import DataRequired, InputRequired, Email, Length
+from wtforms.validators import DataRequired, InputRequired, Email, Length, NumberRange
 from flask_wtf.file import FileField, FileAllowed
 
 
@@ -116,7 +116,8 @@ class NewNFTForm(FlaskForm):
     nft_name = StringField('NFT Name', validators=[DataRequired()])
     category = SelectField('Category', choices=['Art', 'Music', 'Video Games', 'Collectible Items', 'Sport', 'Memes',
                                                 'Miscellaneous'], validators=[DataRequired()])
-    price = FloatField('Price', validators=[InputRequired()])
+    price = FloatField('Price', validators=[InputRequired(), NumberRange(min=0,
+                                                                         message="Price must be at least 0 ACH")])
     description = TextAreaField('Description', validators=[DataRequired()])
     nft_file = FileField('File', validators=[DataRequired(),
                                              FileAllowed(['jpg', 'png', 'jpeg', 'webp'],
@@ -125,13 +126,19 @@ class NewNFTForm(FlaskForm):
 
 
 class BuyCryptoForm(FlaskForm):
-    amount = FloatField('Select the amount')
+    amount = FloatField('Select the amount', validators=[NumberRange(min=0, message="Price must be at least 0 ACH")])
     submit = SubmitField('Buy')
 
 
 class ResellNFTForm(FlaskForm):
-    new_price = FloatField('New Price', validators=[DataRequired()])
+    new_price = FloatField('New Price', validators=[DataRequired(),
+                                                    NumberRange(min=0, message="Price must be at least 0 ACH")])
     submit = SubmitField('Put On Sale')
+
+
+class SelectNFTView(FlaskForm):
+    select = SelectField('Choose', choices=['All', 'On Sale'], validators=[DataRequired()])
+    submit = SubmitField('Select')
 
 
 class BuyNFTForm(FlaskForm):

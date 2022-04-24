@@ -72,7 +72,7 @@
                         </div>
                     </div>
                 </div>
-            {% if session.username and session.username != nft_owner.username %}
+            {% if session.username and session.username != nft_owner.username and nft.on_sale == 1 %}
                 <form method="post">
                     {{form.hidden_tag()}}
                <div class="form-center mt-5">

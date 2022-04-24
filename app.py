@@ -10,7 +10,8 @@ from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_mail import Message, Mail
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 from form import LoginForm, CustomerRegistrationForm, ArtistRegistrationForm, ForgotPasswordForm, EditArtistForm, \
-    EditCustomerForm, NewNFTForm, ContactForm, BuyCryptoForm, SearchForm, ResellNFTForm, CancelNFTSaleForm, BuyNFTForm
+    EditCustomerForm, NewNFTForm, ContactForm, BuyCryptoForm, SearchForm, ResellNFTForm, CancelNFTSaleForm, BuyNFTForm, \
+    SelectNFTView
 from PIL import Image
 
 app = Flask(__name__)
@@ -93,8 +94,16 @@ def contact():
 
 @app.route('/explore-nfts', methods=['GET', 'POST'])
 def explore_nfts():
-    nfts_list = db.session.query(model.NFT).filter_by(on_sale=1).all()
-    return render_template('explore-nfts.html', nfts_list=nfts_list)
+    form = SelectNFTView()
+    nfts_list = db.session.query(model.NFT).all()
+    if form.is_submitted():
+        if form.select.data == 'All':
+            return render_template('explore-nfts.html', form=form, nfts_list=nfts_list)
+        else:
+            nfts_list = db.session.query(model.NFT).filter_by(on_sale=1).all()
+            return render_template('explore-nfts.html', form=form, nfts_list=nfts_list)
+
+    return render_template('explore-nfts.html', form=form, nfts_list=nfts_list)
 
 
 @app.route('/explore-crypto', methods=['GET', 'POST'])
@@ -464,6 +473,9 @@ def item_nft(name):
 
     if user_logged_in.id != nft.owner_id and nft.on_sale == 1:
         form = BuyNFTForm()
+
+    if user_logged_in.id != nft.owner_id and nft.on_sale == 0:
+        return render_template('item-nft.html', form=form, nft=nft, nft_creator=nft_creator, nft_owner=nft_owner)
 
     if user_logged_in.id == nft.owner_id and nft.on_sale == 0:
         form = ResellNFTForm()
