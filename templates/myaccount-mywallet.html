@@ -1,153 +1,143 @@
 {% include 'main-template.html' %}
-
 {% block content %}
-
 <head>
-  <title>ArtChain | Wallet</title>
+   <title>ArtChain | Wallet</title>
 </head>
-
-
-  <!-- Page Content -->
-  <div class="container">
-
-    <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">ArtChain
+<div class="container">
+   <h1 class="mt-4 mb-3">ArtChain
       <small>Wallet</small>
-    </h1>
-
-    <ol class="breadcrumb">
+   </h1>
+   <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a href="/">Home</a>
+         <a href="/">Home</a>
       </li>
       <li class="breadcrumb-item active">Wallet</li>
-    </ol>
-
-                  {% with messages = get_flashed_messages() %}
-              {% if messages %}
-                {% for message in messages %}
-                  <div class="alert alert-success center-title alert-dismissible fade show" role="alert">
-                      {{message}}
-                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-            </div>
-                {% endfor %}
-              {% endif %}
-            {% endwith %}
-
-<div class="mt-4 mb-3">
-        <h3>My Cryptos</h3>
-    <hr>
-    {% if not crypto_dictionary %}
-    <h5 class="text-center">You have no cryptos in your wallet.</h5>
-    {% else %}
-<table class="styled-table">
-           <thead>
-              <tr>
-                 <th>Crypto</th>
-                 <th>Artist</th>
-                 <th>Value</th>
-                 <th>Quantity</th>
-                 <th>Total Value</th>
-              </tr>
-           </thead>
-           <tbody>
-              {% for crypto in crypto_dictionary.values() %}
-              {% if crypto.name == 'ACH' %}
-              <tr class="mt-5">
-                  <th>
-                    <p>{{crypto.name}}</p>
-                 </th>
-                 <th>
-                     <p>
-                         {{users_dictionary.get(crypto.user_id).username}}
-                     </p>
-                 </th>
-                 <th>
-                    <p>{{users_dictionary.get(crypto.user_id).value}} ACH</p>
-                 </th>
-                  <th>
-                     <p>{{wallet_dictionary.get(crypto.id).amount}}</p>
-                 </th>
-                  <th>
-                    <p>{{wallet_dictionary.get(crypto.id).amount*users_dictionary.get(crypto.user_id).value}} ACH</p>
-                  </th>
-              </tr>
-              {% else %}
-              <tr class="mt-5">
-                  <th>
-                    <p><a href="item/crypto/{{crypto.name}}">{{crypto.name}}</a></p>
-                 </th>
-                 <th>
-                     <p><a href="profile/{{users_dictionary.get(crypto.user_id).username}}">
-                         {{users_dictionary.get(crypto.user_id).username}}
-                     </a></p>
-                 </th>
-                 <th>
-                    <p>{{users_dictionary.get(crypto.user_id).value}} ACH</p>
-                 </th>
-                  <th>
-                     <p>{{wallet_dictionary.get(crypto.id).amount}}</p>
-                 </th>
-                  <th>
-                    <p>{{wallet_dictionary.get(crypto.id).amount*users_dictionary.get(crypto.user_id).value}} ACH</p>
-                  </th>
-              </tr>
-              {% endif %}
-              {% endfor %}
-           </tbody>
-        </table>
-    {% endif %}
-      </div>
-    <br>
-<div class="mt-4 mb-3">
-        <h3>My NFTs</h3>
-          <hr>
-    {% if not nfts_list %}
-    <h5 class="text-center">You have no NFTs in your wallet.</h5>
-
-    {% else %}
-          <table class="styled-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Artist</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>On Sale</th>
-          </tr>
-        </thead>
-        <tbody>
-        {% for nft in nfts_list %}
-          <tr>
-            <th>
-              <p><a href="item/nft/{{nft.name}}">{{nft.name}}</a></p>
-            </th>
-            <th>
-                <p><a href="profile/{{users_dictionary.get(nft.creator_id).username}}">{{users_dictionary.get(nft.creator_id).username}}</a></p>
-            </th>
-            <th>
-              <p>{{nft.category}}</p>
-            </th>
-              <th>
-              <p>{{nft.price}} ACH</p>
-              </th>
-              {% if nft.on_sale %}
-              <th><p>Yes</p></th>
-              {% else %}
-              <th><p>No</p></th>
-              {% endif %}
-          </tr>
-        {% endfor %}
-
-        </tbody>
+   </ol>
+   {% with messages = get_flashed_messages() %}
+   {% if messages %}
+   {% for message in messages %}
+   <div class="alert alert-success center-title alert-dismissible fade show" role="alert">
+      {{message}}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button>
+   </div>
+   {% endfor %}
+   {% endif %}
+   {% endwith %}
+   <div class="mt-4 mb-3">
+      <h3>My Cryptos</h3>
+      <hr>
+      {% if not crypto_dictionary %}
+      <h5 class="text-center">You have no cryptos in your wallet.</h5>
+      {% else %}
+      <table class="styled-table">
+         <thead>
+            <tr>
+               <th>Crypto</th>
+               <th>Artist</th>
+               <th>Value</th>
+               <th>Quantity</th>
+               <th>Total Value</th>
+            </tr>
+         </thead>
+         <tbody>
+            {% for crypto in crypto_dictionary.values() %}
+            {% if crypto.name == 'ACH' %}
+            <tr class="mt-5">
+               <th>
+                  <p>{{crypto.name}}</p>
+               </th>
+               <th>
+                  <p>
+                     {{users_dictionary.get(crypto.user_id).username}}
+                  </p>
+               </th>
+               <th>
+                  <p>{{users_dictionary.get(crypto.user_id).value}} ACH</p>
+               </th>
+               <th>
+                  <p>{{wallet_dictionary.get(crypto.id).amount}}</p>
+               </th>
+               <th>
+                  <p>{{wallet_dictionary.get(crypto.id).amount*users_dictionary.get(crypto.user_id).value}} ACH</p>
+               </th>
+            </tr>
+            {% else %}
+            <tr class="mt-5">
+               <th>
+                  <p><a href="item/crypto/{{crypto.name}}">{{crypto.name}}</a></p>
+               </th>
+               <th>
+                  <p><a href="profile/{{users_dictionary.get(crypto.user_id).username}}">
+                     {{users_dictionary.get(crypto.user_id).username}}
+                     </a>
+                  </p>
+               </th>
+               <th>
+                  <p>{{users_dictionary.get(crypto.user_id).value}} ACH</p>
+               </th>
+               <th>
+                  <p>{{wallet_dictionary.get(crypto.id).amount}}</p>
+               </th>
+               <th>
+                  <p>{{wallet_dictionary.get(crypto.id).amount*users_dictionary.get(crypto.user_id).value}} ACH</p>
+               </th>
+            </tr>
+            {% endif %}
+            {% endfor %}
+         </tbody>
       </table>
-    {% endif %}
-      </div>
-  <br>
-  </div>
-  <!-- /.container -->
-
+      {% endif %}
+   </div>
+   <br>
+   <div class="mt-4 mb-3">
+      <h3>My NFTs</h3>
+      <hr>
+      {% if not nfts_list %}
+      <h5 class="text-center">You have no NFTs in your wallet.</h5>
+      {% else %}
+      <table class="styled-table">
+         <thead>
+            <tr>
+               <th>Name</th>
+               <th>Artist</th>
+               <th>Category</th>
+               <th>Price</th>
+               <th>On Sale</th>
+            </tr>
+         </thead>
+         <tbody>
+            {% for nft in nfts_list %}
+            <tr>
+               <th>
+                  <p><a href="item/nft/{{nft.name}}">{{nft.name}}</a></p>
+               </th>
+               <th>
+                  <p><a href="profile/{{users_dictionary.get(nft.creator_id).username}}">{{users_dictionary.get(nft.creator_id).username}}</a></p>
+               </th>
+               <th>
+                  <p>{{nft.category}}</p>
+               </th>
+               <th>
+                  <p>{{nft.price}} ACH</p>
+               </th>
+               {% if nft.on_sale %}
+               <th>
+                  <p>Yes</p>
+               </th>
+               {% else %}
+               <th>
+                  <p>No</p>
+               </th>
+               {% endif %}
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+      {% endif %}
+   </div>
+   <br>
+</div>
 {% endblock content %}
-
 {% include 'footer.html' %}

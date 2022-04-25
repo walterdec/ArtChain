@@ -1,127 +1,110 @@
 {% include 'main-template.html' %}
-
 {% block content %}
-
 <head>
-  <title>ArtChain | Create NFT</title>
+   <title>ArtChain | Create NFT</title>
 </head>
-
-    <div class="container">
-
-    <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">ArtChain
+<div class="container">
+   <h1 class="mt-4 mb-3">ArtChain
       <small>Create NFT</small>
-    </h1>
-
-    <ol class="breadcrumb">
+   </h1>
+   <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a href="/">Home</a>
+         <a href="/">Home</a>
       </li>
       <li class="breadcrumb-item active">Create NFT</li>
-    </ol>
-
-  </div>
-
-{% if user_logged_in.role_id == 3 %}
-
-           <div class="container">
-               {% if duplicated_nft %}
-                 <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
-              An NFT with this name already exists.
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                 <span aria-hidden="true">&times;</span>
-             </button>
-             </div>
-          {% endif %}
-
-               {% if nft_created %}
-                 <div class="alert alert-success center-title alert-dismissible fade show" role="alert">
-              Your NFT has been successfully created and it's available for sale.
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                 <span aria-hidden="true">&times;</span>
-             </button>
-             </div>
-          {% endif %}
-
-                  {% if img_size_error %}
-                 <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
-              Image must be squared (e.g. 200x200)
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                 <span aria-hidden="true">&times;</span>
-             </button>
-             </div>
-          {% endif %}
-
-               {% for error in form.nft_file.errors %}
-          {% if error %}
-            <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
-              {{ error }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-            </div>
-          {% endif %}
-        {% endfor %}
-
-
-               {% for error in form.price.errors %}
-          {% if error %}
-            <div class="alert alert-danger alert-dismissible fade show center-title" role="alert">
-              {{ error }}
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-            </div>
-          {% endif %}
-        {% endfor %}
-
-               {% for error in form.errors %}
-          {% if error %}
-            <div class="alert alert-danger alert-dismissible fade show center-title" role="alert">
-              {{ error }} field not valid
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-            </div>
-          {% endif %}
-        {% endfor %}
-
-    <form class="well form-horizontal form-center" method="post" enctype=multipart/form-data>
-         {{ form.hidden_tag() }}
-
-    <div class="container">
-
-<div class="container rounded bg-white">
-            <div class="p-3 py-5 form-center">
-                <div class="row">
-                    <div class="col-md-6 mt-2">{{form.nft_name.label}}{{form.nft_name(class="form-control", placeholder="Name")}}</div><br>
-                     <div class="col-md-6 mt-2">
-                       {{form.category.label}}{{form.category(class="form-control")}}</div><br>
-                    <div class="col-md-6 mt-2">{{form.price.label}}{{form.price(class="form-control", placeholder="ACH")}}</div><br>
-                    <div class="col-md-6 mt-2">{{form.description.label}}{{form.description(class="form-control", placeholder="Description")}}</div><br>
-                    <div class="col-md-6 mt-2">{{form.nft_file.label(class="form-label")}}{{form.nft_file(class="form-control mt-5, border-0", id="formFile")}}</div><br>
-                    <div class="alert alert-warning form-center mt-4">&#8226; Only squared images allowed<br>&#8226; File must be .jpg, .png, .jpeg or .webp</div>
-                </div>
-                </div>
-          <div class="form-center mb-5">
-        {{form.submit(class="btn btn-primary")}}
-            </div>
-    </div>
-     </div>
-    </form>
+   </ol>
 </div>
-
+{% if user_logged_in.role_id == 3 %}
+<div class="container">
+   {% if duplicated_nft %}
+   <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+      An NFT with this name already exists.
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button>
+   </div>
+   {% endif %}
+   {% if nft_created %}
+   <div class="alert alert-success center-title alert-dismissible fade show" role="alert">
+      Your NFT has been successfully created and it's available for sale.
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button>
+   </div>
+   {% endif %}
+   {% if img_size_error %}
+   <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+      Image must be squared (e.g. 200x200)
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button>
+   </div>
+   {% endif %}
+   {% for error in form.nft_file.errors %}
+   {% if error %}
+   <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+      {{ error }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button>
+   </div>
+   {% endif %}
+   {% endfor %}
+   {% for error in form.price.errors %}
+   {% if error %}
+   <div class="alert alert-danger alert-dismissible fade show center-title" role="alert">
+      {{ error }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button>
+   </div>
+   {% endif %}
+   {% endfor %}
+   {% for error in form.errors %}
+   {% if error %}
+   <div class="alert alert-danger alert-dismissible fade show center-title" role="alert">
+      {{ error }} field not valid
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button>
+   </div>
+   {% endif %}
+   {% endfor %}
+   <form class="well form-horizontal form-center" method="post" enctype=multipart/form-data>
+      {{ form.hidden_tag() }}
+      <div class="container">
+         <div class="container rounded bg-white">
+            <div class="p-3 py-5 form-center">
+               <div class="row">
+                  <div class="col-md-6 mt-2">{{form.nft_name.label}}{{form.nft_name(class="form-control", placeholder="Name")}}</div>
+                  <br>
+                  <div class="col-md-6 mt-2">
+                     {{form.category.label}}{{form.category(class="form-control")}}
+                  </div>
+                  <br>
+                  <div class="col-md-6 mt-2">{{form.price.label}}{{form.price(class="form-control", placeholder="ACH")}}</div>
+                  <br>
+                  <div class="col-md-6 mt-2">{{form.description.label}}{{form.description(class="form-control", placeholder="Description")}}</div>
+                  <br>
+                  <div class="col-md-6 mt-2">{{form.nft_file.label(class="form-label")}}{{form.nft_file(class="form-control mt-5, border-0", id="formFile")}}</div>
+                  <br>
+                  <div class="alert alert-warning form-center mt-4">&#8226; Only squared images allowed<br>&#8226; File must be .jpg, .png, .jpeg or .webp</div>
+               </div>
+            </div>
+            <div class="form-center mb-5">
+               {{form.submit(class="btn btn-primary")}}
+            </div>
+         </div>
+      </div>
+   </form>
+</div>
 {% else %}
 <br><br>
 <div class="text-center text-danger mt-5">In order to create an auction for your NFTs, you must have an artist account.<br>
-    <a class="btn btn-primary mt-4 btn-danger" href="/artist-registration">Register as an artist</a>
-    <a class="btn btn-primary mt-4 btn-primary" href="/">Back to homepage</a>
+   <a class="btn btn-primary mt-4 btn-danger" href="/artist-registration">Register as an artist</a>
+   <a class="btn btn-primary mt-4 btn-primary" href="/">Back to homepage</a>
 </div>
-    <br><br><br><br><br><br><br><br>
-
+<br><br><br><br><br><br><br><br>
 {% endif %}
-
-
 {% endblock content %}
-
 {% include 'footer.html' %}

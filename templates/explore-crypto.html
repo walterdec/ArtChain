@@ -1,71 +1,61 @@
 {% include 'main-template.html' %}
-
 {% block content %}
-
 <head>
-  <title>ArtChain | Cryptos</title>
+   <title>ArtChain | Cryptos</title>
 </head>
-
-
-  <!-- Page Content -->
-  <div class="container">
-
-    <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">ArtChain
+<div class="container">
+   <h1 class="mt-4 mb-3">ArtChain
       <small>Cryptos</small>
-    </h1>
-
-    <ol class="breadcrumb">
+   </h1>
+   <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a href="/">Home</a>
+         <a href="/">Home</a>
       </li>
       <li class="breadcrumb-item active">Cryptos</li>
-    </ol>
-
-        <hr>
-        <table class="styled-table">
-           <thead>
-              <tr>
-                 <th>Crypto</th>
-                 <th>Artist</th>
-                 <th>Value</th>
-              </tr>
-           </thead>
-           <tbody>
-              {% for crypto in cryptos_list %}
-              {% if crypto.name == 'ACH' %}
-                      <tr class="mt-5">
-                  <th>
-                    <p>{{crypto.name}}</p>
-                 </th>
-                 <th>
-                     <p>{{users_dictionary.get(crypto.user_id).username}}</p>
-                 </th>
-                  <th>
-                    <p>{{users_dictionary.get(crypto.user_id).value}} ACH</p>
-                 </th>
-              </tr>
-              {% else %}
-              <tr class="mt-5">
-                  <th>
-                    <p><a href="/item/crypto/{{crypto.name}}">{{crypto.name}}</a></p>
-                 </th>
-                 <th>
-                     <p><a href="profile/{{users_dictionary.get(crypto.user_id).username}}">
-                         {{users_dictionary.get(crypto.user_id).username}}
-                     </a></p>
-                 </th>
-                  <th>
-                    <p>{{users_dictionary.get(crypto.user_id).value}} ACH</p>
-                 </th>
-              </tr>
-              {% endif %}
-              {% endfor %}
-           </tbody>
-        </table>
-  </div>
-    <hr>
-
+   </ol>
+   <hr>
+   <table class="styled-table">
+      <thead>
+         <tr>
+            <th>Crypto</th>
+            <th>Artist</th>
+            <th>Value</th>
+         </tr>
+      </thead>
+      <tbody>
+         {% for crypto in cryptos_list %}
+         {% if crypto.name == 'ACH' %}
+         <tr class="mt-5">
+            <th>
+               <p>{{crypto.name}}</p>
+            </th>
+            <th>
+               <p>{{users_dictionary.get(crypto.user_id).username}}</p>
+            </th>
+            <th>
+               <p>{{users_dictionary.get(crypto.user_id).value}} ACH</p>
+            </th>
+         </tr>
+         {% else %}
+         <tr class="mt-5">
+            <th>
+               <p><a href="/item/crypto/{{crypto.name}}">{{crypto.name}}</a></p>
+            </th>
+            <th>
+               <p><a href="profile/{{users_dictionary.get(crypto.user_id).username}}">
+                  {{users_dictionary.get(crypto.user_id).username}}
+                  </a>
+               </p>
+            </th>
+            <th>
+               <p>{{users_dictionary.get(crypto.user_id).value}} ACH</p>
+            </th>
+         </tr>
+         {% endif %}
+         {% endfor %}
+      </tbody>
+   </table>
+</div>
+<hr>
 {% endblock content %}
-
 {% include 'footer.html' %}

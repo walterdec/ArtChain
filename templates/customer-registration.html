@@ -1,151 +1,129 @@
 {% include 'main-template.html' %}
-
 {% block content %}
-
 <head>
-  <title>ArtChain | Customer Registration</title>
+   <title>ArtChain | Customer Registration</title>
 </head>
-
-
-  <!-- Page Content -->
-  <div class="container">
-
-    <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">ArtChain
+<div class="container">
+   <h1 class="mt-4 mb-3">ArtChain
       <small>Customer Registration</small>
-    </h1>
-
-    <ol class="breadcrumb">
+   </h1>
+   <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a href="/">Home</a>
+         <a href="/">Home</a>
       </li>
       <li class="breadcrumb-item">
-        <a href="/login">Login</a>
+         <a href="/login">Login</a>
       </li>
       <li class="breadcrumb-item active">Customer Registration</li>
-    </ol>
-
-    <div class="container">
-
-                  {% if unique_db_error %}
-             <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
-              Username or email already used
-                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                 <span aria-hidden="true">&times;</span>
-             </button>
-            </div>
-          {% endif %}
-
-           {% if password_check_fail %}
-          <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
-              Password must contain at least 1 lowercase char, 1 uppercase char, 1 digit and 1 symbol
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                 <span aria-hidden="true">&times;</span>
-             </button>
-          </div>
-          {% endif %}
-
-          {% if registration_success %}
-          <div class="alert alert-success center-title alert-dismissible fade show" role="alert">
-              Registration successful.<br> <a href="/login" class="alert-link">Click here to login</a>
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                 <span aria-hidden="true">&times;</span>
-             </button>
-          </div>
-          {% endif %}
-
-        {% for error in form.email.errors %}
-          {% if error %}
-            <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
-              {{ error }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                 <span aria-hidden="true">&times;</span>
-             </button>
-            </div>
-          {% endif %}
-        {% endfor %}
-
-         {% for error in form.username.errors %}
-          {% if error %}
-            <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
-              {{ error }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                 <span aria-hidden="true">&times;</span>
-             </button>
-            </div>
-          {% endif %}
-        {% endfor %}
-
-          {% for error in form.password.errors %}
-          {% if error %}
-            <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
-              {{ error }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                 <span aria-hidden="true">&times;</span>
-             </button>
-            </div>
-          {% endif %}
-        {% endfor %}
-
-          {% for error in form.confpassword.errors %}
-          {% if error %}
-            <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
-              {{ error }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                 <span aria-hidden="true">&times;</span>
-             </button>
-            </div>
-          {% endif %}
-        {% endfor %}
-
-        {% if form.password.data != form.confpassword.data %}
-         <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
-              {{"Passwords should match"}}
-             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                 <span aria-hidden="true">&times;</span>
-             </button>
-            </div>
-        {% endif %}
-
-    <form method="post" class="well form-horizontal form-center">
-
-      {{ form.hidden_tag() }}
-
-      <div class="container">
-        <div class="container rounded bg-white mb-5">
-          <div class="p-3 py-5 form-center">
-           <div class="row">
-           <div class="col-md-6">
-              {{form.username.label}}
-              {{form.username(class="form-control", placeholder="username")}}
-           </div><br>
-             <div class="col-md-6">
-            {{form.email.label}}
-            {{form.email(class="form-control", placeholder="email")}}
-             </div><br>
-             <div class="col-md-6 mt-2">
-               {{form.password.label}}
-               {{form.password(class="form-control", placeholder="password")}}
-             </div><br>
-             <div class="col-md-6 mt-2">
-               {{form.confpassword.label}}
-               {{form.confpassword(class="form-control", placeholder="confirm password")}}
-
-             </div><br>
-          </div>
-            </div>
-        <div class="mt-1 text-center">
-            {{form.submit(class="btn btn-primary profile-button btn-submit-artist-registration")}}
-        </div>
+   </ol>
+   <div class="container">
+      {% if unique_db_error %}
+      <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+         Username or email already used
+         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+         </button>
       </div>
-
-    </div>
-
-    </form>
+      {% endif %}
+      {% if password_check_fail %}
+      <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+         Password must contain at least 1 lowercase char, 1 uppercase char, 1 digit and 1 symbol
+         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+         </button>
+      </div>
+      {% endif %}
+      {% if registration_success %}
+      <div class="alert alert-success center-title alert-dismissible fade show" role="alert">
+         Registration successful.<br> <a href="/login" class="alert-link">Click here to login</a>
+         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+         </button>
+      </div>
+      {% endif %}
+      {% for error in form.email.errors %}
+      {% if error %}
+      <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+         {{ error }}
+         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+         </button>
+      </div>
+      {% endif %}
+      {% endfor %}
+      {% for error in form.username.errors %}
+      {% if error %}
+      <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+         {{ error }}
+         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+         </button>
+      </div>
+      {% endif %}
+      {% endfor %}
+      {% for error in form.password.errors %}
+      {% if error %}
+      <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+         {{ error }}
+         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+         </button>
+      </div>
+      {% endif %}
+      {% endfor %}
+      {% for error in form.confpassword.errors %}
+      {% if error %}
+      <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+         {{ error }}
+         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+         </button>
+      </div>
+      {% endif %}
+      {% endfor %}
+      {% if form.password.data != form.confpassword.data %}
+      <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+         {{"Passwords should match"}}
+         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+         </button>
+      </div>
+      {% endif %}
+      <form method="post" class="well form-horizontal form-center">
+         {{ form.hidden_tag() }}
+         <div class="container">
+            <div class="container rounded bg-white mb-5">
+               <div class="p-3 py-5 form-center">
+                  <div class="row">
+                     <div class="col-md-6">
+                        {{form.username.label}}
+                        {{form.username(class="form-control", placeholder="username")}}
+                     </div>
+                     <br>
+                     <div class="col-md-6">
+                        {{form.email.label}}
+                        {{form.email(class="form-control", placeholder="email")}}
+                     </div>
+                     <br>
+                     <div class="col-md-6 mt-2">
+                        {{form.password.label}}
+                        {{form.password(class="form-control", placeholder="password")}}
+                     </div>
+                     <br>
+                     <div class="col-md-6 mt-2">
+                        {{form.confpassword.label}}
+                        {{form.confpassword(class="form-control", placeholder="confirm password")}}
+                     </div>
+                     <br>
+                  </div>
+               </div>
+               <div class="mt-1 text-center">
+                  {{form.submit(class="btn btn-primary profile-button btn-submit-artist-registration")}}
+               </div>
+            </div>
+         </div>
+      </form>
+   </div>
 </div>
-
-  </div>
-
 {% endblock content %}
-
 {% include 'footer.html' %}

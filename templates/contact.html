@@ -1,109 +1,83 @@
 {% include 'main-template.html' %}
-
 {% block content %}
-
 <head>
-  <title>ArtChain | Contact</title>
+   <title>ArtChain | Contact</title>
 </head>
-
-
-  <!-- Page Content -->
-  <div class="container">
-
-    <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">ArtChain
+<div class="container">
+   <h1 class="mt-4 mb-3">ArtChain
       <small>Contact</small>
-    </h1>
-
-    <ol class="breadcrumb">
+   </h1>
+   <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a href="/">Home</a>
+         <a href="/">Home</a>
       </li>
       <li class="breadcrumb-item active">Contact</li>
-    </ol>
-
-
-    {% for error in form.email.errors %}
-          {% if error %}
-            <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
-              {{ error }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                 <span aria-hidden="true">&times;</span>
-             </button>
-            </div>
-          {% endif %}
-    {% endfor %}
-
-    {% if contact_request %}
-    <div class="alert alert-success center-title alert-dismissible fade show" role="alert">
-              Message sent. We will soon contact you back.
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                 <span aria-hidden="true">&times;</span>
-             </button>
-            </div>
-    {% endif %}
-
-    <!-- Content Row -->
-    <div class="row">
-      <!-- Map Column -->
+   </ol>
+   {% for error in form.email.errors %}
+   {% if error %}
+   <div class="alert alert-danger center-title alert-dismissible fade show" role="alert">
+      {{ error }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button>
+   </div>
+   {% endif %}
+   {% endfor %}
+   {% if contact_request %}
+   <div class="alert alert-success center-title alert-dismissible fade show" role="alert">
+      Message sent. We will soon contact you back.
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button>
+   </div>
+   {% endif %}
+   <div class="row">
       <div class="col-lg-8 mb-4">
-        <!-- Embedded Google Map -->
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d227700.12466276094!2d7.507264518677639!3d45.01314427285827!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478620b85cabc337%3A0xd97006264fbdaf1b!2sPolytechnic%20of%20Turin!5e0!3m2!1sen!2sit!4v1638888543059!5m2!1sen!2sit" width="500" height="350" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+         <!-- Embedded Google Map -->
+         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d227700.12466276094!2d7.507264518677639!3d45.01314427285827!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478620b85cabc337%3A0xd97006264fbdaf1b!2sPolytechnic%20of%20Turin!5e0!3m2!1sen!2sit!4v1638888543059!5m2!1sen!2sit" width="500" height="350" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
       </div>
-      <!-- Contact Details Column -->
       <div class="col-lg-4 mb-4">
-        <h3>Contact Details</h3>
-        <p>
-          Polytechnic of Turin
-          <br>Corso Duca degli Abruzzi, 24
-          <br>Torino TO 10129
-          <br>
-        </p>
-        <p>
-          <abbr title="Email"></abbr>
-          <a href="mailto:service.artchain@mail.com">service.artchain@gmail.com
-          </a>
-        </p>
+         <h3>Contact Details</h3>
+         <p>
+            Polytechnic of Turin
+            <br>Corso Duca degli Abruzzi, 24
+            <br>Torino TO 10129
+            <br>
+         </p>
+         <p>
+            <abbr title="Email"></abbr>
+            <a href="mailto:service.artchain@mail.com">service.artchain@gmail.com
+            </a>
+         </p>
       </div>
-    </div>
-    <!-- /.row -->
-
-    <!-- Contact Form -->
-
-    <div class="row form-center">
+   </div>
+   <div class="row form-center">
       <div class="col-lg-8 mb-4 center">
-        <h3 class="text-center">Contact Us</h3>
-        <form method="POST">
-          {{ form.hidden_tag() }}
-          <div class="control-group form-group">
-            <div class="controls">
-              {{form.name.label}}{{form.name(class="form-control")}}
+         <h3 class="text-center">Contact Us</h3>
+         <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="control-group form-group">
+               <div class="controls">
+                  {{form.name.label}}{{form.name(class="form-control")}}
+               </div>
             </div>
-          </div>
-          <div class="control-group form-group">
-            <div class="controls">
-              {{form.email.label}}{{form.email(class="form-control")}}
+            <div class="control-group form-group">
+               <div class="controls">
+                  {{form.email.label}}{{form.email(class="form-control")}}
+               </div>
             </div>
-          </div>
-          <div class="control-group form-group">
-            <div class="controls">
-              {{form.message.label}}{{form.message(rows="10", cols="100", class="form-control")}}
+            <div class="control-group form-group">
+               <div class="controls">
+                  {{form.message.label}}{{form.message(rows="10", cols="100", class="form-control")}}
+               </div>
             </div>
-          </div>
-          <div id="success"></div>
-          <!-- For success/fail messages -->
-          <div class="form-center">
-            {{form.submit(class="btn btn-primary")}}
-          </div>
-        </form>
+            <div id="success"></div>
+            <div class="form-center">
+               {{form.submit(class="btn btn-primary")}}
+            </div>
+         </form>
       </div>
-
-    </div>
-    <!-- /.row -->
-
-  </div>
-  <!-- /.container -->
-
+   </div>
+</div>
 {% endblock content %}
-
 {% include 'footer.html' %}

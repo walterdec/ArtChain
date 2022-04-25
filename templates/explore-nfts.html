@@ -1,63 +1,52 @@
 {% include 'main-template.html' %}
-
 {% block content %}
-
 <head>
-  <title>ArtChain | NFTs</title>
+   <title>ArtChain | NFTs</title>
 </head>
-
-
-  <!-- Page Content -->
-  <div class="container">
-    <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">ArtChain
+<div class="container">
+   <h1 class="mt-4 mb-3">ArtChain
       <small>NFTs</small>
-    </h1>
-    <ol class="breadcrumb">
+   </h1>
+   <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a href="/">Home</a>
+         <a href="/">Home</a>
       </li>
       <li class="breadcrumb-item active">NFTs</li>
-    </ol>
-  </div>
-
-      <section class="py-2">
-        <div class="container form-center mt-0 mb-5">
-        <form method="post">
-            {{form.hidden_tag()}}
-        <div class="input-group">
-      <div class="form-outline">
-        {{form.select(class="form-control rounded col-md-12")}}
-      </div>
-          &nbsp;
+   </ol>
+</div>
+<section class="py-2">
+   <div class="container form-center mt-0 mb-5">
+      <form method="post">
+         {{form.hidden_tag()}}
+         <div class="input-group">
+            <div class="form-outline">
+               {{form.select(class="form-control rounded col-md-12")}}
+            </div>
+            &nbsp;
             {{form.submit(class="btn btn-primary")}}
-    </div>
-        </form>
-            </div>
-      <div class="container px-4 px-lg-5 mt-2">
-        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-          {% for nft in nfts_list %}
-          <div class="col mb-5">
+         </div>
+      </form>
+   </div>
+   <div class="container px-4 px-lg-5 mt-2">
+      <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+         {% for nft in nfts_list %}
+         <div class="col mb-5">
             <div class="card h-100">
-              <img class="card-img-top" src={{"static/uploads/nfts/"+nft.img_src}} alt="{{nft.name}}" width="50px" height="50px"/>
-              <div class="card-body p-4">
-                <div class="text-center">
-                  <h5 class="fw-bolder mt-4">{{nft.name}}</h5>
-                  <h5 class="mt-3">{{nft.price}} ACH</h5>
-                </div>
-              </div>
-              <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/item/nft/{{nft.name}}">Show</a></div>
-              </div>
+               <img class="card-img-top" src={{"static/uploads/nfts/"+nft.img_src}} alt="{{nft.name}}" width="50px" height="50px"/>
+               <div class="card-body p-4">
+                  <div class="text-center">
+                     <h5 class="fw-bolder mt-4">{{nft.name}}</h5>
+                     <h5 class="mt-3">{{nft.price}} ACH</h5>
+                  </div>
+               </div>
+               <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                  <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/item/nft/{{nft.name}}">Show</a></div>
+               </div>
             </div>
-          </div>
-          {% endfor %}
-
-        </div>
+         </div>
+         {% endfor %}
       </div>
-    </section>
-
-
+   </div>
+</section>
 {% endblock content %}
-
 {% include 'footer.html' %}
