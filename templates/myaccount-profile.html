@@ -94,7 +94,7 @@
                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                   <img class="rounded-circle" width="150px" src="{{url_for('static', filename='uploads/profilepics/'+user_logged_in.profile_pic_src)}}">
                   <span class="font-weight-bolder mt-4">{{ user_logged_in.name }} {{ user_logged_in.surname }}</span>
-                  <span class="text-black-30 mt-1">{{user_logged_in.username}}</span>
+                  <span class="text-black-30 mt-1"><a href="profile/{{user_logged_in.username}}">{{user_logged_in.username}}</a></span>
                   <span class="text-black-50 mt-1">{{user_logged_in.category}}</span>
                   <span class="text-primary font-weight-bold mt-3">{{user_logged_in.value}}<br>value points</span>
                </div>

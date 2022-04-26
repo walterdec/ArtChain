@@ -16,7 +16,7 @@ from PIL import Image
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'hardtoguess'
+app.config['SECRET_KEY'] = '46Nc5Tuv*H'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///artchain.db'
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -492,13 +492,13 @@ def item_nft(name):
         nft.price = form.new_price.data
         nft.on_sale = 1
         db.session.commit()
-        flash('Your NFT is on sale!')
+        flash('Your NFT is on sale!', category='success')
         return redirect(url_for('nft_by_name', name=nft.name))
 
     if form.is_submitted() and isinstance(form, CancelNFTSaleForm):
         nft.on_sale = 0
         db.session.commit()
-        flash('You canceled the sale of this NFT.')
+        flash('You canceled the sale of this NFT.', category='error')
         return redirect(url_for('nft_by_name', name=nft.name))
 
     if form.is_submitted() and isinstance(form, BuyNFTForm):
@@ -588,7 +588,7 @@ def buy_nft(name):
     except KeyError:
         return forbidden(KeyError)
     if nft.price > buyer_wallet.amount:
-        flash('Your ACH amount is insufficient!')
+        flash('Your ACH amount is insufficient!', category='error')
         return redirect(url_for('nft_by_name', name=nft.name))
     else:
         website_wallet = db.session.query(model.Wallet).filter_by(user_id=1, crypto_id=1).first()
@@ -605,7 +605,7 @@ def buy_nft(name):
         nft.on_sale = 0
 
         db.session.commit()
-        flash('Congratulations! You bought the NFT!')
+        flash('Congratulations! You bought the NFT!', category='success')
         return
 
 
@@ -624,7 +624,7 @@ def buy_sell_crypto(cryptocurrency, amount_buy, amount_sell):
         return forbidden(KeyError)
 
     if amount_buy is not None and amount_sell is not None and amount_buy > 0 and amount_sell > 0:
-        flash('Choose if you want to buy or sell')
+        flash('Choose if you want to buy or sell', category='error')
         return
 
     if amount_buy is not None and amount_buy > 0:
@@ -635,22 +635,22 @@ def buy_sell_crypto(cryptocurrency, amount_buy, amount_sell):
             if crypto_wallet:
                 crypto_wallet.amount += (amount_buy - website_fee)
                 artchain_wallet.amount += website_fee
-                artist.sales += amount_buy
+                artist.sales += ach_amount
                 calculate_artist_value(artist)
                 flash('You have successfully bought '+str(amount_buy)
-                      + ' ' + cryptocurrency.name + '! A 2% fee has been applied.')
+                      + ' ' + cryptocurrency.name + '! A 2% fee has been applied.', category='success')
             else:
                 crypto_wallet = model.Wallet(user_id=user_logged_in.id, crypto_id=cryptocurrency.id,
                                              amount=(amount_buy - website_fee))
                 db.session.add(crypto_wallet)
                 db.session.commit()
                 artchain_wallet.amount += website_fee
-                artist.sales += amount_buy
+                artist.sales += ach_amount
                 calculate_artist_value(artist)
-                flash('You have successfully bought '+ str(amount_buy) +' '
-                      + cryptocurrency.name + '! A 2% fee has been applied.')
+                flash('You have successfully bought ' + str(amount_buy) + ' '
+                      + cryptocurrency.name + '! A 2% fee has been applied.', category='success')
         else:
-            flash("You don't have enough ACH to buy  "+str(amount_buy)+' '+cryptocurrency.name)
+            flash("You don't have enough ACH to buy  "+str(amount_buy)+' '+cryptocurrency.name, category='error')
 
     if amount_sell is not None and amount_sell > 0:
         if crypto_wallet:
@@ -661,9 +661,12 @@ def buy_sell_crypto(cryptocurrency, amount_buy, amount_sell):
                 crypto_wallet.amount -= amount_sell
                 artchain_wallet.amount += website_fee
                 flash('You have successfully sold ' + str(amount_sell) + ' '
-                      + cryptocurrency.name + '! A 2% fee has been applied.')
+                      + cryptocurrency.name + '! A 2% fee has been applied.', category='success')
+            else:
+                flash("You don't have " + str(amount_sell) + " "
+                      + cryptocurrency.name + " in your wallet.", category='error')
         else:
-            flash("You don't have this crypto in your wallet")
+            flash("You don't have this crypto in your wallet", category='error')
     return
 
 
