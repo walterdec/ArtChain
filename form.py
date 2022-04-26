@@ -139,7 +139,7 @@ class ResellNFTForm(FlaskForm):
     submit = SubmitField('Put On Sale')
 
 
-class SelectNFTView(FlaskForm):
+class SelectNFTViewForm(FlaskForm):
     select = SelectField('Choose', choices=['All', 'On Sale'], validators=[DataRequired()])
     submit = SubmitField('Select')
 

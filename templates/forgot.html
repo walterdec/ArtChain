@@ -19,11 +19,11 @@
    <br><br>
    <p class="text-center text-primary">If you forgot your password, type your email in the form below.<br>We will send you your data to restore the account.</p>
    <p class="text-center text-danger">Please, once you have access again to your account, change your password for security reasons.</p>
-   <div class="form-login">
+   <div class="form-center">
       <div class="heading">
          <form method="POST">
             {{ form.csrf_token }}
-            <div>
+            <div class="text-center">
                {{form.email.label}}
                {{form.email(class="form-control")}}
             </div>

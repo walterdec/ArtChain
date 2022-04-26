@@ -11,8 +11,7 @@ from flask_mail import Message, Mail
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 from form import LoginForm, CustomerRegistrationForm, ArtistRegistrationForm, ForgotPasswordForm, EditArtistForm, \
     EditCustomerForm, NewNFTForm, ContactForm, BuySellCryptoForm, SearchForm, ResellNFTForm, CancelNFTSaleForm, \
-    BuyNFTForm, \
-    SelectNFTView
+    BuyNFTForm, SelectNFTViewForm
 from PIL import Image
 
 app = Flask(__name__)
@@ -64,6 +63,8 @@ def home():
     users_dictionary = {}
     nfts_list = db.session.query(model.NFT).all()
     cryptos_list = db.session.query(model.Crypto).all()
+    ach = db.session.query(model.Crypto).filter_by(id=1).first()
+    cryptos_list.remove(ach)
     for cryptocurrency in cryptos_list:
         users_dictionary[cryptocurrency.user_id] = (db.session.query(model.User).
                                                     filter_by(id=cryptocurrency.user_id).first())
@@ -96,7 +97,7 @@ def contact():
 
 @app.route('/explore-nfts', methods=['GET', 'POST'])
 def explore_nfts():
-    form = SelectNFTView()
+    form = SelectNFTViewForm()
     nfts_list = db.session.query(model.NFT).all()
     if form.is_submitted():
         if form.select.data == 'All':
@@ -112,6 +113,8 @@ def explore_nfts():
 def explore_crypto():
     users_dictionary = {}
     cryptos_list = db.session.query(model.Crypto).all()
+    ach = db.session.query(model.Crypto).filter_by(id=1).first()
+    cryptos_list.remove(ach)
     for cryptocurrency in cryptos_list:
         users_dictionary[cryptocurrency.user_id] = (db.session.query(model.User).filter_by
                                                     (id=cryptocurrency.user_id).first())
@@ -327,12 +330,12 @@ def artist_registration():
             sales = 0
 
             if form.category.data == 'Musician':
-                value_c = ((insta * 0.3 + face * 0.2 + twitter * 0.2 + yt * 0.1 + tiktok * 0.1 + twitch * 0.1) * 0.5 +
-                           (applemusic * 0.4 + spotify * 0.4 + soundcloud * 0.2) * 0.3 + sales * 0.2) / 1000
+                value_c = ((insta * 0.3 + face * 0.2 + twitter * 0.2 + yt * 0.1 + tiktok * 0.1 + twitch * 0.1) * 0.3 +
+                           (applemusic * 0.4 + spotify * 0.4 + soundcloud * 0.2) * 0.3 + sales * 0.4) / 1000
                 value_c = round(value_c, 3)
             else:
-                value_c = ((insta * 0.3 + face * 0.2 + twitter * 0.2 + yt * 0.1 + tiktok * 0.1 + twitch * 0.1) * 0.8 +
-                           + sales * 0.2) / 1000
+                value_c = ((insta * 0.3 + face * 0.2 + twitter * 0.2 + yt * 0.1 + tiktok * 0.1 + twitch * 0.1) * 0.6 +
+                           + sales * 0.4) / 1000
                 value_c = round(value_c, 3)
 
             encrypted_password = generate_password_hash(form.password.data)
@@ -363,20 +366,19 @@ def artist_registration():
             db.session.commit()
             registration_success = 1
 
-            crypto_creation = model.Crypto(name=form.crypto.data.upper(), user_id=model.User.query.filter_by
-            (username=form.username.data.lower().strip()).first().id, value=value_c)
+            crypto_creation = model.Crypto(name=form.crypto.data.upper(),
+                                           user_id=model.User.query.filter_by
+                                           (username=form.username.data.lower().strip()).first().id, value=value_c)
             db.session.add(crypto_creation)
             db.session.commit()
 
-            crypto_artist_wallet = model.Wallet(user_id=model.User.query.filter_by
-            (username=form.username.data.lower().strip()).first().id,
+            crypto_artist_wallet = model.Wallet(user_id=model.User.query.
+                                                filter_by(username=form.username.data.lower().strip()).first().id,
                                                 crypto_id=model.Crypto.query.filter_by(
-                                                    name=form.crypto.data.upper()).first().id,
-                                                amount=50)
-            crypto_ach_wallet = model.Wallet(user_id=model.User.query.filter_by
-            (username=form.username.data.lower().strip()).first().id,
-                                             crypto_id=1,
-                                             amount=50)
+                                                    name=form.crypto.data.upper()).first().id, amount=50)
+            crypto_ach_wallet = model.Wallet(user_id=model.User.query.
+                                             filter_by(username=form.username.data.lower().strip()).first().id,
+                                             crypto_id=1, amount=50)
             db.session.add(crypto_artist_wallet, crypto_ach_wallet)
             db.session.commit()
 
@@ -412,8 +414,8 @@ def customer_registration():
             db.session.commit()
             registration_success = 1
 
-            crypto_ach_wallet = model.Wallet(user_id=model.User.query.filter_by
-            (username=form.username.data.lower().strip()).first().id,
+            crypto_ach_wallet = model.Wallet(user_id=model.User.query.
+                                             filter_by(username=form.username.data.lower().strip()).first().id,
                                              crypto_id=1, amount=100)
             db.session.add(crypto_ach_wallet)
             db.session.commit()
@@ -634,7 +636,9 @@ def buy_sell_crypto(cryptocurrency, amount_buy, amount_sell):
                 crypto_wallet.amount += (amount_buy - website_fee)
                 artchain_wallet.amount += website_fee
                 artist.sales += amount_buy
-                flash('You have successfully bought '+str(amount_buy)+' '+cryptocurrency.name)
+                calculate_artist_value(artist)
+                flash('You have successfully bought '+str(amount_buy)
+                      + ' ' + cryptocurrency.name + '! A 2% fee has been applied.')
             else:
                 crypto_wallet = model.Wallet(user_id=user_logged_in.id, crypto_id=cryptocurrency.id,
                                              amount=(amount_buy - website_fee))
@@ -642,7 +646,9 @@ def buy_sell_crypto(cryptocurrency, amount_buy, amount_sell):
                 db.session.commit()
                 artchain_wallet.amount += website_fee
                 artist.sales += amount_buy
-                flash('You have successfully bought '+str(amount_buy)+' '+cryptocurrency.name)
+                calculate_artist_value(artist)
+                flash('You have successfully bought '+ str(amount_buy) +' '
+                      + cryptocurrency.name + '! A 2% fee has been applied.')
         else:
             flash("You don't have enough ACH to buy  "+str(amount_buy)+' '+cryptocurrency.name)
 
@@ -654,7 +660,8 @@ def buy_sell_crypto(cryptocurrency, amount_buy, amount_sell):
                 ach_wallet.amount += (ach_amount - website_fee)
                 crypto_wallet.amount -= amount_sell
                 artchain_wallet.amount += website_fee
-                flash('You have successfully sold '+str(amount_sell)+' '+cryptocurrency.name)
+                flash('You have successfully sold ' + str(amount_sell) + ' '
+                      + cryptocurrency.name + '! A 2% fee has been applied.')
         else:
             flash("You don't have this crypto in your wallet")
     return
@@ -663,15 +670,16 @@ def buy_sell_crypto(cryptocurrency, amount_buy, amount_sell):
 def calculate_artist_value(user_artist):
     if user_artist.category == 'Musician':
         value = ((user_artist.insta * 0.3 + user_artist.face * 0.2 + user_artist.twitter * 0.2 + user_artist.yt * 0.1 +
-                  user_artist.tiktok * 0.1 + user_artist.twitch * 0.1) * 0.5 +
+                  user_artist.tiktok * 0.1 + user_artist.twitch * 0.1) * 0.3 +
                  (user_artist.applemusic * 0.4 + user_artist.spotify * 0.4 + user_artist.soundcloud * 0.2) * 0.3 +
-                 user_artist.sales * 0.2) / 1000
+                 user_artist.sales * 0.4) / 1000
     else:
         value = ((user_artist.insta * 0.3 + user_artist.face * 0.2 + user_artist.twitter * 0.2 + user_artist.yt * 0.1 +
-                  user_artist.tiktok * 0.1 + user_artist.twitch * 0.1) * 0.8 + user_artist.sales * 0.2) / 1000
+                  user_artist.tiktok * 0.1 + user_artist.twitch * 0.1) * 0.6 + user_artist.sales * 0.4) / 1000
 
     user_artist.value = round(value, 3)
     db.session.commit()
+    return
 
 
 def upload_nft(nft_file, name):

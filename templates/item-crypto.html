@@ -52,7 +52,7 @@
       {% endif %}
       {% endfor %}
       <div class="row gx-4 gx-lg-5 align-items-center">
-         <div class="col-lg-6">
+         <div class="col-lg-6 border-right">
             <div class="mt-4">
                <h1 class="display-5 fw-bolder text-center">{{crypto.name}}</h1>
                <div class="mt-4">
@@ -65,7 +65,7 @@
             </div>
          </div>
          <div class="col-lg-6">
-            <div class="form-login mt-5 mb-5">
+            <div class="form-center mt-5 mb-5">
                {% if session.username and crypto.name != 'ACH' %}
                <form method="post">
                   {{form.hidden_tag()}}
@@ -73,13 +73,15 @@
                      <h3>{{form.amount_buy.label(class="text-center")}}</h3>
                      {{form.amount_buy(class="form-control form-control-lg", placeholder="buy")}}
                   </div>
-                  <div class="text-center">
+                  <div>
                      {{form.amount_sell(class="form-control form-control-lg mt-2", placeholder="sell")}}
                   </div>
                   <div class="text-center mt-4">
                      {{form.submit(class="btn btn-outline-dark flex-shrink-0 btn-lg")}}
                   </div>
                </form>
+               {% elif not session.username and crypto.name != 'ACH' %}
+               <h3 class="text-center">Login to buy or sell this crypto!</h3>
                {% endif %}
             </div>
          </div>

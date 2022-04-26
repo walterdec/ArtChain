@@ -14,15 +14,15 @@
          </li>
          <li class="breadcrumb-item active">Login</li>
       </ol>
-      <div class="form-login">
+      <div class="form-center">
          <div class="heading">
             <form method="POST">
                {{ form.csrf_token }}
-               <div>
+               <div class="text-center">
                   {{form.username.label}}
                   {{form.username(class="form-control")}}
                </div>
-               <div class="mt-2">
+               <div class="text-center mt-2">
                   {{form.password.label}}
                   {{form.password(class="form-control")}}
                </div>
