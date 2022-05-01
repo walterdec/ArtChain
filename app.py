@@ -74,11 +74,6 @@ def home():
                            users=users_dictionary)
 
 
-@app.route('/search', methods=['GET', 'POST'])
-def search():
-    return
-
-
 @app.route('/about')
 def about():
     return render_template('about.html')
@@ -531,8 +526,10 @@ def artist_profile(username):
     nft_list = []
     for row in db.session.query(model.User).filter_by(username=username):
         user = row
-    if user is None or user.role_id is not 3:
+    if user is None:
         return page_not_found(TypeError)
+    if user.role_id is not 3:
+        return render_template('profile-page.html', user=user, customer=1)
     for row in db.session.query(model.NFT).filter_by(creator_id=user.id):
         nft_list.append(row)
     cryptocurrency = db.session.query(model.Crypto).filter_by(user_id=user.id).first()
