@@ -6,13 +6,13 @@
 
 palette {
   color1: #037FD2;
-  color1: #131B2A;
-  color1: #292C45;
-  color1: #6D94CD;
-  color1: #EFEBED;
+  color2: #131B2A;
+  color3: #292C45;
+  color4: #6D94CD;
+  color5: #EFEBED;
+  color6: #E74D1A;
+  color7: #868686;
 }
-
-
 
 
 body {
@@ -120,7 +120,7 @@ thead{
 }
 .styled-table thead tr {
     height: auto;
-    background-color: #037FD2;
+    background-color: #E74D1A;
     color: #ffffff;
     font-size: large;
 }
