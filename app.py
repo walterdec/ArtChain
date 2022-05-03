@@ -374,7 +374,8 @@ def artist_registration():
             crypto_ach_wallet = model.Wallet(user_id=model.User.query.
                                              filter_by(username=form.username.data.lower().strip()).first().id,
                                              crypto_id=1, amount=50)
-            db.session.add(crypto_artist_wallet, crypto_ach_wallet)
+            db.session.add(crypto_artist_wallet)
+            db.session.add(crypto_ach_wallet)
             db.session.commit()
 
             send_mail(form.email.data, "ArtChain | Registration success", "mail", username=form.username.data,
@@ -657,6 +658,8 @@ def buy_sell_crypto(cryptocurrency, amount_buy, amount_sell):
                 ach_wallet.amount += (ach_amount - website_fee)
                 crypto_wallet.amount -= amount_sell
                 artchain_wallet.amount += website_fee
+                artist.sales -= ach_amount
+                calculate_artist_value(artist)
                 flash('You have successfully sold ' + str(amount_sell) + ' '
                       + cryptocurrency.name + '! A 2% fee has been applied.', category='success')
             else:
@@ -668,6 +671,7 @@ def buy_sell_crypto(cryptocurrency, amount_buy, amount_sell):
 
 
 def calculate_artist_value(user_artist):
+    crypto = db.session.query(model.Crypto).filter_by(user_id=user_artist.id).first()
     if user_artist.category == 'Musician':
         value = ((user_artist.insta * 0.3 + user_artist.face * 0.2 + user_artist.twitter * 0.2 + user_artist.yt * 0.1 +
                   user_artist.tiktok * 0.1 + user_artist.twitch * 0.1) * 0.3 +
@@ -677,7 +681,9 @@ def calculate_artist_value(user_artist):
         value = ((user_artist.insta * 0.3 + user_artist.face * 0.2 + user_artist.twitter * 0.2 + user_artist.yt * 0.1 +
                   user_artist.tiktok * 0.1 + user_artist.twitch * 0.1) * 0.6 + user_artist.sales * 0.4) / 1000
 
-    user_artist.value = round(value, 3)
+    rounded_value = round(value, 3)
+    user_artist.value = rounded_value
+    crypto.value = rounded_value
     db.session.commit()
     return
 
