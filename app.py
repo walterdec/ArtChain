@@ -90,6 +90,11 @@ def contact():
     return render_template('contact.html', form=form, contact_request=contact_request)
 
 
+@app.route('/faq')
+def faq():
+    return render_template('faq.html')
+
+
 @app.route('/explore-nfts', methods=['GET', 'POST'])
 def explore_nfts():
     form = SelectNFTViewForm()

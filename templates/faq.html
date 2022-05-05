@@ -1,0 +1,93 @@
+{% include 'main-template.html' %}
+
+{% block content %}
+
+<head>
+  <title>ArtChain | FAQ</title>
+</head>
+
+
+  <div class="container">
+
+    <h1 class="mt-4 mb-3">ArtChain
+      <small>FAQ</small>
+    </h1>
+
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="/index">Home</a>
+      </li>
+      <li class="breadcrumb-item active">FAQ</li>
+    </ol>
+
+    <div class="mb-4" id="accordion" role="tablist" aria-multiselectable="true">
+      <div class="card">
+        <div class="card-header" role="tab" id="headingOne">
+          <h5 class="mb-0">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">I'm a customer. How can I create an NFT?</a>
+          </h5>
+        </div>
+
+        <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="card-body">
+            In order to create an NFT, you need an artist account. Unfortunately, you have to re-register as an artist, using a different email. If you want to delete your old account and transfer your NFTs and cryptocurrencies, please contact us using the Contact form.
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header" role="tab" id="headingTwo">
+          <h5 class="mb-0">
+            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">I sold an NFT but I didn't receive the whole amount. Why?
+            </a>
+          </h5>
+        </div>
+        <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="card-body">
+            As ArtChain, our only revenue is a little fee on every transaction made through our website. For cryptos, the fee is the 2% of the ACH equivalent amount, while for NFTs the fee is 5% of the selling price.
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header" role="tab" id="headingThree">
+          <h5 class="mb-0">
+            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">I put an NFT on sale but I changed my mind. How can I keep my NFT?</a>
+          </h5>
+        </div>
+        <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="card-body">
+            If you are the owner of the NFT, you can find a button on the item page that allows you to cancel the NFT from the market. If you later change your mind, you can always re-put it on the market, choosing a new price.
+          </div>
+        </div>
+      </div>
+            <div class="card">
+        <div class="card-header" role="tab" id="headingFour">
+          <h5 class="mb-0">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour">I forgot my password. How can I get it back?</a>
+          </h5>
+        </div>
+        <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour">
+          <div class="card-body">
+            If you forgot your password, there is a link in the login page that allow you to get your profile back. Unfortunately, you can't get back your previous password for security reasons, but a new password is sent to you via email. Once you get back your profile, we advise you to change again your password.
+          </div>
+        </div>
+      </div>
+            <div class="card">
+        <div class="card-header" role="tab" id="headingFive">
+          <h5 class="mb-0">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">I tried to upload an NFT but the system says that the image must be squared. Why?</a>
+          </h5>
+        </div>
+        <div id="collapseFive" class="collapse" role="tabpanel" aria-labelledby="headingFive">
+          <div class="card-body">
+            To allow the maximum quality for all the pages of the website, we require artists to upload only squared images. If your artwork is not squared, please try to resize it.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- /.container -->
+
+{% endblock content %}
+
+{% include 'footer.html' %}
